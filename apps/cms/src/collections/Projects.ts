@@ -1,17 +1,9 @@
 import { CollectionConfig } from "payload/types";
-import { FieldHookArgs } from "payload/dist/fields/config/types";
-
-const formatDate = (args: FieldHookArgs): string => {
-  const date = new Date(args.value);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
+import { formatDate } from "../hooks";
 
 const Projects: CollectionConfig = {
   slug: "projects",
+
   upload: {
     staticURL: "/images",
     staticDir: "images",
@@ -22,7 +14,6 @@ const Projects: CollectionConfig = {
         height: 300,
         position: "centre",
       },
-      // Define other image sizes as needed
     ],
     mimeTypes: ["image/*"],
   },
@@ -46,13 +37,23 @@ const Projects: CollectionConfig = {
         afterRead: [formatDate],
       },
     },
-    // {
-    //   name: "category",
-    //   type: "relationship",
-    //   relationTo: "categories",
-    //   hasMany: false,
-    //   required: true,
-    // },
+    {
+      name: "categories",
+      admin: {
+        position: "sidebar",
+      },
+      hasMany: true,
+      relationTo: "categories",
+      type: "relationship",
+      required: true,
+    },
+    {
+      name: "publishedDate",
+      admin: {
+        position: "sidebar",
+      },
+      type: "date",
+    },
     {
       name: "content",
       type: "richText",
@@ -81,7 +82,7 @@ const Projects: CollectionConfig = {
         },
         {
           name: "github",
-          label: "github repository link",
+          label: "GitHub repository link",
           type: "text",
           required: true,
           validate: (value: string) => {
