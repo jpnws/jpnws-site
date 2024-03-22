@@ -14,6 +14,7 @@ import {
 import Users from "./collections/Users";
 import Projects from "./collections/Projects";
 import { CodeBlock } from "./blocks/CodeBlock";
+import Categories from "./collections/Categories";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -47,7 +48,7 @@ export default buildConfig({
     bundler: webpackBundler(),
   },
   editor,
-  collections: [Users, Projects],
+  collections: [Users, Projects, Categories],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
