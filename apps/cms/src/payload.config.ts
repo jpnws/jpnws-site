@@ -3,19 +3,24 @@ import path from "path";
 import { payloadCloud } from "@payloadcms/plugin-cloud";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { webpackBundler } from "@payloadcms/bundler-webpack";
+import { viteBundler } from "@payloadcms/bundler-vite";
 import { buildConfig } from "payload/config";
 import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
+import seo from "@payloadcms/plugin-seo";
 
 import Users from "./collections/Users";
 import Projects from "./collections/Projects";
 import { CodeBlock } from "./blocks/CodeBlock";
 import Categories from "./collections/Categories";
+import { Media } from "./collections/Media";
+import { MediaBlock } from "./blocks/MediaBlock";
+import { Pages } from "./collections/Pages";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
     ...defaultFeatures,
     BlocksFeature({
-      blocks: [CodeBlock],
+      blocks: [CodeBlock, MediaBlock],
     }),
   ],
 });
@@ -23,17 +28,23 @@ const editor = lexicalEditor({
 export default buildConfig({
   admin: {
     user: Users.slug,
-    bundler: webpackBundler(),
+    bundler: viteBundler(),
   },
   editor,
-  collections: [Users, Projects, Categories],
+  collections: [Users, Projects, Categories, Media, Pages],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, "generated-schema.graphql"),
   },
-  plugins: [payloadCloud()],
+  plugins: [
+    seo({
+      collections: ["projects", "pages"],
+      uploadsCollection: "media",
+    }),
+    payloadCloud(),
+  ],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
