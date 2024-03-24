@@ -11,8 +11,8 @@ export interface Config {
     users: User;
     projects: Project;
     categories: Category;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
   globals: {};
 }
@@ -51,8 +51,8 @@ export interface Project {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
       indent: number;
       type: string;
       version: number;
@@ -101,7 +101,7 @@ export interface Category {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   key?: string | null;
@@ -137,10 +137,9 @@ export interface CodeBlock {
   code?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'code';
+  blockType: "code";
 }
 
-
-declare module 'payload' {
+declare module "payload" {
   export interface GeneratedTypes extends Config {}
 }

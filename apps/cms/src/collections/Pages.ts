@@ -56,7 +56,7 @@ export const Pages: CollectionConfig = {
         label: "Slug",
         type: "text",
       },
-      {}
+      {},
     ),
     {
       type: "tabs",

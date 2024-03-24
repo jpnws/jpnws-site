@@ -68,7 +68,7 @@ const Projects: CollectionConfig = {
         label: "Slug",
         type: "text",
       },
-      {}
+      {},
     ),
     {
       name: "description",
