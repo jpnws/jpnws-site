@@ -9,8 +9,8 @@ const Users: CollectionConfig = {
   auth: true,
   access: {
     admin: ({ req: { user } }) => checkRole(["admin"], user),
-    create: () => false,
-    delete: () => false,
+    create: admins,
+    delete: admins,
   },
   admin: {
     defaultColumns: ["name", "email"],
