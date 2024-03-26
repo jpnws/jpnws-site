@@ -20,10 +20,7 @@ export const Media: CollectionConfig = {
     },
     {
       name: "caption",
-      editor: lexicalEditor({
-        features: ({}) => [LinkFeature({})],
-      }),
-      type: "richText",
+      type: "text",
     },
   ],
 };
