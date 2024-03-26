@@ -1,7 +1,6 @@
 import type { Field } from "payload/types";
 import { CollectionConfig } from "payload/types";
-import { deepMerge, formatSlug } from "../utils";
-import { MediaBlock } from "../blocks/MediaBlock";
+import { formatSlug } from "../utils";
 import { Archive } from "../blocks/ArchiveBlock";
 
 const hero: Field = {
@@ -16,7 +15,6 @@ const hero: Field = {
       name: "media",
       relationTo: "media",
       type: "upload",
-      required: true,
     },
   ],
 };
@@ -42,22 +40,19 @@ export const Pages: CollectionConfig = {
       },
       type: "date",
     },
-    deepMerge<Field, Partial<Field>>(
-      {
-        name: "slug",
-        admin: {
-          position: "sidebar",
-          readOnly: true,
-        },
-        hooks: {
-          beforeChange: [formatSlug("title")],
-        },
-        index: true,
-        label: "Slug",
-        type: "text",
+    {
+      name: "slug",
+      admin: {
+        position: "sidebar",
+        readOnly: true,
       },
-      {},
-    ),
+      hooks: {
+        beforeChange: [formatSlug("title")],
+      },
+      index: true,
+      label: "Slug",
+      type: "text",
+    },
     {
       type: "tabs",
       tabs: [
