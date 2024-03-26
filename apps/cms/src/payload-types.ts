@@ -11,10 +11,15 @@ export interface Config {
     users: User;
     projects: Project;
     categories: Category;
-    "payload-preferences": PayloadPreference;
-    "payload-migrations": PayloadMigration;
+    media: Media;
+    pages: Page;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
   };
-  globals: {};
+  globals: {
+    header: Header;
+    footer: Footer;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -23,6 +28,7 @@ export interface Config {
 export interface User {
   id: string;
   name: string;
+  roles?: ('admin' | 'user')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -41,9 +47,16 @@ export interface User {
 export interface Project {
   id: string;
   title: string;
-  description: string;
-  createdAt: string;
-  category: string | Category;
+  categories: (string | Category)[];
+  publishedDate?: string | null;
+  slug?: string | null;
+  hero: {
+    shortDescription: string;
+    description: string;
+    livedemo: string;
+    github: string;
+    media?: string | Media | null;
+  };
   content: {
     root: {
       children: {
@@ -51,38 +64,23 @@ export interface Project {
         version: number;
         [k: string]: unknown;
       }[];
-      direction: ("ltr" | "rtl") | null;
-      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
       indent: number;
       type: string;
       version: number;
     };
     [k: string]: unknown;
   };
-  projectLink?:
-    | {
-        livedemo: string;
-        github: string;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  url?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
+  relatedProjects?: (string | Project)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: string | Media | null;
   };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -96,12 +94,102 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  alt: string;
+  caption?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: string;
+  title: string;
+  publishedData?: string | null;
+  slug?: string | null;
+  hero?: {
+    content?: {
+      root: {
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        type: string;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    media?: string | Media | null;
+  };
+  layout: {
+    introContent?: {
+      root: {
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        type: string;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    populateBy?: ('collection' | 'selection') | null;
+    relationTo?: 'projects' | null;
+    categories?: (string | Category)[] | null;
+    limit?: number | null;
+    selectedDocs?:
+      | {
+          relationTo: 'projects';
+          value: string | Project;
+        }[]
+      | null;
+    populatedDocs?:
+      | {
+          relationTo: 'projects';
+          value: string | Project;
+        }[]
+      | null;
+    populatedDocsTotal?: number | null;
+    id?: string | null;
+    blockName?: string | null;
+    blockType: 'archive';
+  }[];
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: string | Media | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: string | User;
   };
   key?: string | null;
@@ -130,6 +218,54 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: string;
+  navItems?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: string;
+  navItems?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CodeBlock".
  */
 export interface CodeBlock {
@@ -137,9 +273,10 @@ export interface CodeBlock {
   code?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: "code";
+  blockType: 'code';
 }
 
-declare module "payload" {
+
+declare module 'payload' {
   export interface GeneratedTypes extends Config {}
 }

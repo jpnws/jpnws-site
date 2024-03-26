@@ -1,11 +1,16 @@
 import type { CollectionConfig } from "payload/types";
 
-import { LinkFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
-
 import path from "path";
+import { admins } from "../access/admins";
 
 export const Media: CollectionConfig = {
   slug: "media",
+  access: {
+    create: admins,
+    delete: admins,
+    read: () => true,
+    update: admins,
+  },
   admin: {
     useAsTitle: "alt",
   },

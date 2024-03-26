@@ -2,6 +2,8 @@ import type { Field } from "payload/types";
 import type { CollectionConfig } from "payload/types";
 
 import { formatSlug } from "../utils";
+import { admins } from "../access/admins";
+import { adminsOrPublished } from "../access/adminsOrPublished";
 
 const hero: Field = {
   name: "hero",
@@ -51,6 +53,12 @@ const hero: Field = {
 
 const Projects: CollectionConfig = {
   slug: "projects",
+  access: {
+    create: admins,
+    delete: admins,
+    read: adminsOrPublished,
+    update: admins,
+  },
   admin: {
     defaultColumns: ["title", "slug"],
     useAsTitle: "title",

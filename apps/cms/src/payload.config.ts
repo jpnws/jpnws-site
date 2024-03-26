@@ -8,7 +8,7 @@ import { buildConfig } from "payload/config";
 import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import seo from "@payloadcms/plugin-seo";
 
-import Users from "./collections/Users";
+import Users from "./collections/User/Users";
 import Projects from "./collections/Projects";
 import { CodeBlock } from "./blocks/CodeBlock";
 import Categories from "./collections/Categories";

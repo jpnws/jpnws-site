@@ -2,6 +2,8 @@ import type { Field } from "payload/types";
 import { CollectionConfig } from "payload/types";
 import { formatSlug } from "../utils";
 import { Archive } from "../blocks/ArchiveBlock";
+import { adminsOrPublished } from "../access/adminsOrPublished";
+import { admins } from "../access/admins";
 
 const hero: Field = {
   name: "hero",
@@ -21,6 +23,12 @@ const hero: Field = {
 
 export const Pages: CollectionConfig = {
   slug: "pages",
+  access: {
+    create: admins,
+    delete: admins,
+    read: adminsOrPublished,
+    update: admins,
+  },
   admin: {
     useAsTitle: "title",
   },
