@@ -111,6 +111,24 @@ const Projects: CollectionConfig = {
           ],
           label: "Content",
         },
+        {
+          fields: [
+            {
+              name: "relatedProjects",
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                };
+              },
+              hasMany: true,
+              relationTo: "projects",
+              type: "relationship",
+            },
+          ],
+          label: "Related Projects",
+        },
       ],
     },
   ],
