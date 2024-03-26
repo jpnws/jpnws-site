@@ -16,6 +16,7 @@ import { Media } from "./collections/Media";
 import { MediaBlock } from "./blocks/MediaBlock";
 import { Pages } from "./collections/Pages";
 import { Header } from "./globals/Header";
+import { Footer } from "./globals/Footer";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -31,7 +32,7 @@ export default buildConfig({
     user: Users.slug,
     bundler: viteBundler(),
   },
-  globals: [Header],
+  globals: [Header, Footer],
   editor,
   collections: [Users, Projects, Categories, Media, Pages],
   typescript: {
