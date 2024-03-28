@@ -2,7 +2,6 @@ import path from "path";
 
 import { payloadCloud } from "@payloadcms/plugin-cloud";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { viteBundler } from "@payloadcms/bundler-vite";
 import { buildConfig } from "payload/config";
 import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
@@ -17,6 +16,7 @@ import { MediaBlock } from "./blocks/MediaBlock";
 import { Pages } from "./collections/Pages";
 import { Header } from "./globals/Header";
 import { Footer } from "./globals/Footer";
+import Articles from "./collections/Articles";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -34,7 +34,7 @@ export default buildConfig({
   },
   globals: [Header, Footer],
   editor,
-  collections: [Users, Projects, Categories, Media, Pages],
+  collections: [Pages, Projects, Articles, Categories, Media, Users],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
