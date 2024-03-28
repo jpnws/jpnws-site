@@ -1,7 +1,7 @@
 import type { Field } from "payload/types";
 import { CollectionConfig } from "payload/types";
 import { formatSlug } from "../utils";
-import { Archive } from "../blocks/ArchiveBlock";
+import { Archive } from "../blocks/Archive";
 import { adminsOrPublished } from "../access/adminsOrPublished";
 import { admins } from "../access/admins";
 

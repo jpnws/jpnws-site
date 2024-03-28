@@ -9,10 +9,10 @@ import seo from "@payloadcms/plugin-seo";
 
 import Users from "./collections/User/Users";
 import Projects from "./collections/Projects";
-import { CodeBlock } from "./blocks/CodeBlock";
+import { CodeBlock } from "./blocks/Code";
 import Categories from "./collections/Categories";
 import { Media } from "./collections/Media";
-import { MediaBlock } from "./blocks/MediaBlock";
+import { MediaBlock } from "./blocks/Media";
 import { Pages } from "./collections/Pages";
 import { Header } from "./globals/Header";
 import { Footer } from "./globals/Footer";
@@ -51,4 +51,5 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
+  cors: ["http://localhost:5173"],
 });
