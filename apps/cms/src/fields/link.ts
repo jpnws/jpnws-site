@@ -47,12 +47,12 @@ const link: LinkType = ({
             defaultValue: "reference",
             options: [
               {
-                label: "Internal link",
+                label: "Internal",
                 value: "reference",
               },
               {
-                label: "Custom URL",
-                value: "custom",
+                label: "External",
+                value: "external",
               },
             ],
             type: "radio",
@@ -90,9 +90,9 @@ const link: LinkType = ({
     {
       name: "url",
       admin: {
-        condition: (_, siblingData) => siblingData?.type === "custom",
+        condition: (_, siblingData) => siblingData?.type === "external",
       },
-      label: "Custom URL",
+      label: "External URL",
       required: true,
       type: "text",
     },
