@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
-
-interface NavItem {
-  id: string;
-  link: {
-    label: string;
-    reference: {
-      relationTo: string;
-      value: string;
-    };
-  };
-}
+import { INavItem } from "./NavItem/NavItem";
+import NavItem from "./NavItem/NavItem";
 
 const Navbar = () => {
-  const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [navItems, setNavItems] = useState<INavItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +19,7 @@ const Navbar = () => {
   return (
     <ul>
       {navItems.map((navItem) => {
-        return <li key={navItem.id}>{navItem.link.label}</li>;
+        return <NavItem navItem={navItem} />;
       })}
     </ul>
   );

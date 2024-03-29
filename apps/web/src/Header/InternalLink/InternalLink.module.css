@@ -1,0 +1,8 @@
+.internalLink {
+  color: #7aa6da;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
