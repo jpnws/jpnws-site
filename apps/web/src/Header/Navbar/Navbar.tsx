@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { INavItem } from "./NavItem/NavItem";
-import NavItem from "./NavItem/NavItem";
+import { INavItem } from "../NavItem/NavItem";
+import NavItem from "../NavItem/NavItem";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
