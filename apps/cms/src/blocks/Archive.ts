@@ -35,6 +35,10 @@ export const Archive: Block = {
           label: "Projects",
           value: "projects",
         },
+        {
+          label: "Articles",
+          value: "articles",
+        },
       ],
       type: "select",
     },
@@ -65,7 +69,7 @@ export const Archive: Block = {
       },
       hasMany: true,
       label: "Selection",
-      relationTo: ["projects"],
+      relationTo: ["projects", "articles"],
       type: "relationship",
     },
     {
@@ -77,7 +81,7 @@ export const Archive: Block = {
       },
       hasMany: true,
       label: "Populated Docs",
-      relationTo: ["projects"],
+      relationTo: ["projects", "articles"],
       type: "relationship",
     },
     {
