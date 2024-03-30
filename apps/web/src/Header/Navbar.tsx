@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { INavItem } from "./NavItem/NavItem";
 import NavItem from "./NavItem/NavItem";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const [navItems, setNavItems] = useState<INavItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,11 +21,22 @@ const Navbar = () => {
   }, []);
 
   return (
-    <ul>
-      {navItems.map((navItem) => {
-        return <NavItem navItem={navItem} />;
-      })}
-    </ul>
+    <div>
+      <div className={styles.hamburgerIconContainer}>
+        <button className={styles.hamburgerIcon} onClick={toggleMenu}>
+          {isOpen ? "🗙" : "☰"}
+        </button>
+      </div>
+      {isOpen && (
+        <nav className={styles.mainNavContainer}>
+          <ul className={styles.navItems}>
+            {navItems.map((navItem) => {
+              return <NavItem navItem={navItem} />;
+            })}
+          </ul>
+        </nav>
+      )}
+    </div>
   );
 };
 
