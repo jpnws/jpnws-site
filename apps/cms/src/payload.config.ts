@@ -17,12 +17,13 @@ import { Pages } from "./collections/Pages";
 import { Header } from "./globals/Header";
 import { Footer } from "./globals/Footer";
 import Articles from "./collections/Articles";
+import { ContentMedia } from "./blocks/ContentMedia";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
     ...defaultFeatures,
     BlocksFeature({
-      blocks: [CodeBlock, MediaBlock],
+      blocks: [CodeBlock, MediaBlock, ContentMedia],
     }),
   ],
 });
