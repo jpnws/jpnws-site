@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { INavItem } from "../NavItem/NavItem";
 import NavItem from "../NavItem/NavItem";
 import styles from "./Navbar.module.css";
+import Logo from "../Logo";
 
 const Navbar = () => {
   const [navItems, setNavItems] = useState<INavItem[]>([]);
@@ -20,24 +21,7 @@ const Navbar = () => {
     fetchData();
   }, []);
 
-  return (
-    <div>
-      <div className={styles.hamburgerIconContainer}>
-        <button className={styles.hamburgerIcon} onClick={toggleMenu}>
-          {isOpen ? "🗙" : "☰"}
-        </button>
-      </div>
-      {isOpen && (
-        <nav className={styles.mainNavContainer}>
-          <ul className={styles.navItems}>
-            {navItems.map((navItem) => {
-              return <NavItem navItem={navItem} />;
-            })}
-          </ul>
-        </nav>
-      )}
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Navbar;
