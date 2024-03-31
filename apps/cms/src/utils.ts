@@ -14,6 +14,7 @@ const format = (val: string): string =>
   val
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "")
+    .replace(/-+/g, "-")
     .toLowerCase();
 
 /**
