@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import RichText from "../components/RichText";
+import styles from "./Hero.module.css";
+import { Media } from "../../../cms/src/payload-types";
 
 const Hero = () => {
   const [content, setContent] = useState(null);
+  const [media, setMedia] = useState<Media>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -11,14 +14,24 @@ const Hero = () => {
       );
       const { hero } = await response.json();
       setContent(hero.content);
+      setMedia(hero.media as Media);
     };
 
     fetchData();
   }, []);
 
   return (
-    <div>
-      <RichText content={content} />
+    <div className={styles.heroContainer}>
+      {media && (
+        <img
+          className={styles.profilePhoto}
+          src={`${import.meta.env.VITE_API_URL}${media.url}`}
+          alt={media.alt}
+          height="200"
+          width="200"
+        />
+      )}
+      <RichText className={styles.richText} content={content} />
     </div>
   );
 };
