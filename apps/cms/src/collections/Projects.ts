@@ -4,6 +4,7 @@ import type { CollectionConfig } from "payload/types";
 import { formatSlug } from "../utils";
 import { admins } from "../access/admins";
 import { adminsOrPublished } from "../access/adminsOrPublished";
+import link from "../fields/link";
 
 const hero: Field = {
   name: "hero",
@@ -20,29 +21,39 @@ const hero: Field = {
       required: true,
     },
     {
-      name: "livedemo",
-      label: "Live demo link",
-      type: "text",
-      required: true,
-      validate: (value: string) => {
-        const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-        if (!urlPattern.test(value)) {
-          return "Invalid URL format";
-        }
-      },
+      name: "links",
+      fields: [
+        link({
+          appearances: false,
+        }),
+      ],
+      maxRows: 6,
+      type: "array",
     },
-    {
-      name: "github",
-      label: "GitHub repository link",
-      type: "text",
-      required: true,
-      validate: (value: string) => {
-        const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-        if (!urlPattern.test(value)) {
-          return "Invalid URL format";
-        }
-      },
-    },
+    // {
+    //   name: "livedemo",
+    //   label: "Live demo link",
+    //   type: "text",
+    //   required: true,
+    //   validate: (value: string) => {
+    //     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    //     if (!urlPattern.test(value)) {
+    //       return "Invalid URL format";
+    //     }
+    //   },
+    // },
+    // {
+    //   name: "github",
+    //   label: "GitHub repository link",
+    //   type: "text",
+    //   required: true,
+    //   validate: (value: string) => {
+    //     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    //     if (!urlPattern.test(value)) {
+    //       return "Invalid URL format";
+    //     }
+    //   },
+    // },
     {
       name: "media",
       relationTo: "media",
@@ -71,6 +82,10 @@ const Projects: CollectionConfig = {
       name: "title",
       type: "text",
       required: true,
+    },
+    {
+      name: "featured",
+      type: "checkbox",
     },
     {
       name: "categories",

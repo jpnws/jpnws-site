@@ -83,7 +83,7 @@ const link: LinkType = ({
       },
       label: "Document to link to",
       maxDepth: 1,
-      relationTo: ["pages"],
+      relationTo: ["pages", "projects"],
       required: true,
       type: "relationship",
     },
