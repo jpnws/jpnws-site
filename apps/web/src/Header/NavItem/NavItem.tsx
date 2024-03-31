@@ -19,7 +19,7 @@ export interface INavItem {
 
 const NavItem = ({ navItem }: { navItem: INavItem }) => {
   return (
-    <li key={navItem.id} className={styles.navItem}>
+    <li className={styles.navItem}>
       {navItem.link.type === "reference" ? (
         <InternalLink navItem={navItem} />
       ) : (

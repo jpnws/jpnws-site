@@ -34,7 +34,7 @@ const Header = () => {
         <nav className={styles.mainNavContainer}>
           <ul className={styles.navItems}>
             {navItems.map((navItem) => {
-              return <NavItem navItem={navItem} />;
+              return <NavItem key={navItem.id} navItem={navItem} />;
             })}
           </ul>
         </nav>
