@@ -98,6 +98,16 @@ const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: "badges",
+      admin: {
+        position: "sidebar",
+      },
+      hasMany: true,
+      relationTo: "badges",
+      type: "relationship",
+      required: true,
+    },
+    {
       name: "publishedDate",
       admin: {
         position: "sidebar",

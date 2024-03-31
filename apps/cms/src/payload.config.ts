@@ -18,6 +18,7 @@ import { Header } from "./globals/Header";
 import { Footer } from "./globals/Footer";
 import Articles from "./collections/Articles";
 import { ContentMedia } from "./blocks/ContentMedia";
+import Badges from "./collections/Badges";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -35,7 +36,7 @@ export default buildConfig({
   },
   globals: [Header, Footer],
   editor,
-  collections: [Pages, Projects, Articles, Categories, Media, Users],
+  collections: [Pages, Projects, Articles, Categories, Media, Users, Badges],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
