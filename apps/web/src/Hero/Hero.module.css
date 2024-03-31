@@ -1,10 +1,10 @@
 .heroContainer {
-  padding: 0 1rem 0 1rem;
+  background-color: #0a0a0a;
+  padding: 3.4375rem 1rem 3.4375rem 1rem;
 }
 
 .profilePhoto {
   margin: 0 auto;
-  margin-top: 1.5rem;
   border-radius: 50%;
   width: 200px;
   max-width: 100%;
@@ -14,17 +14,18 @@
 }
 
 .richText {
+  color: #f7f7f7;
   text-align: center;
 
   & h1 {
     margin-bottom: 0.5rem;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 3.5rem;
   }
 
   & h2 {
     margin-bottom: 0.5rem;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.8rem;
   }
 
