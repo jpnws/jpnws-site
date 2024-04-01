@@ -161,7 +161,6 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                       : "component--list-item-checked-unchecked"
                   }`}
                   key={index}
-                  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
                   role="checkbox"
                   tabIndex={-1}
                   value={node?.value}
@@ -178,8 +177,6 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             }
           }
           case "quote": {
-            const node = _node as SerializedQuoteNode;
-
             return <blockquote key={index}>{serializedChildren}</blockquote>;
           }
           case "link": {
@@ -188,8 +185,6 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             const fields: LinkFields = node.fields;
 
             if (fields.linkType === "custom") {
-              const rel = fields.newTab ? "noopener noreferrer" : undefined;
-
               return (
                 <a
                   href={escapeHTML(fields.url)}
