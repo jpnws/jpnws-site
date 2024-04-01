@@ -1,5 +1,6 @@
 import Badge from "./Badge";
 import styles from "./FeaturedProject.module.css";
+import PrimaryButton from "./PrimaryButton";
 
 const FeaturedProject = ({ project }: { project: any }) => {
   const badges = project.badges.map((badge: any) => {
@@ -15,6 +16,10 @@ const FeaturedProject = ({ project }: { project: any }) => {
         src={`${import.meta.env.VITE_API_URL}${project.hero.media.url}`}
         alt={project.hero.media.alt}
         className={styles.image}
+      />
+      <PrimaryButton
+        text="View case study"
+        link={`/projects/${project.slug}`}
       />
     </div>
   );

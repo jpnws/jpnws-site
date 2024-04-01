@@ -1,6 +1,11 @@
 .header {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
   border-bottom: 1px solid #585858;
   background-color: #121212;
+  width: 100%;
+  min-height: 4.75rem;
   min-height: 4.75rem;
 }
 

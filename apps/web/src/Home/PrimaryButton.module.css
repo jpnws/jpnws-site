@@ -1,0 +1,17 @@
+.button {
+  border: 2px solid hsl(213, 56%, 67%);
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 7%);
+  padding: 0.25rem 1rem;
+  width: fit-content;
+  color: hsl(213, 56%, 67%);
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    border: 2px solid hsl(213, 56%, 75%);
+    background-color: hsl(0, 0%, 15%);
+    color: hsl(213, 56%, 75%);
+  }
+}
