@@ -19,12 +19,13 @@ import { Footer } from "./globals/Footer";
 import Articles from "./collections/Articles";
 import { ContentMedia } from "./blocks/ContentMedia";
 import Badges from "./collections/Badges";
+import { Archive } from "./blocks/Archive";
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
     ...defaultFeatures,
     BlocksFeature({
-      blocks: [CodeBlock, MediaBlock, ContentMedia],
+      blocks: [CodeBlock, MediaBlock, ContentMedia, Archive],
     }),
   ],
 });
