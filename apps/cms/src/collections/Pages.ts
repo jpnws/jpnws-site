@@ -4,7 +4,6 @@ import { formatSlug } from "../utils";
 import { Archive } from "../blocks/Archive";
 import { adminsOrPublished } from "../access/adminsOrPublished";
 import { admins } from "../access/admins";
-import richText from "../fields/richText";
 
 const hero: Field = {
   name: "hero",
@@ -71,11 +70,6 @@ export const Pages: CollectionConfig = {
         },
         {
           fields: [
-            {
-              name: "content",
-              type: "richText",
-              required: true,
-            },
             {
               name: "layout",
               blocks: [Archive],

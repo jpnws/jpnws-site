@@ -11,6 +11,11 @@ const hero: Field = {
   type: "group",
   fields: [
     {
+      name: "homepageImagePosition",
+      type: "select",
+      options: ["left", "right"],
+    },
+    {
       name: "shortDescription",
       type: "text",
       required: true,

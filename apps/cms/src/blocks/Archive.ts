@@ -3,11 +3,10 @@ import richText from "../fields/richText";
 
 export const Archive: Block = {
   fields: [
-    richText({
-      name: "introContent",
-      label: "Intro Content",
-      required: false,
-    }),
+    {
+      type: "richText",
+      name: "content",
+    },
     {
       name: "populateBy",
       defaultValue: "collection",
