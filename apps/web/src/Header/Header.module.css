@@ -6,7 +6,6 @@
   background-color: #121212;
   width: 100%;
   min-height: 4.75rem;
-  min-height: 4.75rem;
 }
 
 .logoAndMenuContainer {
@@ -33,7 +32,7 @@
 
 .mainNavContainer {
   position: fixed;
-  top: 4.75rem;
+  top: 4.8125rem;
   z-index: 15;
   background-color: #121212;
   padding: 1.5rem 1.5rem 1.5rem 1.5rem;
