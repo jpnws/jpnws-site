@@ -1,3 +1,5 @@
+import FeaturedProject from "./FeaturedProject";
+
 const FeaturedProjects = ({ projects }: { projects: any }) => {
   if (projects.length > 0) {
     console.log(projects);
@@ -5,11 +7,7 @@ const FeaturedProjects = ({ projects }: { projects: any }) => {
   return (
     <div>
       {projects.map((project: any) => {
-        return (
-          <div key={project.id}>
-            <h2>{project.title}</h2>
-          </div>
-        );
+        return <FeaturedProject key={project.id} project={project} />;
       })}
     </div>
   );
