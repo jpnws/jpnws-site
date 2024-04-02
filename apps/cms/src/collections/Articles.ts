@@ -23,10 +23,9 @@ const hero: Field = {
       name: "livedemo",
       label: "Live demo link",
       type: "text",
-      required: true,
       validate: (value: string) => {
         const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-        if (!urlPattern.test(value)) {
+        if (value && !urlPattern.test(value)) {
           return "Invalid URL format";
         }
       },
@@ -35,10 +34,9 @@ const hero: Field = {
       name: "github",
       label: "GitHub repository link",
       type: "text",
-      required: true,
       validate: (value: string) => {
         const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-        if (!urlPattern.test(value)) {
+        if (value && !urlPattern.test(value)) {
           return "Invalid URL format";
         }
       },
@@ -70,6 +68,19 @@ const Articles: CollectionConfig = {
     {
       name: "title",
       type: "text",
+      required: true,
+    },
+    {
+      name: "featured",
+      type: "checkbox",
+    },
+    {
+      name: "featuredPriority",
+      type: "number",
+      admin: {
+        condition: (data) => data.featured,
+        width: "25%",
+      },
       required: true,
     },
     {
