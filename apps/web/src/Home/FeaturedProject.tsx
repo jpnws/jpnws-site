@@ -12,11 +12,13 @@ const FeaturedProject = ({ project }: { project: any }) => {
       <h2 className={styles.title}>{project.title}</h2>
       <p className={styles.shortDescription}>{project.hero.shortDescription}</p>
       <div className={styles.badgeGroup}>{badges}</div>
-      <img
-        src={`${import.meta.env.VITE_API_URL}${project.hero.media.url}`}
-        alt={project.hero.media.alt}
-        className={styles.image}
-      />
+      {project.hero.media && (
+        <img
+          src={`${import.meta.env.VITE_API_URL}${project.hero.media.url}`}
+          alt={project.hero.media.alt}
+          className={styles.image}
+        />
+      )}
       <PrimaryButton
         text="View case study"
         link={`/projects/${project.slug}`}

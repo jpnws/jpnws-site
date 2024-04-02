@@ -93,6 +93,15 @@ const Projects: CollectionConfig = {
       type: "checkbox",
     },
     {
+      name: "featuredPriority",
+      type: "number",
+      admin: {
+        condition: (data) => data.featured,
+        width: "25%",
+      },
+      required: true,
+    },
+    {
       name: "categories",
       admin: {
         position: "sidebar",

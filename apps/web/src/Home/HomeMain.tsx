@@ -10,6 +10,7 @@ const HomeMain = () => {
         `${import.meta.env.VITE_API_URL}/api/projects?where[featured][equals]=true`,
       );
       const { docs } = await response.json();
+      docs.sort((a: any, b: any) => a.featuredPriority - b.featuredPriority);
       setProjects(docs);
     };
     fetchData();
@@ -17,6 +18,7 @@ const HomeMain = () => {
 
   return (
     <div className={styles.homeMain}>
+      <h2 className={styles.projectSectionTitle}>Projects</h2>
       <FeaturedProjects projects={projects} />
     </div>
   );

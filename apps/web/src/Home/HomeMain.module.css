@@ -2,3 +2,9 @@
   padding: 3rem 1.5rem 3rem 1.5rem;
   color: #f7f7f7;
 }
+
+.projectSectionTitle {
+  margin-bottom: 3rem;
+  font-weight: 600;
+  font-size: 1.875rem;
+}
