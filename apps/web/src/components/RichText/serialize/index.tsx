@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import type { SerializedListItemNode, SerializedListNode } from "@lexical/list";
-import type {
-  SerializedHeadingNode,
-  SerializedQuoteNode,
-} from "@lexical/rich-text";
+import type { SerializedHeadingNode } from "@lexical/rich-text";
 import type {
   LinkFields,
   SerializedLinkNode,
