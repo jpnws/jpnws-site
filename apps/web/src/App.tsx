@@ -2,6 +2,7 @@ import Header from "./Header/Header";
 import styles from "./App.module.css";
 import Hero from "./Hero/Hero";
 import HomeMain from "./Home/HomeMain";
+import Footer from "./Footer/Footer";
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
       <Header />
       <Hero />
       <HomeMain />
+      <Footer />
     </div>
   );
 };

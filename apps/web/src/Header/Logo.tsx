@@ -1,13 +1,13 @@
 import styles from "./Logo.module.css";
 
-const Logo = () => {
+const Logo = ({ width, height }: { width: number; height: number }) => {
   return (
     <div className={styles.logoContainer}>
       <svg
         className={styles.logoSvg}
         xmlns="http://www.w3.org/2000/svg"
-        width={32}
-        height={32}
+        width={width}
+        height={height}
         preserveAspectRatio="xMidYMid"
         viewBox="0 0 24 24"
       >

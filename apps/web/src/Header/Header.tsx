@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logoAndMenuContainer}>
-        <Logo />
+        <Logo width={32} height={32} />
         <div className={styles.hamburgerIconContainer}>
           <button className={styles.hamburgerIcon} onClick={toggleMenu}>
             {isOpen ? "🗙" : "☰"}
