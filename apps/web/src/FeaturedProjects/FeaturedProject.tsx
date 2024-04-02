@@ -1,6 +1,6 @@
-import Badge from "./Badge";
+import Badge from "../components/Badge/Badge";
 import styles from "./FeaturedProject.module.css";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 
 const FeaturedProject = ({ project }: { project: any }) => {
   const badges = project.badges.map((badge: any) => {

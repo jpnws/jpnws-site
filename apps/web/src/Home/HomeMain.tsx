@@ -1,4 +1,4 @@
-import FeaturedProjects from "./FeaturedProjects";
+import FeaturedProjects from "../FeaturedProjects/FeaturedProjects";
 import styles from "./HomeMain.module.css";
 import { useEffect, useState } from "react";
 
