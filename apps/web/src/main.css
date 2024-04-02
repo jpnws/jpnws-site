@@ -11,7 +11,7 @@
 }
 
 html {
-  background-color: #121212;
+  background-color: hsl(0, 0%, 7%);
   hanging-punctuation: first last;
   font-family: "Open Sans", system-ui, sans-serif;
 }
