@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.themeSwitcher {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 1rem;
+  background-color: hsl(212, 56%, 67%);
+  padding: 0.25rem 0.15rem 0.25rem 0.15rem;
+  width: 1.5rem;
+  height: 1rem;
+}
+
+.themeSwitcherButton {
+  cursor: pointer;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+  border: none;
+  border-radius: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+}

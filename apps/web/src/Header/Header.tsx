@@ -2,8 +2,13 @@ import styles from "./Header.module.css";
 import NavItem, { INavItem } from "./NavItem/NavItem";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
+import ThemeSwitcher from "./ThemeSwitcher";
 
-const Header = () => {
+const Header = ({
+  onThemeSwitcherClick,
+}: {
+  onThemeSwitcherClick: () => void;
+}) => {
   const [navItems, setNavItems] = useState<INavItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,6 +42,7 @@ const Header = () => {
               return <NavItem key={navItem.id} navItem={navItem} />;
             })}
           </ul>
+          <ThemeSwitcher onThemeSwitcherClick={onThemeSwitcherClick} />
         </nav>
       )}
     </header>
