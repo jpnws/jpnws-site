@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import type { SerializedListItemNode, SerializedListNode } from "@lexical/list";
-import type { SerializedHeadingNode } from "@lexical/rich-text";
+import type {
+  SerializedHeadingNode,
+  SerializedQuoteNode,
+} from "@lexical/rich-text";
 import type {
   LinkFields,
   SerializedLinkNode,
@@ -26,9 +29,16 @@ import {
   IS_UNDERLINE,
 } from "./nodeFormat";
 
+import { getHighlighter } from "shiki";
+
 interface Props {
   nodes: SerializedLexicalNode[];
 }
+
+const highlighter = await getHighlighter({
+  themes: ["dracula"],
+  langs: ["javascript"],
+});
 
 export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
@@ -36,12 +46,14 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
       {nodes?.map((_node, index): JSX.Element | null => {
         if (_node.type === "text") {
           const node = _node as SerializedTextNode;
-          let text = (
+          let text: JSX.Element | string = (
             <span
               dangerouslySetInnerHTML={{ __html: escapeHTML(node.text) }}
               key={index}
             />
           );
+
+          // Apply formatting based on node format
           if (node.format & IS_BOLD) {
             text = <strong key={index}>{text}</strong>;
           }
@@ -62,9 +74,22 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               </span>
             );
           }
+
           if (node.format & IS_CODE) {
-            text = <code key={index}>{text}</code>;
+            const highlightedHtml = highlighter.codeToHtml(node.text, {
+              theme: "dracula",
+              lang: "javascript",
+            });
+
+            text = (
+              <code
+                key={index}
+                dangerouslySetInnerHTML={{ __html: highlightedHtml }}
+              />
+            );
           }
+
+          // Apply subscript and superscript formatting if needed
           if (node.format & IS_SUBSCRIPT) {
             text = <sub key={index}>{text}</sub>;
           }
@@ -72,6 +97,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             text = <sup key={index}>{text}</sup>;
           }
 
+          // Return the formatted text
           return text;
         }
 
