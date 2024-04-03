@@ -2,7 +2,7 @@ import styles from "./Header.module.css";
 import NavItem, { INavItem } from "./NavItem/NavItem";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
-import ThemeSwitcher from "./ThemeSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher/ThemeSwitcher";
 
 const Header = ({
   onThemeSwitcherClick,
