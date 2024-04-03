@@ -1,11 +1,26 @@
 .container {
   display: flex;
+  position: absolute;
+  right: 1rem;
+  bottom: 6rem;
   align-items: center;
   gap: 0.5rem;
 }
 
-.themeSwitcher {
+.themeSwitcherLight {
   display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 1rem;
+  background-color: hsl(213, 12%, 54%);
+  padding: 0.25rem 0.15rem 0.25rem 0.15rem;
+  width: 1.5rem;
+  height: 1rem;
+}
+
+.themeSwitcherDark {
+  display: flex;
+  justify-content: end;
   align-items: center;
   cursor: pointer;
   border-radius: 1rem;

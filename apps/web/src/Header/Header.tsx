@@ -7,12 +7,18 @@ import ThemeSwitcher from "./ThemeSwitcher";
 const Header = ({
   onThemeSwitcherClick,
 }: {
-  onThemeSwitcherClick: () => void;
+  onThemeSwitcherClick: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
 }) => {
   const [navItems, setNavItems] = useState<INavItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const fetchData = async () => {

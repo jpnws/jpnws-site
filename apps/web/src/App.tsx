@@ -18,8 +18,12 @@ const App = () => {
 
   const [theme, setTheme] = useState(cookieTheme || systemTheme || "light");
 
-  const handleThemeSwitcherClick = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+  const handleThemeSwitcherClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const newTheme: string = theme === "light" ? "dark" : "light";
     setMetaTheme(newTheme);
     setTheme(newTheme);
     setThemeCookie(newTheme);
