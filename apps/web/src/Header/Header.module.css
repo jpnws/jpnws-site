@@ -4,6 +4,7 @@
   z-index: 1000;
   border-bottom: 1px solid #585858;
   background-color: #121212;
+  padding: 0 1.5rem 0 1.5rem;
   width: 100%;
   min-height: 4.75rem;
 }
@@ -12,7 +13,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem 0 1.5rem;
 }
 
 .hamburgerIconContainer {
@@ -31,13 +31,9 @@
 }
 
 .mainNavContainer {
-  position: fixed;
-  top: 4.8125rem;
   z-index: 15;
   background-color: #121212;
-  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-  width: 100vw;
-  height: 100vh;
+  padding: 2rem 0 3rem 0;
 }
 
 .navItems {
@@ -49,4 +45,11 @@
   font-size: 1.25rem;
   list-style-type: none;
   text-indent: 0;
+}
+
+@media (min-width: 768px) {
+  .innerContainer {
+    margin: 0 auto;
+    max-width: 1120px;
+  }
 }

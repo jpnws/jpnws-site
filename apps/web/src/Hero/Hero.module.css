@@ -1,6 +1,6 @@
 .heroContainer {
   background-color: #0a0a0a;
-  padding: 7.5rem 1rem 3.4375rem 1rem;
+  padding: 7.5rem 1.5rem 3.4375rem 1.5rem;
 }
 
 .profilePhoto {
@@ -33,5 +33,29 @@
     margin-bottom: 0.5rem;
     font-weight: 500;
     font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .profilePhoto {
+    margin: 0;
+    border-radius: 50%;
+    width: 200px;
+    max-width: 100%;
+    height: 200px;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .innerContainer {
+    display: flex;
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 1120px;
+  }
+
+  .richText {
+    max-width: 31.625rem;
+    text-align: left;
   }
 }

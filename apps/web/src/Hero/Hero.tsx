@@ -22,16 +22,18 @@ const Hero = () => {
 
   return (
     <div className={styles.heroContainer}>
-      {media && (
-        <img
-          className={styles.profilePhoto}
-          src={`${import.meta.env.VITE_API_URL}${media.url}`}
-          alt={media.alt}
-          height="200"
-          width="200"
-        />
-      )}
-      <RichText className={styles.richText} content={content} />
+      <div className={styles.innerContainer}>
+        {media && (
+          <img
+            className={styles.profilePhoto}
+            src={`${import.meta.env.VITE_API_URL}${media.url}`}
+            alt={media.alt}
+            height="200"
+            width="200"
+          />
+        )}
+        <RichText className={styles.richText} content={content} />
+      </div>
     </div>
   );
 };
