@@ -1,12 +1,20 @@
 .header {
+  display: flex;
   position: fixed;
   top: 0;
+  align-items: center;
   z-index: 1000;
   border-bottom: 1px solid #585858;
   background-color: #121212;
   padding: 0 1.5rem 0 1.5rem;
   width: 100%;
   min-height: 4.75rem;
+}
+
+.innerContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .logoAndMenuContainer {
@@ -30,13 +38,13 @@
   text-align: right;
 }
 
-.mainNavContainer {
+.mobileNavContainer {
   z-index: 15;
   background-color: #121212;
   padding: 2rem 0 3rem 0;
 }
 
-.navItems {
+.mobileNavItems {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -49,7 +57,16 @@
 
 @media (min-width: 768px) {
   .innerContainer {
+    display: flex;
     margin: 0 auto;
     max-width: 1120px;
+  }
+
+  .hamburgerIconContainer {
+    display: none;
+  }
+
+  .mobileNavContainer {
+    display: none;
   }
 }
