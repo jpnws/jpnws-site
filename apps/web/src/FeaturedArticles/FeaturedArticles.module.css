@@ -3,3 +3,10 @@
   flex-direction: column;
   gap: 3rem;
 }
+
+@media (min-width: 768px) {
+  .featuredArticles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

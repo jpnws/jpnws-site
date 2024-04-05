@@ -1,5 +1,9 @@
+.homeOuterContainer {
+  padding: 0 1.5rem 0 1.5rem;
+}
+
 .homeMain {
-  padding: 3rem 1.5rem 3rem 1.5rem;
+  padding: 3rem 0 3rem 0;
   color: #f7f7f7;
 }
 
