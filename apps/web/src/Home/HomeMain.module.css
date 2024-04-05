@@ -8,3 +8,10 @@
   font-weight: 600;
   font-size: 1.875rem;
 }
+
+@media (min-width: 768px) {
+  .homeMain {
+    margin: 0 auto;
+    max-width: 1120px;
+  }
+}
