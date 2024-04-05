@@ -35,7 +35,7 @@
 
 .mobileNavContainer {
   position: absolute;
-  top: 4.75rem;
+  top: 4.8rem;
   left: 0;
   z-index: 15;
   border-bottom: hsl(0, 0%, 50%) solid 1px;
