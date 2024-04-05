@@ -17,6 +17,11 @@
   font-size: 1.25rem;
 }
 
+.shortDescription {
+  text-wrap: pretty;
+  line-height: 2;
+}
+
 .badgeGroup {
   display: flex;
   flex-wrap: wrap;
@@ -33,6 +38,7 @@
 
 .buttonContainer {
   display: none;
+  margin-top: 1rem;
 }
 
 @media (min-width: 768px) {
