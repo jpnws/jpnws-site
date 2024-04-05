@@ -34,9 +34,14 @@
 }
 
 .mobileNavContainer {
+  position: absolute;
+  top: 4.75rem;
+  left: 0;
   z-index: 15;
+  border-bottom: hsl(0, 0%, 50%) solid 1px;
   background-color: #121212;
-  padding: 2rem 0 3rem 0;
+  padding: 2rem 1.5rem 3rem 1.5rem;
+  width: 100%;
 }
 
 .mobileNavItems {

@@ -43,7 +43,7 @@ const Header = ({
       </div>
       {isOpen && (
         <nav className={styles.mobileNavContainer}>
-          <ul className={styles.navItems}>
+          <ul className={styles.mobileNavItems}>
             {navItems.map((navItem) => {
               return <NavItem key={navItem.id} navItem={navItem} />;
             })}
