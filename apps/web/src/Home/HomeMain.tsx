@@ -1,5 +1,5 @@
 import FeaturedProjects from "../FeaturedProjects/FeaturedProjects";
-import FeaturedArticles from "./FeaturedArticles";
+import FeaturedArticles from "../FeaturedArticles/FeaturedArticles";
 import styles from "./HomeMain.module.css";
 
 const HomeMain = () => {
