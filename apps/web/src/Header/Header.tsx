@@ -33,26 +33,24 @@ const Header = ({
 
   return (
     <header className={styles.header}>
-      <div className={styles.innerContainer}>
-        <div className={styles.logoAndMenuContainer}>
-          <Logo width={32} height={32} />
-          <div className={styles.hamburgerIconContainer}>
-            <button className={styles.hamburgerIcon} onClick={toggleMenu}>
-              {isOpen ? "🗙" : "☰"}
-            </button>
-          </div>
+      <div className={styles.logoAndMenuContainer}>
+        <Logo width={32} height={32} />
+        <div className={styles.hamburgerIconContainer}>
+          <button className={styles.hamburgerIcon} onClick={toggleMenu}>
+            {isOpen ? "🗙" : "☰"}
+          </button>
         </div>
-        {isOpen && (
-          <nav className={styles.mobileNavContainer}>
-            <ul className={styles.navItems}>
-              {navItems.map((navItem) => {
-                return <NavItem key={navItem.id} navItem={navItem} />;
-              })}
-            </ul>
-            <ThemeSwitcher onThemeSwitcherClick={onThemeSwitcherClick} />
-          </nav>
-        )}
       </div>
+      {isOpen && (
+        <nav className={styles.mobileNavContainer}>
+          <ul className={styles.navItems}>
+            {navItems.map((navItem) => {
+              return <NavItem key={navItem.id} navItem={navItem} />;
+            })}
+          </ul>
+          <ThemeSwitcher onThemeSwitcherClick={onThemeSwitcherClick} />
+        </nav>
+      )}
     </header>
   );
 };
