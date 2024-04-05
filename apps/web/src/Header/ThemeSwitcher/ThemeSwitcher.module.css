@@ -38,3 +38,9 @@
   width: 0.7rem;
   height: 0.7rem;
 }
+
+@media (min-width: 768px) {
+  .container {
+    position: static;
+  }
+}

@@ -35,10 +35,20 @@ const Header = ({
     <header className={styles.header}>
       <div className={styles.logoAndMenuContainer}>
         <Logo width={32} height={32} />
+        <nav className={styles.navContainer}>
+          <ul className={styles.navItems}>
+            {navItems.map((navItem) => {
+              return <NavItem key={navItem.id} navItem={navItem} />;
+            })}
+          </ul>
+        </nav>
         <div className={styles.hamburgerIconContainer}>
           <button className={styles.hamburgerIcon} onClick={toggleMenu}>
             {isOpen ? "🗙" : "☰"}
           </button>
+        </div>
+        <div className={styles.themeSwitcherContainer}>
+          <ThemeSwitcher onThemeSwitcherClick={onThemeSwitcherClick} />
         </div>
       </div>
       {isOpen && (
