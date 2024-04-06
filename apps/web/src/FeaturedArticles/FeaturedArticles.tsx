@@ -12,7 +12,6 @@ const FeaturedArticles = () => {
       );
       const { docs } = await response.json();
       docs.sort((a: any, b: any) => a.featuredPriority - b.featuredPriority);
-      console.log(docs);
       setArticles(docs);
     };
 

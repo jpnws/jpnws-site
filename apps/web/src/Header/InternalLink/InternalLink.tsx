@@ -2,7 +2,15 @@ import { INavItem } from "../NavItem/NavItem";
 import styles from "./InternalLink.module.css";
 
 const InternalLink = ({ navItem }: { navItem: INavItem }) => {
-  return <a className={styles.internalLink}>{navItem.link.label}</a>;
+  const link =
+    navItem.link.reference.value.slug === "home"
+      ? "/"
+      : `/${navItem.link.reference.value.slug}`;
+  return (
+    <a href={`${link}`} className={styles.internalLink}>
+      {navItem.link.label}
+    </a>
+  );
 };
 
 export default InternalLink;

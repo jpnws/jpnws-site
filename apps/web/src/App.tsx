@@ -27,7 +27,6 @@ const App = () => {
     setMetaTheme(newTheme);
     setTheme(newTheme);
     setThemeCookie(newTheme);
-    console.log("Theme switched to", newTheme);
   };
 
   return (

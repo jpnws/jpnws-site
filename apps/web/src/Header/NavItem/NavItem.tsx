@@ -12,7 +12,9 @@ export interface INavItem {
     label: string;
     reference: {
       relationTo: string;
-      value: string;
+      value: {
+        slug: string;
+      };
     };
   };
 }

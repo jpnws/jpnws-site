@@ -34,7 +34,9 @@ const Header = ({
   return (
     <header className={styles.header}>
       <div className={styles.logoAndMenuContainer}>
-        <Logo width={32} height={32} />
+        <a href="/">
+          <Logo width={32} height={32} />
+        </a>
         <nav className={styles.navContainer}>
           <ul className={styles.navItems}>
             {navItems.map((navItem) => {
