@@ -1,3 +1,4 @@
+import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import styles from "./FeaturedProject.module.css";
 
 const FeaturedProject = ({ project }: { project: any }) => {
@@ -13,8 +14,16 @@ const FeaturedProject = ({ project }: { project: any }) => {
           />
         )}
       </div>
-      <h3 className={styles.projectTitle}>{project.title}</h3>
-      <p className={styles.shortDescription}>{project.hero.shortDescription}</p>
+      <div className={styles.content}>
+        <h3 className={styles.projectTitle}>{project.title}</h3>
+        <p className={styles.shortDescription}>
+          {project.hero.shortDescription}
+        </p>
+      </div>
+      <PrimaryButton
+        text="View case study"
+        link={`/projects/${project.slug}`}
+      />
     </div>
   );
 };
