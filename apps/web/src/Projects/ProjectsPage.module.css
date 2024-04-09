@@ -1,0 +1,17 @@
+.projectsOuterContainer {
+  padding: 0 1.5rem 0 1.5rem;
+}
+
+.projectsMain {
+  padding: 3rem 0 3rem 0;
+  color: hsl(0, 0%, 97%);
+}
+
+@media (min-width: 768px) {
+  .projectsMain {
+    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1120px;
+  }
+}

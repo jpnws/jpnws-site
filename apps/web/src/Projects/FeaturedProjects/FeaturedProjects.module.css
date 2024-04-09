@@ -1,0 +1,17 @@
+.featuredWrapper {
+  display: flex;
+  row-gap: 3rem;
+  flex-direction: column;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.projectsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  column-gap: 1.25rem;
+  row-gap: 3rem;
+}

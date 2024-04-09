@@ -1,0 +1,19 @@
+.projectItem {
+  display: flex;
+  row-gap: 1rem;
+  flex-direction: column;
+}
+
+.projectTitle {
+  font-size: 1.25rem;
+}
+
+.imageContainer {
+}
+
+.image {
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  background: #fd9;
+  width: 100%;
+}
