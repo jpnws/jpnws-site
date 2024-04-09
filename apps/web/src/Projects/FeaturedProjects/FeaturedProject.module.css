@@ -5,10 +5,8 @@
 }
 
 .projectTitle {
+  font-weight: 500;
   font-size: 1.25rem;
-}
-
-.imageContainer {
 }
 
 .image {
@@ -16,4 +14,8 @@
   border-radius: 12px;
   background: #fd9;
   width: 100%;
+}
+
+.shortDescription {
+  font-weight: 400;
 }
