@@ -1,8 +1,7 @@
-import Header from "./Header/Header";
-import styles from "./App.module.css";
-import Hero from "./Hero/Hero";
-import HomeMain from "./Home/HomeMain";
-import Footer from "./Footer/Footer";
+import { useState } from "react";
+
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+
 import {
   ThemeContext,
   getSystemTheme,
@@ -10,7 +9,33 @@ import {
   setMetaTheme,
   setThemeCookie,
 } from "./ThemeContext";
-import { useState } from "react";
+
+import Header from "./Header/Header";
+import Hero from "./Hero/Hero";
+import HomeMain from "./Home/HomeMain";
+import Footer from "./Footer/Footer";
+
+import styles from "./App.module.css";
+import NotFound from "./NotFound/NotFound";
+
+const Layout = ({ onThemeSwitcherClick }: { onThemeSwitcherClick: any }) => {
+  return (
+    <>
+      <Header onThemeSwitcherClick={onThemeSwitcherClick} />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
+
+const HomePage = () => {
+  return (
+    <>
+      <Hero />
+      <HomeMain />
+    </>
+  );
+};
 
 const App = () => {
   const cookieTheme = getThemeCookie();
@@ -31,12 +56,20 @@ const App = () => {
 
   return (
     <ThemeContext.Provider value={{ theme }}>
-      <div className={styles.rootContainer}>
-        <Header onThemeSwitcherClick={handleThemeSwitcherClick} />
-        <Hero />
-        <HomeMain />
-        <Footer />
-      </div>
+      <BrowserRouter>
+        <div className={styles.rootContainer}>
+          <Routes>
+            <Route
+              element={
+                <Layout onThemeSwitcherClick={handleThemeSwitcherClick} />
+              }
+            >
+              <Route index element={<HomePage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
     </ThemeContext.Provider>
   );
 };
