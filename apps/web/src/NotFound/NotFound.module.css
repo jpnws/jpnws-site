@@ -1,0 +1,37 @@
+.heroContainer {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center;
+  align-items: center;
+  background-color: #0a0a0a;
+  padding: 7.5rem 1.5rem 3.4375rem 1.5rem;
+  height: calc(100vh - 4.75rem);
+}
+
+.innerContainer {
+  color: #f7f7f7;
+
+  & h1 {
+    padding-top: 0;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  & h2 {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1.8rem;
+  }
+
+  & h3 {
+    text-wrap: pretty;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  & p {
+    text-wrap: pretty;
+    line-height: 2;
+  }
+}
