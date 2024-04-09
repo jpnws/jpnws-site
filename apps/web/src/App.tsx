@@ -11,8 +11,7 @@ import {
 } from "./ThemeContext";
 
 import Header from "./Header/Header";
-import Hero from "./Hero/Hero";
-import HomeMain from "./Home/HomeMain";
+import HomePage from "./Home/HomePage";
 import Footer from "./Footer/Footer";
 
 import styles from "./App.module.css";
@@ -24,15 +23,6 @@ const Layout = ({ onThemeSwitcherClick }: { onThemeSwitcherClick: any }) => {
       <Header onThemeSwitcherClick={onThemeSwitcherClick} />
       <Outlet />
       <Footer />
-    </>
-  );
-};
-
-const HomePage = () => {
-  return (
-    <>
-      <Hero />
-      <HomeMain />
     </>
   );
 };
