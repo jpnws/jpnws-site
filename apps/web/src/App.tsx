@@ -16,6 +16,7 @@ import Footer from "./Footer/Footer";
 
 import styles from "./App.module.css";
 import NotFound from "./NotFound/NotFound";
+import ProjectsPage from "./Projects/ProjectsPage";
 
 const Layout = ({ onThemeSwitcherClick }: { onThemeSwitcherClick: any }) => {
   return (
@@ -55,6 +56,7 @@ const App = () => {
               }
             >
               <Route index element={<HomePage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

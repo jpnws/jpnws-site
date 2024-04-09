@@ -1,0 +1,28 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  color: hsl(0, 0%, 34.51%);
+  font-weight: 600;
+  font-size: 0.875rem;
+  list-style: none;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link {
+  color: hsl(213, 56%, 67%);
+  text-decoration: underline;
+  text-decoration-skip-ink: auto;
+
+  &:hover,
+  &:focus {
+    color: hsl(213, 56%, 80%);
+  }
+}
