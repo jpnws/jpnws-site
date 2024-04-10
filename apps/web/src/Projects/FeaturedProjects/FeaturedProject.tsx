@@ -2,7 +2,6 @@ import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import styles from "./FeaturedProject.module.css";
 
 const FeaturedProject = ({ project }: { project: any }) => {
-  console.log(project);
   return (
     <div className={styles.projectItem}>
       <div className={styles.imageContainer}>

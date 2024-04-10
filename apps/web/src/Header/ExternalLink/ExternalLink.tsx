@@ -1,4 +1,4 @@
-import ExternalLinkIcon from "./ExternalLinkIcon";
+import ExternalLinkIcon from "../../components/ExternalLinkIcon/ExternalLinkIcon";
 import { INavItem } from "../NavItem/NavItem";
 import styles from "./ExternalLink.module.css";
 

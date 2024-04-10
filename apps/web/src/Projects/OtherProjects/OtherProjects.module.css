@@ -1,4 +1,4 @@
-.featuredWrapper {
+.wrapper {
   display: flex;
   row-gap: 3rem;
   flex-direction: column;

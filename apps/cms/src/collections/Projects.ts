@@ -23,7 +23,7 @@ const hero: Field = {
     {
       name: "description",
       type: "textarea",
-      required: true,
+      required: false,
     },
     {
       name: "links",
@@ -153,7 +153,7 @@ const Projects: CollectionConfig = {
             {
               name: "content",
               type: "richText",
-              required: true,
+              required: false,
             },
           ],
           label: "Content",

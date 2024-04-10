@@ -3,6 +3,9 @@
 }
 
 .projectsMain {
+  display: flex;
+  row-gap: 3rem;
+  flex-direction: column;
   padding: 3rem 0 3rem 0;
   color: hsl(0, 0%, 97%);
 }
