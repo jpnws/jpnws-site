@@ -6,7 +6,6 @@ const OtherProject = ({ project }: { project: any }) => {
   const badges = project.badges.map((badge: any) => {
     return <Badge key={badge.id} text={badge.name} />;
   });
-  console.log(project.hero.links);
   const links = project.hero.links.map((item: any) => {
     return (
       <a
