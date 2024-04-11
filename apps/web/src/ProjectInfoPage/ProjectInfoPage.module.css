@@ -42,11 +42,30 @@
   }
 }
 
-@media (min-width: 768px) {
+.sidebar {
+  display: none;
+}
+
+@media (min-width: 1120px) {
   .mainContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
     margin: 0 auto;
     padding-right: 0;
     padding-left: 0;
     max-width: 1120px;
+  }
+
+  .mainContent {
+    max-width: 740px;
+  }
+
+  .sidebar {
+    display: block;
+  }
+
+  .onThisPageTitle {
+    font-weight: 600;
   }
 }

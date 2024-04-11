@@ -44,10 +44,15 @@ const ProjectInfoPage = () => {
       {projectInfo && <Hero projectInfo={projectInfo} />}
       <div className={styles.outerContainer}>
         <div className={styles.mainContainer}>
-          <RichText
-            className={styles.richText}
-            content={projectInfo?.content}
-          />
+          <div className={styles.mainContent}>
+            <RichText
+              className={styles.richText}
+              content={projectInfo?.content}
+            />
+          </div>
+          <aside className={styles.sidebar}>
+            <div className={styles.onThisPageTitle}>On this Page</div>
+          </aside>
         </div>
       </div>
     </>
