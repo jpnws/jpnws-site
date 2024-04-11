@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./ProjectInfoPage.module.css";
 import { useParams } from "react-router-dom";
 import Hero from "./Hero/Hero";
+import RichText from "../components/RichText";
 
 interface Badge {
   id: string;
@@ -19,6 +20,7 @@ export interface ProjectInfo {
     alt: string;
     url: string;
   };
+  content: any;
 }
 
 const ProjectInfoPage = () => {
@@ -37,7 +39,19 @@ const ProjectInfoPage = () => {
     fetchData();
   }, [params]);
 
-  return <>{projectInfo && <Hero projectInfo={projectInfo} />}</>;
+  return (
+    <>
+      {projectInfo && <Hero projectInfo={projectInfo} />}
+      <div className={styles.outerContainer}>
+        <div className={styles.mainContainer}>
+          <RichText
+            className={styles.richText}
+            content={projectInfo?.content}
+          />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ProjectInfoPage;
