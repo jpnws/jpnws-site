@@ -22,7 +22,7 @@ const Hero = () => {
   return (
     <div className={styles.heroContainer}>
       <div className={styles.innerContainer}>
-        <Breadcrumb />
+        <Breadcrumb title={undefined} />
         <h1>{title}</h1>
       </div>
     </div>

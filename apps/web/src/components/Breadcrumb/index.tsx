@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./Breadcrumb.module.css";
 import BreadcrumbChevron from "./BreadcrumbChevron";
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ title }: { title: string | undefined }) => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
@@ -24,12 +24,12 @@ const Breadcrumb = () => {
           return last ? (
             <li className={styles.breadcrumbItem} key={to}>
               <BreadcrumbChevron />
-              {value.charAt(0).toUpperCase() + value.slice(1)}
+              {title ? title : value.charAt(0).toUpperCase() + value.slice(1)}
             </li>
           ) : (
             <li className={styles.breadcrumbItem} key={to}>
               <BreadcrumbChevron />
-              <Link to={to}>
+              <Link className={styles.link} to={to}>
                 {value.charAt(0).toUpperCase() + value.slice(1)}
               </Link>
             </li>
