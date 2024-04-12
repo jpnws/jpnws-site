@@ -3,16 +3,24 @@
 }
 
 .item {
-  /* border-left: 3px solid hsl(213, 56%, 67%); */
-  border-left: 3px solid hsl(0, 0%, 34.51%);
+  border-left: 3px solid hsl(0, 0%, 34.51%); /* Default state */
   padding: 0.1rem 0 0.1rem 1rem;
+}
+
+.item.active {
+  border-left: 3px solid hsl(213, 56%, 67%); /* Active state */
 }
 
 .link {
   color: hsl(0, 0%, 34.51%);
   text-decoration: none;
-  &:hover,
-  &:focus {
-    color: hsl(213, 56%, 80%);
-  }
+}
+
+.link:hover {
+  color: hsl(213, 56%, 80%);
+}
+
+.link.activeLink {
+  color: hsl(213, 56%, 67%); /* Active link color */
+  font-weight: bold; /* Optionally make active link bold */
 }
