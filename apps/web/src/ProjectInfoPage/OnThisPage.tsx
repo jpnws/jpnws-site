@@ -3,20 +3,41 @@ import { formatSlug } from "../utils";
 import styles from "./OnThisPage.module.css";
 
 const OnThisPage = ({ content }: { content: any }) => {
-  const h2s = content.root.children.filter((item: any) => {
+  const h2s = content?.root.children.filter((item: any) => {
     return item.tag === "h2";
   });
 
+  const handleClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    slug: string,
+  ) => {
+    event.preventDefault(); // Prevent default anchor behavior
+
+    const headerOffset = 80;
+    const element = document.getElementById(slug);
+
+    if (element) {
+      const elementPosition =
+        window.pageYOffset + element.getBoundingClientRect().top - headerOffset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <nav>
+    <nav className={styles.nav}>
       <ul className={styles.list}>
         {h2s &&
           h2s?.map((item: any, idx: number) => {
+            const slug = formatSlug(item.children[0].text);
             return (
               <li className={styles.item} key={idx}>
                 <a
                   className={styles.link}
                   href={`#${formatSlug(item.children[0].text)}`}
+                  onClick={(e) => handleClick(e, slug)}
                 >
                   {item.children[0].text}
                 </a>

@@ -52,8 +52,10 @@ const ProjectInfoPage = () => {
             />
           </div>
           <aside className={styles.sidebar}>
-            <div className={styles.onThisPageTitle}>On this Page</div>
-            <OnThisPage content={projectInfo?.content} />
+            <div className={styles.sideNav}>
+              <div className={styles.onThisPageTitle}>On this Page</div>
+              <OnThisPage content={projectInfo?.content} />
+            </div>
           </aside>
         </div>
       </div>

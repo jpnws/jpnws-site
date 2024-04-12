@@ -62,7 +62,13 @@
   }
 
   .sidebar {
+    display: block;
+  }
+
+  .sideNav {
     display: flex;
+    position: sticky;
+    top: 5.75rem;
     flex-direction: column;
     gap: 1rem;
   }

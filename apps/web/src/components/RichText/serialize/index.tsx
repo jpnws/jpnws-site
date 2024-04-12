@@ -27,6 +27,7 @@ import {
 } from "./nodeFormat";
 
 import { getHighlighter } from "shiki";
+import { formatSlug } from "../../../utils";
 
 interface Props {
   nodes: SerializedLexicalNode[];
@@ -177,7 +178,11 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               "h1" | "h2" | "h3" | "h4" | "h5"
             >;
             const Tag = node?.tag as Heading;
-            return <Tag key={index}>{serializedChildren}</Tag>;
+            return (
+              <Tag key={index} id={formatSlug(node.children[0].text)}>
+                {serializedChildren}
+              </Tag>
+            );
           }
           case "label":
             return <Label key={index}>{serializedChildren}</Label>;
