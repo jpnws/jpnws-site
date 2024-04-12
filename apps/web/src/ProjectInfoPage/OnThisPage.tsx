@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { formatSlug } from "../utils";
 
 import styles from "./OnThisPage.module.css";
@@ -11,18 +12,19 @@ const OnThisPage = ({ content }: { content: any }) => {
     event: React.MouseEvent<HTMLAnchorElement>,
     slug: string,
   ) => {
-    event.preventDefault(); // Prevent default anchor behavior
+    event.preventDefault();
 
     const headerOffset = 80;
     const element = document.getElementById(slug);
 
     if (element) {
       const elementPosition =
-        window.pageYOffset + element.getBoundingClientRect().top - headerOffset;
+        window.scrollY + element.getBoundingClientRect().top - headerOffset;
       window.scrollTo({
         top: elementPosition,
         behavior: "smooth",
       });
+      window.history.pushState(null, "", `#${slug}`);
     }
   };
 
