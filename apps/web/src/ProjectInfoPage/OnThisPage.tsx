@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { formatSlug } from "../utils";
 
 import styles from "./OnThisPage.module.css";
