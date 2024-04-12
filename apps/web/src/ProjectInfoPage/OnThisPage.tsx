@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { formatSlug } from "../utils";
 import styles from "./OnThisPage.module.css";
 
@@ -17,7 +17,9 @@ const OnThisPage: React.FC<OnThisPageProps> = ({ content }) => {
   const [hash, setHash] = useState<string>("");
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
-  const h2s = content?.root.children.filter((item) => item.tag === "h2") || [];
+  const h2s = useMemo(() => {
+    return content?.root.children.filter((item) => item.tag === "h2") || [];
+  }, [content]);
 
   useEffect(() => {
     sectionRefs.current = h2s.reduce(
@@ -32,25 +34,27 @@ const OnThisPage: React.FC<OnThisPageProps> = ({ content }) => {
     const handleScroll = () => {
       const headerOffset = 80;
       const scrollPosition = window.scrollY + headerOffset;
-      const nearBottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 10;
 
-      const visibleSection = Object.keys(sectionRefs.current).find((slug) => {
-        const element = sectionRefs.current[slug];
-        return (
-          element &&
-          element.offsetTop <= scrollPosition &&
-          element.offsetTop + element.offsetHeight > scrollPosition
-        );
-      });
+      const visibleSection = Object.keys(sectionRefs.current).reduce(
+        (acc, slug) => {
+          const element = sectionRefs.current[slug];
+          if (element) {
+            const elementTop = element.offsetTop - headerOffset;
+            const elementBottom = elementTop + element.offsetHeight;
 
-      if (nearBottom) {
-        const lastSectionSlug = formatSlug(
-          h2s[h2s.length - 1].children[0].text,
-        );
-        setHash(`#${lastSectionSlug}`);
-        window.history.replaceState(null, "", `#${lastSectionSlug}`);
-      } else if (visibleSection && `#${visibleSection}` !== hash) {
+            if (
+              elementTop <= scrollPosition &&
+              elementBottom > scrollPosition
+            ) {
+              acc = slug;
+            }
+          }
+          return acc;
+        },
+        "",
+      );
+
+      if (visibleSection !== hash) {
         setHash(`#${visibleSection}`);
         window.history.replaceState(null, "", `#${visibleSection}`);
       }
