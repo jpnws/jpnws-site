@@ -8,12 +8,12 @@ const ProjectsPage = () => {
   return (
     <>
       <Hero />
-      <div className={styles.projectsOuterContainer}>
+      <main className={styles.projectsOuterContainer}>
         <div className={styles.projectsMain}>
           <FeaturedProjects />
           <OtherProjects />
         </div>
-      </div>
+      </main>
     </>
   );
 };

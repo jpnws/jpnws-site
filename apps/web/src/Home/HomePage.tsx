@@ -7,14 +7,14 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-      <div className={styles.homeOuterContainer}>
+      <main className={styles.homeOuterContainer}>
         <div className={styles.homeMain}>
           <h2 className={styles.projectSectionTitle}>Projects</h2>
           <FeaturedProjects />
           <h2 className={styles.projectSectionTitle}>Articles</h2>
           <FeaturedArticles />
         </div>
-      </div>
+      </main>
     </>
   );
 };

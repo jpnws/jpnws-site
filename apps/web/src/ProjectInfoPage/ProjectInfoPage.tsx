@@ -43,7 +43,7 @@ const ProjectInfoPage = () => {
   return (
     <>
       {projectInfo && <Hero projectInfo={projectInfo} />}
-      <div className={styles.outerContainer}>
+      <main className={styles.outerContainer}>
         <div className={styles.mainContainer}>
           <div className={styles.mainContent}>
             <RichText
@@ -58,7 +58,7 @@ const ProjectInfoPage = () => {
             </div>
           </aside>
         </div>
-      </div>
+      </main>
     </>
   );
 };
