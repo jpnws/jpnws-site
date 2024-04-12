@@ -3,6 +3,7 @@ import styles from "./ProjectInfoPage.module.css";
 import { useParams } from "react-router-dom";
 import Hero from "./Hero/Hero";
 import RichText from "../components/RichText";
+import OnThisPage from "./OnThisPage";
 
 interface Badge {
   id: string;
@@ -52,6 +53,7 @@ const ProjectInfoPage = () => {
           </div>
           <aside className={styles.sidebar}>
             <div className={styles.onThisPageTitle}>On this Page</div>
+            <OnThisPage content={projectInfo?.content} />
           </aside>
         </div>
       </div>
