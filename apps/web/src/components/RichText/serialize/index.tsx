@@ -217,11 +217,11 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               }
 
               if (_node.fields.blockType === "media") {
-                console.log(_node.fields);
                 return (
                   <img
                     src={`${import.meta.env.VITE_API_URL}${_node.fields.media.url}`}
                     alt={_node.fields.media.alt}
+                    key={index}
                   />
                 );
               }
