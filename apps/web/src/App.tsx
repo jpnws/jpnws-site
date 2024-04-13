@@ -18,6 +18,7 @@ import styles from "./App.module.css";
 import NotFound from "./NotFound/NotFound";
 import ProjectsPage from "./Projects/ProjectsPage";
 import ProjectInfoPage from "./ProjectInfoPage/ProjectInfoPage";
+import ArticlesPage from "./Articles/ArticlesPage";
 
 const Layout = ({ onThemeSwitcherClick }: { onThemeSwitcherClick: any }) => {
   return (
@@ -59,6 +60,7 @@ const App = () => {
               <Route index element={<HomePage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/:slug" element={<ProjectInfoPage />} />
+              <Route path="/articles" element={<ArticlesPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
