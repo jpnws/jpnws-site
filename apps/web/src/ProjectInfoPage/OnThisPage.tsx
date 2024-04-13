@@ -23,7 +23,7 @@ const OnThisPage: React.FC<OnThisPageProps> = ({ content }) => {
   const h2s = content?.root.children.filter((item) => item.tag === "h2") || [];
 
   return (
-    <ScrollSpy offsetTop={80} activeAttr={true}>
+    <ScrollSpy activeClass={styles.navActive} offsetTop={80} activeAttr={true}>
       <nav className={styles.nav}>
         <ul className={styles.list}>
           {h2s.map((item, idx) => {

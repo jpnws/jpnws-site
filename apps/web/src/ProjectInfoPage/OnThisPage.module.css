@@ -16,11 +16,6 @@
   }
 }
 
-.active-scroll-spy {
-  border-radius: 15px;
-  background-color: yellowgreen;
-}
-
 .navActive {
   border-left: 3px solid hsl(213, 56%, 67%);
   background-color: red;
