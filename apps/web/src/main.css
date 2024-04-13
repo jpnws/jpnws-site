@@ -61,9 +61,3 @@ p {
 #__next {
   isolation: isolate;
 }
-
-.component--code-block pre {
-  border-radius: 0.5rem;
-  padding: 1rem;
-  font-family: monospace;
-}

@@ -29,6 +29,8 @@ import {
 import { getHighlighter } from "shiki";
 import { formatSlug } from "../../../utils";
 
+import styles from "./index.module.css";
+
 interface Props {
   nodes: SerializedLexicalNode[];
 }
@@ -210,7 +212,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 );
                 return (
                   <div
-                    className="component--code-block"
+                    className={styles.componentCodeBlock}
                     dangerouslySetInnerHTML={{ __html: highlightedHtml }}
                     key={index}
                   />
