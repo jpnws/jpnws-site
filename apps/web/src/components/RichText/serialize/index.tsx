@@ -38,6 +38,46 @@ const highlighter = await getHighlighter({
   langs: ["javascript", "jsx", "typescript", "tsx"],
 });
 
+interface SerializedUploadNode extends SerializedLexicalNode {
+  type: "upload"; // Assumed custom type identifier
+  value: { url: string };
+}
+
+interface SerializedBlockNode extends SerializedLexicalNode {
+  type: "block";
+  fields: {
+    blockType: string;
+    code: string;
+    language: string;
+    media: {
+      url: string;
+      alt: string;
+    };
+  };
+}
+
+function isSerializedUploadNode(
+  node: SerializedLexicalNode,
+): node is SerializedUploadNode {
+  return "value" in node;
+}
+
+function isSerializedBlockNode(
+  node: SerializedLexicalNode,
+): node is SerializedBlockNode {
+  return "fields" in node;
+}
+
+// function isSerializedLinkNode(
+//   node: SerializedLexicalNode,
+// ): node is SerializedLinkNode {
+//   return "fields" in node;
+// }
+
+function isSerializedTextNode(node: any): node is SerializedTextNode {
+  return node.type === "text";
+}
+
 export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
     <Fragment>
@@ -52,14 +92,14 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             />
           );
 
-          // Apply formatting based on node format
-
           if (node.format & IS_BOLD) {
             text = <strong key={index}>{text}</strong>;
           }
+
           if (node.format & IS_ITALIC) {
             text = <em key={index}>{text}</em>;
           }
+
           if (node.format & IS_STRIKETHROUGH) {
             text = (
               <span key={index} style={{ textDecoration: "line-through" }}>
@@ -67,6 +107,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               </span>
             );
           }
+
           if (node.format & IS_UNDERLINE) {
             text = (
               <span key={index} style={{ textDecoration: "underline" }}>
@@ -89,10 +130,10 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             );
           }
 
-          // Apply subscript and superscript formatting if needed
           if (node.format & IS_SUBSCRIPT) {
             text = <sub key={index}>{text}</sub>;
           }
+
           if (node.format & IS_SUPERSCRIPT) {
             text = <sup key={index}>{text}</sup>;
           }
@@ -105,9 +146,6 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           return null;
         }
 
-        // NOTE: Hacky fix for
-        // https://github.com/facebook/lexical/blob/d10c4e6e55261b2fdd7d1845aed46151d0f06a8c/packages/lexical-list/src/LexicalListItemNode.ts#L133
-        // which does not return checked: false (only true - i.e. there is no prop for false)
         const serializedChildrenFn = (
           node: SerializedElementNode,
         ): JSX.Element | null => {
@@ -141,55 +179,81 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           case "linebreak": {
             return <br key={index} />;
           }
+
           case "paragraph": {
             return <p key={index}>{serializedChildren}</p>;
           }
 
           case "upload": {
-            return (
-              <video
-                className=""
-                src={`${import.meta.env.VITE_API_URL}${_node.value.url}`}
-                key={index}
-                loop
-                autoPlay
-              />
-            );
+            if (isSerializedUploadNode(_node)) {
+              return (
+                <video
+                  src={`${import.meta.env.VITE_API_URL}${_node.value.url}`}
+                  key={index}
+                  loop
+                  autoPlay
+                />
+              );
+            }
+            return null;
           }
 
           case "block": {
-            const highlightedHtml = highlighter.codeToHtml(_node.fields.code, {
-              theme: "github-dark",
-              lang: `${_node.fields.language}`,
-            });
-            return (
-              <div
-                key={index}
-                dangerouslySetInnerHTML={{ __html: highlightedHtml }}
-              />
-            );
+            if (isSerializedBlockNode(_node)) {
+              if (_node.fields.blockType === "code") {
+                const highlightedHtml = highlighter.codeToHtml(
+                  _node.fields.code,
+                  {
+                    theme: "github-dark",
+                    lang: `${_node.fields.language}`,
+                  },
+                );
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: highlightedHtml }}
+                    key={index}
+                  />
+                );
+              }
+
+              if (_node.fields.blockType === "media") {
+                console.log(_node.fields);
+                return (
+                  <img
+                    src={`${import.meta.env.VITE_API_URL}${_node.fields.media.url}`}
+                    alt={_node.fields.media.alt}
+                  />
+                );
+              }
+            }
+            return null;
           }
 
           case "heading": {
             const node = _node as SerializedHeadingNode;
-
             type Heading = Extract<
               keyof JSX.IntrinsicElements,
               "h1" | "h2" | "h3" | "h4" | "h5"
             >;
             const Tag = node?.tag as Heading;
-            return (
-              <Tag key={index} id={formatSlug(node.children[0].text)}>
-                {serializedChildren}
-              </Tag>
-            );
+
+            if (node.children[0] && isSerializedTextNode(node.children[0])) {
+              return (
+                <Tag key={index} id={formatSlug(node.children[0].text)}>
+                  {serializedChildren}
+                </Tag>
+              );
+            }
+            return null;
           }
+
           case "label":
             return <Label key={index}>{serializedChildren}</Label>;
 
           case "largeBody": {
             return <LargeBody key={index}>{serializedChildren}</LargeBody>;
           }
+
           case "list": {
             const node = _node as SerializedListNode;
 
@@ -201,6 +265,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               </Tag>
             );
           }
+
           case "listitem": {
             const node = _node as SerializedListItemNode;
 
@@ -229,9 +294,11 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               );
             }
           }
+
           case "quote": {
             return <blockquote key={index}>{serializedChildren}</blockquote>;
           }
+
           case "link": {
             const node = _node as SerializedLinkNode;
             const fields: LinkFields = node.fields;
