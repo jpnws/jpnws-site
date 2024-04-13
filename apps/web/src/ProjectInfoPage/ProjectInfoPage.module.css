@@ -40,6 +40,11 @@
     margin-left: 20px;
     line-height: 1.7;
   }
+
+  & img {
+    max-width: 740px;
+    height: auto;
+  }
 }
 
 .sidebar {

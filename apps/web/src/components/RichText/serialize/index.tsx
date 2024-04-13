@@ -35,7 +35,7 @@ interface Props {
 
 const highlighter = await getHighlighter({
   themes: ["github-dark"],
-  langs: ["javascript", "jsx", "typescript", "tsx"],
+  langs: ["javascript", "jsx", "typescript", "tsx", "css", "html"],
 });
 
 interface SerializedUploadNode extends SerializedLexicalNode {
@@ -210,6 +210,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 );
                 return (
                   <div
+                    className="component--code-block"
                     dangerouslySetInnerHTML={{ __html: highlightedHtml }}
                     key={index}
                   />
