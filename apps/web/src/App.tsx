@@ -19,6 +19,7 @@ import NotFound from "./NotFound/NotFound";
 import ProjectsPage from "./Projects/ProjectsPage";
 import ProjectInfoPage from "./ProjectInfoPage/ProjectInfoPage";
 import ArticlesPage from "./Articles/ArticlesPage";
+import ArticlePage from "./ArticlePage/ArticlePage";
 
 const Layout = ({ onThemeSwitcherClick }: { onThemeSwitcherClick: any }) => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/:slug" element={<ProjectInfoPage />} />
               <Route path="/articles" element={<ArticlesPage />} />
+              <Route path="/articles/:slug" element={<ArticlePage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

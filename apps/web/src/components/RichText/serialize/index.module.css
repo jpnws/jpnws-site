@@ -1,5 +1,14 @@
 .componentCodeBlock pre {
   border-radius: 0.5rem;
   padding: 1rem;
+  overflow-x: scroll;
+  font-family: monospace;
+}
+
+.inlineCode pre {
+  display: inline;
+  border-radius: 0.25rem;
+  background-color: hsl(210, 12%, 25%) !important;
+  padding: 0.25rem 0.4rem;
   font-family: monospace;
 }

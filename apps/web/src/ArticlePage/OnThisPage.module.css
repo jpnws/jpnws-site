@@ -1,0 +1,24 @@
+.list {
+  list-style: none;
+}
+
+.item {
+  border-left: 3px solid hsl(0, 0%, 34.51%);
+  padding: 0.1rem 0 0.1rem 1rem;
+}
+
+.link {
+  color: hsl(0, 0%, 34.51%);
+  text-decoration: none;
+
+  &:hover {
+    color: hsl(213, 56%, 80%);
+  }
+}
+
+.navActive {
+  border-left: 3px solid hsl(213, 56%, 67%);
+  background-color: red;
+  color: hsl(213, 56%, 67%);
+  font-weight: bold;
+}

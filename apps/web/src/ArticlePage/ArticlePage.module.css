@@ -1,0 +1,96 @@
+.outerContainer {
+  padding: 0 1.5rem 0 1.5rem;
+}
+
+.mainContainer {
+  padding: 3rem 0 3rem 0;
+  color: hsl(0, 0%, 97%);
+}
+
+.richText {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: hsl(0, 0%, 97%);
+
+  & h2 {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1.25rem;
+  }
+
+  & h3 {
+    text-wrap: pretty;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  & p {
+    text-wrap: pretty;
+    line-height: 1.5;
+  }
+
+  & ul,
+  & ol {
+    margin-left: 1.25rem;
+    padding-left: 0;
+  }
+
+  & li {
+    margin-left: 20px;
+    line-height: 1.7;
+  }
+
+  & img {
+    max-width: 740px;
+    height: auto;
+  }
+
+  & a {
+    text-decoration: none;
+    & pre {
+      color: hsl(213, 56%, 67%) !important;
+    }
+
+    & :hover {
+      color: hsl(213, 56%, 80%) !important;
+      text-decoration: underline;
+    }
+  }
+}
+
+.sidebar {
+  display: none;
+}
+
+@media (min-width: 1120px) {
+  .mainContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1120px;
+  }
+
+  .mainContent {
+    max-width: 740px;
+  }
+
+  .sidebar {
+    display: block;
+  }
+
+  .sideNav {
+    display: flex;
+    position: sticky;
+    top: 5.75rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .onThisPageTitle {
+    font-weight: 600;
+  }
+}
