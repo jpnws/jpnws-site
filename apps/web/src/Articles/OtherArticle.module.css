@@ -12,7 +12,6 @@
 .content {
   display: flex;
   row-gap: 1rem;
-  flex-grow: 1;
   flex-direction: column;
 }
 
@@ -30,6 +29,40 @@
   line-height: 1.5;
 }
 
+.badgeGroup {
+  display: flex;
+  column-gap: 0.5rem;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #7aa6da;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.linkGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.articleLink {
+  display: flex;
+  flex-direction: column;
+  color: hsl(0, 0%, 97%);
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: hsl(0, 0%, 80%);
+  }
+}
+
 .categories {
   display: flex;
   flex-wrap: wrap;
@@ -44,14 +77,6 @@
   font-size: 0.75rem;
 }
 
-.articleLink {
-  display: flex;
-  flex-direction: column;
-  color: hsl(0, 0%, 97%);
-  text-decoration: none;
-
-  &:hover,
-  &:focus {
-    color: hsl(0, 0%, 80%);
-  }
+.publishedDate {
+  font-style: italic;
 }

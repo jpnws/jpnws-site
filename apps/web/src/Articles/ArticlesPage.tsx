@@ -2,6 +2,7 @@ import Hero from "./Hero/Hero";
 
 import styles from "./ArticlesPage.module.css";
 import FeaturedArticles from "./FeaturedArticles";
+import OtherArticles from "./OtherArticles";
 
 const ArticlesPage = () => {
   return (
@@ -10,6 +11,7 @@ const ArticlesPage = () => {
       <main className={styles.outerContainer}>
         <div className={styles.mainContainer}>
           <FeaturedArticles />
+          <OtherArticles />
         </div>
       </main>
     </>
