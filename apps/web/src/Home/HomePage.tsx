@@ -1,7 +1,7 @@
-import FeaturedProjects from "./FeaturedProjects/FeaturedProjects";
-import FeaturedArticles from "./FeaturedArticles/FeaturedArticles";
+import FeaturedProjects from "./FeaturedProjects";
+import FeaturedArticles from "./FeaturedArticles";
 import styles from "./HomePage.module.css";
-import Hero from "./Hero/Hero";
+import Hero from "./Hero";
 
 const HomePage = () => {
   return (

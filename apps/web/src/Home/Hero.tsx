@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import RichText from "../../components/RichText";
+import RichText from "../components/RichText";
 import styles from "./Hero.module.css";
-import { Media } from "../../../../cms/src/payload-types";
+import { Media } from "../../../cms/src/payload-types";
 
 const Hero = () => {
   const [content, setContent] = useState(null);

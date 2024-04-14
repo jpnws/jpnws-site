@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import MoonIcon from "./MoonIcon";
 import styles from "./ThemeSwitcher.module.css";
-import { ThemeContext } from "../../ThemeContext";
+import { ThemeContext } from "../ThemeContext";
 
 const ThemeSwitcher = ({
   onThemeSwitcherClick,

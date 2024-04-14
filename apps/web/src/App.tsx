@@ -17,7 +17,7 @@ import Footer from "./Footer/Footer";
 import styles from "./App.module.css";
 import NotFound from "./NotFound/NotFound";
 import ProjectsPage from "./Projects/ProjectsPage";
-import ProjectInfoPage from "./ProjectInfoPage/ProjectInfoPage";
+import ProjectInfoPage from "./ProjectPage/ProjectPage";
 import ArticlesPage from "./Articles/ArticlesPage";
 import ArticlePage from "./ArticlePage/ArticlePage";
 

@@ -1,5 +1,5 @@
-import ExternalLinkIcon from "../../components/ExternalLinkIcon/ExternalLinkIcon";
-import { INavItem } from "../NavItem/NavItem";
+import ExternalLinkIcon from "../components/ExternalLinkIcon/ExternalLinkIcon";
+import { INavItem } from "./NavItem";
 import styles from "./ExternalLink.module.css";
 
 const ExternalLink = ({ navItem }: { navItem: INavItem }) => {

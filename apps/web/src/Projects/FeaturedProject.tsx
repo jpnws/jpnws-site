@@ -1,4 +1,4 @@
-import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import styles from "./FeaturedProject.module.css";
 
 const FeaturedProject = ({ project }: { project: any }) => {

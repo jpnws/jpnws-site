@@ -1,6 +1,6 @@
 import styles from "./Hero.module.css";
-import Breadcrumb from "../../components/Breadcrumb";
-import { IArticle } from "../ArticlePage";
+import Breadcrumb from "../components/Breadcrumb";
+import { IArticle } from "./ArticlePage";
 
 const Hero = ({ article }: { article: IArticle }) => {
   const categories = article.categories.map((category: any) => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./ArticlePage.module.css";
 import { useParams } from "react-router-dom";
-import Hero from "./Hero/Hero";
+import Hero from "./Hero";
 import RichText from "../components/RichText";
 import OnThisPage from "./OnThisPage";
 

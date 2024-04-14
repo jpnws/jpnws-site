@@ -1,4 +1,4 @@
-import Hero from "./Hero/Hero";
+import Hero from "./Hero";
 
 import styles from "./ArticlesPage.module.css";
 import FeaturedArticles from "./FeaturedArticles";

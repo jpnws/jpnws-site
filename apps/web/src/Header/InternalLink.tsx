@@ -1,4 +1,4 @@
-import { INavItem } from "../NavItem/NavItem";
+import { INavItem } from "./NavItem";
 import styles from "./InternalLink.module.css";
 
 const InternalLink = ({ navItem }: { navItem: INavItem }) => {

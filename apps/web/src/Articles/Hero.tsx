@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-// import RichText from "../../components/RichText";
 import styles from "./Hero.module.css";
-import Breadcrumb from "../../components/Breadcrumb";
-// import { Media } from "../../../../cms/src/payload-types";
+import Breadcrumb from "../components/Breadcrumb";
 
 const Hero = () => {
   const [title, setTitle] = useState<string | null>(null);
@@ -10,7 +8,7 @@ const Hero = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/pages/6607538b5c32a56efd1cffbb?locale=undefined&draft=true&depth=1`,
+        `${import.meta.env.VITE_API_URL}/api/pages/660753e604cf9801f9cb395d?locale=undefined&draft=true&depth=1`,
       );
       const { title } = await response.json();
       setTitle(title);

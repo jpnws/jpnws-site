@@ -1,6 +1,6 @@
-import FeaturedProjects from "./FeaturedProjects/FeaturedProjects";
-import Hero from "./Hero/Hero";
-import OtherProjects from "./OtherProjects/OtherProjects";
+import FeaturedProjects from "./FeaturedProjects";
+import Hero from "./Hero";
+import OtherProjects from "./OtherProjects";
 
 import styles from "./ProjectsPage.module.css";
 

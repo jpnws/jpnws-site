@@ -1,5 +1,5 @@
-import Badge from "../../components/Badge/Badge";
-import ExternalLinkIcon from "../../components/ExternalLinkIcon/ExternalLinkIcon";
+import Badge from "../components/Badge/Badge";
+import ExternalLinkIcon from "../components/ExternalLinkIcon/ExternalLinkIcon";
 import styles from "./OtherProject.module.css";
 
 const OtherProject = ({ project }: { project: any }) => {

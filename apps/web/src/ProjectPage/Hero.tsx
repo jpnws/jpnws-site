@@ -1,9 +1,7 @@
-// import RichText from "../../components/RichText";
 import styles from "./Hero.module.css";
-import Breadcrumb from "../../components/Breadcrumb";
-import { ProjectInfo } from "../ProjectInfoPage";
-import Badge from "../../components/Badge/Badge";
-// import { Media } from "../../../../cms/src/payload-types";
+import Breadcrumb from "../components/Breadcrumb";
+import { ProjectInfo } from "./ProjectPage";
+import Badge from "../components/Badge/Badge";
 
 const Hero = ({ projectInfo }: { projectInfo: ProjectInfo }) => {
   const badges = projectInfo.badges.map((badge: any) => {

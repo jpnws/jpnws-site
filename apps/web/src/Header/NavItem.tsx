@@ -1,5 +1,5 @@
-import InternalLink from "../InternalLink/InternalLink";
-import ExternalLink from "../ExternalLink/ExternalLink";
+import InternalLink from "./InternalLink";
+import ExternalLink from "./ExternalLink";
 
 import styles from "./NavItem.module.css";
 
