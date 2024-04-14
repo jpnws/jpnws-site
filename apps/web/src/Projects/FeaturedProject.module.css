@@ -1,10 +1,10 @@
-.projectItem {
+.item {
   display: flex;
   row-gap: 1rem;
   flex-direction: column;
 }
 
-.projectTitle {
+.title {
   font-weight: 500;
   font-size: 1.25rem;
 }

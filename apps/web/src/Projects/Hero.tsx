@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-// import RichText from "../../components/RichText";
 import styles from "./Hero.module.css";
 import Breadcrumb from "../components/Breadcrumb";
-// import { Media } from "../../../../cms/src/payload-types";
 
 const Hero = () => {
   const [title, setTitle] = useState<string | null>(null);

@@ -5,14 +5,14 @@ import Hero from "./Hero";
 import RichText from "../components/RichText";
 import OnThisPage from "./OnThisPage";
 
-interface Badge {
+interface IBadge {
   id: string;
   name: string;
 }
 
-export interface ProjectInfo {
+export interface IProject {
   title: string;
-  badges: Badge[];
+  badges: IBadge[];
   hero: {
     shortDescription: string;
     description: string;
@@ -25,7 +25,7 @@ export interface ProjectInfo {
 }
 
 const ProjectInfoPage = () => {
-  const [projectInfo, setProjectInfo] = useState<ProjectInfo>();
+  const [projectInfo, setProjectInfo] = useState<IProject>();
   const params = useParams();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const ProjectInfoPage = () => {
 
   return (
     <>
-      {projectInfo && <Hero projectInfo={projectInfo} />}
+      {projectInfo && <Hero project={projectInfo} />}
       <main className={styles.outerContainer}>
         <div className={styles.mainContainer}>
           <div className={styles.mainContent}>

@@ -18,7 +18,7 @@ const OtherProjects = () => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.sectionTitle}>All Projects</h2>
-      <div className={styles.projectsContainer}>
+      <div className={styles.container}>
         {projects.map((project: any) => {
           return <OtherProject key={project.id} project={project} />;
         })}

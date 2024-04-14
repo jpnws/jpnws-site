@@ -16,43 +16,6 @@
   }
 }
 
-.profilePhoto {
-  margin: 0 auto;
-  border-radius: 50%;
-  width: 200px;
-  max-width: 100%;
-  object-fit: cover;
-}
-
-.richText {
-  color: #f7f7f7;
-  text-align: center;
-
-  & h1 {
-    padding-top: 0;
-    font-weight: 700;
-    font-size: 3.5rem;
-  }
-
-  & h2 {
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    font-size: 1.8rem;
-  }
-
-  & h3 {
-    text-wrap: pretty;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  & p {
-    text-wrap: pretty;
-    line-height: 2;
-  }
-}
-
 @media (min-width: 768px) {
   .innerContainer {
     margin: 0 auto;

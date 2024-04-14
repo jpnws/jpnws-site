@@ -19,7 +19,7 @@ const FeaturedProjects = () => {
   return (
     <div className={styles.featuredWrapper}>
       <h2 className={styles.sectionTitle}>Featured</h2>
-      <div className={styles.projectsContainer}>
+      <div className={styles.container}>
         {projects.map((project: any) => {
           return <FeaturedProject key={project.id} project={project} />;
         })}

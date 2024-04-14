@@ -9,7 +9,7 @@
   font-size: 1.25rem;
 }
 
-.projectsContainer {
+.container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   column-gap: 1.25rem;
