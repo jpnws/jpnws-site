@@ -1,10 +1,10 @@
-.projectItem {
+.item {
   display: flex;
   row-gap: 1rem;
   flex-direction: column;
 }
 
-.projectTitle {
+.title {
   font-weight: 500;
   font-size: 1.25rem;
 }
@@ -28,4 +28,30 @@
   text-wrap: pretty;
   font-weight: 400;
   line-height: 1.5;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category {
+  border-radius: 0.5rem;
+  background-color: hsl(0, 0%, 15%);
+  padding: 0.25rem 0.5rem;
+  font-style: italic;
+  font-size: 0.75rem;
+}
+
+.articleLink {
+  display: flex;
+  flex-direction: column;
+  color: hsl(0, 0%, 97%);
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: hsl(0, 0%, 80%);
+  }
 }
