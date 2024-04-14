@@ -7,6 +7,10 @@
   color: hsl(0, 0%, 97%);
 }
 
+.sidebar {
+  display: none;
+}
+
 .richText {
   display: flex;
   flex-direction: column;
@@ -57,10 +61,6 @@
       text-decoration: underline;
     }
   }
-}
-
-.sidebar {
-  display: none;
 }
 
 @media (min-width: 1120px) {
