@@ -8,8 +8,8 @@ const ProjectsPage = () => {
   return (
     <>
       <Hero />
-      <main className={styles.projectsOuterContainer}>
-        <div className={styles.projectsMain}>
+      <main className={styles.outerContainer}>
+        <div className={styles.main}>
           <FeaturedProjects />
           <OtherProjects />
         </div>

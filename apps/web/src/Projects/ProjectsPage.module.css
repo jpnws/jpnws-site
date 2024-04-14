@@ -1,8 +1,8 @@
-.projectsOuterContainer {
+.outerContainer {
   padding: 0 1.5rem 0 1.5rem;
 }
 
-.projectsMain {
+.main {
   display: flex;
   row-gap: 3rem;
   flex-direction: column;
