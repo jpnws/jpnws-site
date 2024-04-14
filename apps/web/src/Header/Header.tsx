@@ -3,6 +3,7 @@ import NavItem, { INavItem } from "./NavItem";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { Link } from "react-router-dom";
 
 const Header = ({
   onThemeSwitcherClick,
@@ -34,9 +35,9 @@ const Header = ({
   return (
     <header className={styles.header}>
       <div className={styles.logoAndMenuContainer}>
-        <a href="/">
+        <Link to="/">
           <Logo width={32} height={32} />
-        </a>
+        </Link>
         <nav className={styles.navContainer}>
           <ul className={styles.navItems}>
             {navItems.map((navItem) => {

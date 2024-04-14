@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./FeaturedArticle.module.css";
 
 const FeaturedArticle = ({ article }: { article: any }) => {
@@ -12,7 +13,7 @@ const FeaturedArticle = ({ article }: { article: any }) => {
   });
   return (
     <div className={styles.item}>
-      <a className={styles.articleLink} href={`/articles/${article.slug}`}>
+      <Link className={styles.articleLink} to={`/articles/${article.slug}`}>
         <div className={styles.content}>
           <h3 className={styles.title}>{article.title}</h3>
           <p className={styles.shortDescription}>
@@ -20,7 +21,7 @@ const FeaturedArticle = ({ article }: { article: any }) => {
           </p>
           <span className={styles.categories}>{categories}</span>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./FeaturedArticle.module.css";
 import { parseISO, format } from "date-fns";
 
@@ -14,7 +15,7 @@ const FeaturedArticle = ({ article }: { article: any }) => {
 
   return (
     <div className={styles.featuredArticle}>
-      <a className={styles.articleLink} href={`/articles/${article.slug}`}>
+      <Link className={styles.articleLink} to={`/articles/${article.slug}`}>
         <h2 className={styles.title}>{article.title}</h2>
         <div className={styles.publishedDate}>
           {format(parseISO(article.publishedDate), "MMMM d, yyyy")}
@@ -23,7 +24,7 @@ const FeaturedArticle = ({ article }: { article: any }) => {
           {article.hero.shortDescription}
         </p>
         <span className={styles.categories}>{categories}</span>
-      </a>
+      </Link>
     </div>
   );
 };

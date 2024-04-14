@@ -1,5 +1,6 @@
 import { format, parseISO } from "date-fns";
 import styles from "./OtherArticle.module.css";
+import { Link } from "react-router-dom";
 
 const OtherArticle = ({ article }: { article: any }) => {
   const categories = article.categories.map((category: any) => {
@@ -13,7 +14,7 @@ const OtherArticle = ({ article }: { article: any }) => {
   });
   return (
     <div className={styles.item}>
-      <a className={styles.articleLink} href={`/articles/${article.slug}`}>
+      <Link className={styles.articleLink} to={`/articles/${article.slug}`}>
         <div className={styles.content}>
           <h3 className={styles.title}>{article.title}</h3>
           <div className={styles.publishedDate}>
@@ -24,7 +25,7 @@ const OtherArticle = ({ article }: { article: any }) => {
           </p>
           <span className={styles.categories}>{categories}</span>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

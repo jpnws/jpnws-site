@@ -1,5 +1,6 @@
 import { INavItem } from "./NavItem";
 import styles from "./InternalLink.module.css";
+import { Link } from "react-router-dom";
 
 const InternalLink = ({ navItem }: { navItem: INavItem }) => {
   const link =
@@ -7,9 +8,9 @@ const InternalLink = ({ navItem }: { navItem: INavItem }) => {
       ? "/"
       : `/${navItem.link.reference.value.slug}`;
   return (
-    <a href={`${link}`} className={styles.internalLink}>
+    <Link to={link} className={styles.internalLink}>
       {navItem.link.label}
-    </a>
+    </Link>
   );
 };
 
