@@ -1,5 +1,5 @@
 import styles from "./Hero.module.css";
-import Breadcrumb from "../components/Breadcrumb";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import { IArticle } from "./ArticlePage";
 
 const Hero = ({ article }: { article: IArticle }) => {

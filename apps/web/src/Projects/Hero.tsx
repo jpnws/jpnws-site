@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Hero.module.css";
-import Breadcrumb from "../components/Breadcrumb";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 
 const Hero = () => {
   const [title, setTitle] = useState<string | null>(null);

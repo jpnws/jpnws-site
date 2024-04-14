@@ -1,5 +1,5 @@
 import styles from "./Hero.module.css";
-import Breadcrumb from "../components/Breadcrumb";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import { IProject } from "./ProjectPage";
 import Badge from "../components/Badge/Badge";
 
