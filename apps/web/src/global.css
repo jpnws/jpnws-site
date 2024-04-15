@@ -18,8 +18,8 @@
   --text-link-hover-color-light: hsl(0, 0%, 50%);
 
   /* External Link */
-  --external-link-color-dark: hsl(213, 56%, 40%);
-  --external-link-color-light: hsl(213, 56%, 67%);
+  --external-link-color-dark: hsl(213, 56%, 67%);
+  --external-link-color-light: hsl(213, 56%, 35%);
 
   /* Badge */
   --badge-text-color-dark: hsl(0, 0%, 97%);

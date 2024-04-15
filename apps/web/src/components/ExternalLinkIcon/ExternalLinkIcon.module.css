@@ -1,3 +1,9 @@
-.fillColor {
-  fill: #7aa6da;
+@import "../../global.css";
+
+.fillColorDark {
+  fill: var(--external-link-color-dark);
+}
+
+.fillColorLight {
+  fill: var(--external-link-color-light);
 }

@@ -38,7 +38,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  color: #7aa6da;
   text-decoration: none;
   &:hover,
   &:focus {
@@ -47,7 +46,7 @@
 }
 
 .linkDark {
-  color: var(--external-link-color-light);
+  color: var(--external-link-color-dark);
   &:hover,
   &:focus {
     color: var(--text-link-hover-color-dark);
@@ -55,7 +54,7 @@
 }
 
 .linkLight {
-  color: var(--external-link-color-dark);
+  color: var(--external-link-color-light);
   &:hover,
   &:focus {
     color: var(--text-link-hover-color-light);
