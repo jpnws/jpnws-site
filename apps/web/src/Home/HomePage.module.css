@@ -1,10 +1,21 @@
-.homeOuterContainer {
+@import "../global.css";
+
+.container {
   padding: 0 1.5rem 0 1.5rem;
 }
 
-.homeMain {
+.containerDark {
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+}
+
+.containerLight {
+  background-color: var(--bg-color-light);
+  color: var(--text-color-light);
+}
+
+.main {
   padding: 3rem 0 3rem 0;
-  color: hsl(0, 0%, 97%);
 }
 
 .projectSectionTitle {
@@ -14,7 +25,7 @@
 }
 
 @media (min-width: 768px) {
-  .homeMain {
+  .main {
     margin: 0 auto;
     padding-right: 0;
     padding-left: 0;

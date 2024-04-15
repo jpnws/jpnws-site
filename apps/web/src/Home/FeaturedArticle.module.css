@@ -1,17 +1,29 @@
+@import "../global.css";
+
 .title {
   font-weight: 600;
   font-size: 1.25rem;
 }
 
-.articleLink {
+.link {
   display: flex;
   flex-direction: column;
-  color: hsl(0, 0%, 97%);
   text-decoration: none;
+}
 
+.linkDark {
+  color: var(--text-link-color-dark);
   &:hover,
   &:focus {
-    color: hsl(0, 0%, 80%);
+    color: var(--text-link-hover-color-dark);
+  }
+}
+
+.linkLight {
+  color: var(--text-link-color-light);
+  &:hover,
+  &:focus {
+    color: var(--text-link-hover-color-light);
   }
 }
 
@@ -41,4 +53,14 @@
   padding: 0.25rem 0.5rem;
   font-style: italic;
   font-size: 0.75rem;
+}
+
+.categoryDark {
+  background-color: var(--badge-bg-color-dark);
+  color: var(--badge-text-color-dark);
+}
+
+.categoryLight {
+  background-color: var(--badge-bg-color-light);
+  color: var(--badge-text-color-light);
 }

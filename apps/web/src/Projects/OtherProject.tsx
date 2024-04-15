@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import Badge from "../components/Badge/Badge";
 import ExternalLinkIcon from "../components/ExternalLinkIcon/ExternalLinkIcon";
 import styles from "./OtherProject.module.css";
+import { ThemeContext } from "../ThemeContext";
 
 const OtherProject = ({ project }: { project: any }) => {
+  const { theme } = useContext(ThemeContext);
   const badges = project.badges.map((badge: any) => {
     return <Badge key={badge.id} text={badge.name} />;
   });
@@ -11,7 +14,7 @@ const OtherProject = ({ project }: { project: any }) => {
       <a
         key={item.id}
         href={item.link.url}
-        className={styles.link}
+        className={`${styles.link} ${theme === "dark" ? styles.linkDark : styles.linkLight}`}
         target="_blank"
         rel="noreferrer"
       >

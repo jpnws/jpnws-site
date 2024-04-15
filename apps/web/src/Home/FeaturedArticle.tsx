@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
 import styles from "./FeaturedArticle.module.css";
 import { parseISO, format } from "date-fns";
+import { ThemeContext } from "../ThemeContext";
+import { useContext } from "react";
 
 const FeaturedArticle = ({ article }: { article: any }) => {
+  const { theme } = useContext(ThemeContext);
+
   const categories = article.categories.map((category: any) => {
     return (
       category.name !== "Featured" && (
-        <span key={category.id} className={styles.category}>
+        <span
+          key={category.id}
+          className={`${styles.category} ${theme === "dark" ? styles.categoryDark : styles.categoryLight}`}
+        >
           {category.name}
         </span>
       )
@@ -15,7 +22,10 @@ const FeaturedArticle = ({ article }: { article: any }) => {
 
   return (
     <div className={styles.featuredArticle}>
-      <Link className={styles.articleLink} to={`/articles/${article.slug}`}>
+      <Link
+        className={`${styles.link} ${theme === "dark" ? styles.linkDark : styles.linkLight}`}
+        to={`/articles/${article.slug}`}
+      >
         <h2 className={styles.title}>{article.title}</h2>
         <div className={styles.publishedDate}>
           {format(parseISO(article.publishedDate), "MMMM d, yyyy")}

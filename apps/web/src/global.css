@@ -1,0 +1,62 @@
+:root {
+  /* Background Colors */
+  --bg-color-dark: hsl(0, 0%, 7%);
+  --bg-color-light: hsl(0, 0%, 98%);
+
+  /* Text */
+  --text-color-dark: hsl(0, 0%, 97%);
+  --text-color-light: hsl(0, 0%, 7%);
+
+  /* ========= */
+  /* Text Link */
+  /* ========= */
+  /* Static Colors */
+  --text-link-color-dark: hsl(0, 0%, 97%);
+  --text-link-color-light: hsl(0, 0%, 7%);
+  /* Hover Colors */
+  --text-link-hover-color-dark: hsl(0, 0%, 80%);
+  --text-link-hover-color-light: hsl(0, 0%, 50%);
+
+  /* External Link */
+  --external-link-color-dark: hsl(213, 56%, 40%);
+  --external-link-color-light: hsl(213, 56%, 67%);
+
+  /* Badge */
+  --badge-text-color-dark: hsl(0, 0%, 97%);
+  --badge-text-color-light: hsl(0, 0%, 7%);
+  --badge-bg-color-dark: hsl(0, 0%, 15%);
+  --badge-bg-color-light: hsl(0, 0%, 85%);
+
+  /* ============== */
+  /* Primary Button */
+  /* ============== */
+  /* Border */
+  --primary-btn-border-dark: 2px solid hsl(213, 56%, 67%);
+  --primary-btn-border-light: 2px solid hsl(213, 56%, 40%);
+  /* Border Hover */
+  --primary-btn-border-hover-dark: 2px solid hsl(213, 56%, 75%);
+  --primary-btn-border-hover-light: 2px solid hsl(213, 56%, 50%);
+  /* Background */
+  --primary-btn-bg-color-dark: hsl(0, 0%, 7%);
+  --primary-btn-bg-color-light: hsl(0, 0%, 100%);
+  /* Background Hover */
+  --primary-btn-bg-color-hover-dark: hsl(0, 0%, 15%);
+  --primary-btn-bg-color-hover-light: hsl(213, 56%, 90%);
+  /* Text */
+  --primary-btn-text-color-dark: hsl(213, 56%, 67%);
+  --primary-btn-text-color-light: hsl(213, 56%, 40%);
+  /* Text Hover */
+  --primary-btn-text-color-hover-dark: hsl(213, 56%, 75%);
+  --primary-btn-text-color-hover-light: hsl(213, 56%, 40%);
+
+  /* Hero */
+  /* Hero Background */
+  --hero-bg-color-dark: hsl(0, 0%, 4%);
+  --hero-bg-color-light: hsl(0, 0%, 95%);
+  /* Hero Text */
+  --hero-text-color-dark: hsl(0, 0%, 97%);
+  --hero-text-color-light: hsl(0, 0%, 4%);
+  /* Hero Border */
+  --hero-border-color-dark: hsl(213, 56%, 67%);
+  --hero-border-color-light: hsl(213, 56%, 40%);
+}

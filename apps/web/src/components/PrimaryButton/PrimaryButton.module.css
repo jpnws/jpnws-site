@@ -1,17 +1,35 @@
+@import "../../global.css";
+
 .button {
-  border: 2px solid hsl(213, 56%, 67%);
   border-radius: 1rem;
-  background-color: hsl(0, 0%, 7%);
   padding: 0.25rem 1rem;
   width: fit-content;
-  color: hsl(213, 56%, 67%);
   font-weight: 600;
   text-decoration: none;
+}
+
+.buttonDark {
+  border: var(--primary-btn-border-dark);
+  background-color: var(--primary-btn-bg-color-dark);
+  color: var(--primary-btn-text-color-dark);
 
   &:hover,
   &:focus {
-    border: 2px solid hsl(213, 56%, 75%);
-    background-color: hsl(0, 0%, 15%);
-    color: hsl(213, 56%, 75%);
+    border: var(--primary-btn-border-hover-dark);
+    background-color: var(--primary-btn-bg-color-hover-dark);
+    color: var(--primary-btn-text-color-hover-dark);
+  }
+}
+
+.buttonLight {
+  border: var(--primary-btn-border-light);
+  background-color: var(--primary-btn-bg-color-light);
+  color: var(--primary-btn-text-color-light);
+
+  &:hover,
+  &:focus {
+    border: var(--primary-btn-border-hover-light);
+    background-color: var(--primary-btn-bg-color-hover-light);
+    color: var(--primary-btn-text-color-hover-light);
   }
 }

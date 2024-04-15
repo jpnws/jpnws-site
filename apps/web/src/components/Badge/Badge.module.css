@@ -1,6 +1,17 @@
+@import "../../global.css";
+
 .badge {
   border-radius: 0.5rem;
-  background-color: #505050;
   padding: 0.25rem 0.5rem 0.25rem 0.5rem;
   font-size: 0.75rem;
+}
+
+.badgeDark {
+  background-color: var(--badge-bg-color-dark);
+  color: var(--badge-text-color-dark);
+}
+
+.badgeLight {
+  background-color: var(--badge-bg-color-light);
+  color: var(--badge-text-color-light);
 }

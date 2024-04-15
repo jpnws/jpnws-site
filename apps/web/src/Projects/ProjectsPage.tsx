@@ -8,7 +8,7 @@ const ProjectsPage = () => {
   return (
     <>
       <Hero />
-      <main className={styles.outerContainer}>
+      <main className={styles.container}>
         <div className={styles.main}>
           <FeaturedProjects />
           <OtherProjects />

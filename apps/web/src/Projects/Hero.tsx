@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Hero.module.css";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
+import { ThemeContext } from "../ThemeContext";
 
 const Hero = () => {
+  const { theme } = useContext(ThemeContext);
   const [title, setTitle] = useState<string | null>(null);
 
   useEffect(() => {
@@ -18,7 +20,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className={styles.heroContainer}>
+    <div
+      className={`${styles.outerContainer} ${theme === "dark" ? styles.outerContainerDark : styles.outerContainerLight}`}
+    >
       <div className={styles.innerContainer}>
         <Breadcrumb title={undefined} />
         <h1>{title}</h1>

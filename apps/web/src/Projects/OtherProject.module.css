@@ -46,6 +46,22 @@
   }
 }
 
+.linkDark {
+  color: var(--external-link-color-light);
+  &:hover,
+  &:focus {
+    color: var(--text-link-hover-color-dark);
+  }
+}
+
+.linkLight {
+  color: var(--external-link-color-dark);
+  &:hover,
+  &:focus {
+    color: var(--text-link-hover-color-light);
+  }
+}
+
 .linkGroup {
   display: flex;
   gap: 1rem;

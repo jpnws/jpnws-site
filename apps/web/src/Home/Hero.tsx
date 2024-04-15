@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RichText from "../components/RichText";
 import styles from "./Hero.module.css";
 import { Media } from "../../../cms/src/payload-types";
+import { ThemeContext } from "../ThemeContext";
 
 const Hero = () => {
+  const { theme } = useContext(ThemeContext);
   const [content, setContent] = useState(null);
   const [media, setMedia] = useState<Media>();
 
@@ -21,7 +23,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className={styles.heroContainer}>
+    <div
+      className={`${styles.outerContainer} ${theme === "dark" ? styles.outerContainerDark : styles.outerContainerLight}`}
+    >
       <div className={styles.innerContainer}>
         {media && (
           <img
