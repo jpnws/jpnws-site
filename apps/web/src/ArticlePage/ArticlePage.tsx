@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./ArticlePage.module.css";
 import { useParams } from "react-router-dom";
 import Hero from "./Hero";
 import RichText from "../components/RichText";
 import OnThisPage from "./OnThisPage";
+import { ThemeContext } from "../ThemeContext";
 
 interface ICategory {
   id: string;
@@ -27,6 +28,7 @@ export interface IArticle {
 const ArticlePage = () => {
   const [article, setArticle] = useState<IArticle>();
   const params = useParams();
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +45,9 @@ const ArticlePage = () => {
   return (
     <>
       {article && <Hero article={article} />}
-      <main className={styles.outerContainer}>
+      <main
+        className={`${styles.outerContainer} ${theme === "dark" ? styles.outerContainerDark : styles.outerContainerLight}`}
+      >
         <div className={styles.mainContainer}>
           <div className={styles.mainContent}>
             <RichText className={styles.richText} content={article?.content} />

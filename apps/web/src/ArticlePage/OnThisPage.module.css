@@ -8,6 +8,7 @@
 }
 
 .link {
+  color: hsl(0, 0%, 34.51%);
   text-decoration: none;
 
   &:hover {
