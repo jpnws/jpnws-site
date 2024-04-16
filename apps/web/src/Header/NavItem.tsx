@@ -25,7 +25,7 @@ const NavItem = ({ navItem }: { navItem: INavItem }) => {
       {navItem.link.type === "reference" ? (
         <InternalLink navItem={navItem} />
       ) : (
-        <ExternalLink navItem={navItem} />
+        <ExternalLink navItem={navItem} header={true} />
       )}
     </li>
   );

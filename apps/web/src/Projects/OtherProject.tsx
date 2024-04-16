@@ -19,7 +19,7 @@ const OtherProject = ({ project }: { project: any }) => {
         rel="noreferrer"
       >
         {item.link.label}
-        <ExternalLinkIcon />
+        <ExternalLinkIcon header={false} />
       </a>
     );
   });
