@@ -1,3 +1,5 @@
+@import "../global.css";
+
 .item {
   display: flex;
   row-gap: 1rem;
@@ -38,20 +40,39 @@
 
 .category {
   border-radius: 0.5rem;
-  background-color: hsl(0, 0%, 15%);
   padding: 0.25rem 0.5rem;
   font-style: italic;
   font-size: 0.75rem;
 }
 
+.categoryDark {
+  background: var(--badge-bg-color-dark);
+  color: var(--badge-text-color-dark);
+}
+
+.categoryLight {
+  background: var(--badge-bg-color-light);
+  color: var(--badge-text-color-light);
+}
+
 .articleLink {
   display: flex;
   flex-direction: column;
-  color: hsl(0, 0%, 97%);
   text-decoration: none;
+}
 
-  &:hover,
-  &:focus {
-    color: hsl(0, 0%, 80%);
+.articleLinkDark {
+  color: var(--text-link-color-dark);
+
+  &:hover {
+    color: var(--text-link-hover-color-dark);
+  }
+}
+
+.articleLinkLight {
+  color: var(--text-link-color-light);
+
+  &:hover {
+    color: var(--text-link-hover-color-light);
   }
 }
