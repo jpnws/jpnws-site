@@ -15,10 +15,3 @@
     color: hsl(213, 56%, 80%);
   }
 }
-
-.navActive {
-  border-left: 3px solid hsl(213, 56%, 67%);
-  background-color: red;
-  color: hsl(213, 56%, 67%);
-  font-weight: bold;
-}
