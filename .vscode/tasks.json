@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "awsProfile",
+      "type": "promptString",
+      "description": "AWS Profile Name",
+      "default": "cdk"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "CDK Diff",
+      "type": "shell",
+      "command": "npx cdk diff --profile ${input:awsProfile}",
+      "options": {
+        "cwd": "${workspaceFolder}/infra"
+      }
+    }
+  ]
+}
