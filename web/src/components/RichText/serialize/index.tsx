@@ -12,7 +12,7 @@ import type {
 } from "lexical";
 
 import escapeHTML from "escape-html";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { Label } from "../../Label";
 import { LargeBody } from "../../LargeBody";
@@ -26,7 +26,12 @@ import {
   IS_UNDERLINE,
 } from "./nodeFormat";
 
-import { getHighlighter } from "shiki";
+import {
+  BundledLanguage,
+  BundledTheme,
+  HighlighterGeneric,
+  getHighlighter,
+} from "shiki";
 import { formatSlug } from "../../../utils";
 
 import styles from "./index.module.css";
@@ -34,11 +39,6 @@ import styles from "./index.module.css";
 interface Props {
   nodes: SerializedLexicalNode[];
 }
-
-const highlighter = await getHighlighter({
-  themes: ["github-dark"],
-  langs: ["javascript", "jsx", "typescript", "tsx", "css", "html", "bash"],
-});
 
 interface SerializedUploadNode extends SerializedLexicalNode {
   type: "upload"; // Assumed custom type identifier
@@ -81,6 +81,28 @@ function isSerializedTextNode(node: any): node is SerializedTextNode {
 }
 
 export function serializeLexical({ nodes }: Props): JSX.Element {
+  const [highlighter, setHighlighter] =
+    useState<HighlighterGeneric<BundledLanguage, BundledTheme>>();
+
+  useEffect(() => {
+    const loadHighlighter = async () => {
+      const hl = await getHighlighter({
+        themes: ["github-dark"],
+        langs: [
+          "javascript",
+          "jsx",
+          "typescript",
+          "tsx",
+          "css",
+          "html",
+          "bash",
+        ],
+      });
+      setHighlighter(hl);
+    };
+    loadHighlighter();
+  });
+
   return (
     <Fragment>
       {nodes?.map((_node, index): JSX.Element | null => {
@@ -119,6 +141,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
 
           if (node.format & IS_CODE) {
+            if (!highlighter) return null;
             const highlightedHtml = highlighter.codeToHtml(node.text, {
               theme: "github-dark",
               lang: "text",
@@ -204,6 +227,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           case "block": {
             if (isSerializedBlockNode(_node)) {
               if (_node.fields.blockType === "code") {
+                if (!highlighter) return null;
                 const highlightedHtml = highlighter.codeToHtml(
                   _node.fields.code,
                   {
@@ -223,7 +247,9 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               if (_node.fields.blockType === "media") {
                 return (
                   <img
-                    src={`${import.meta.env.VITE_API_URL}${_node.fields.media.url}`}
+                    src={`${import.meta.env.VITE_API_URL}${
+                      _node.fields.media.url
+                    }`}
                     alt={_node.fields.media.alt}
                     key={index}
                   />
