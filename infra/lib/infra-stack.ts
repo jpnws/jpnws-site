@@ -23,7 +23,6 @@ export class InfraStack extends cdk.Stack {
         username: "docdbadmin",
         excludeCharacters: '"@/:',
       },
-      deletionProtection: true,
     });
 
     new cdk.CfnOutput(this, "DocDbEndpoint", {
