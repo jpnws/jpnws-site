@@ -19,7 +19,7 @@ export class DocumentDb extends Construct {
     securityGroup.addIngressRule(
       Peer.anyIpv4(),
       Port.tcp(27017),
-      "Allow MongoDB acess from specific resources",
+      "Allow MongoDB access from specific resources",
     );
 
     this.cluster.addSecurityGroups(securityGroup);

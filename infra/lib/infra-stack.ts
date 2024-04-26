@@ -9,7 +9,7 @@ export class InfraStack extends cdk.Stack {
     super(scope, id, props);
 
     const vpc = new ec2.Vpc(this, "Vpc", {
-      maxAzs: 1,
+      maxAzs: 2,
       natGateways: 1,
     });
 
