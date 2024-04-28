@@ -18,6 +18,10 @@ import { InfraStack } from "../lib/infra-stack";
 // known as the CDK app.
 const app = new App();
 
+// An AWS CDK stack is a collection of one or more constructs, which define AWS
+// resources. Each CDK stack represents an AWS CloudFormation stack in your CDK
+// app. At deployment, constructs within a stack are provisioned as a single
+// unit, called AWS CloudFormation stack.
 new InfraStack(app, "InfraStack", {
   // Environment is the target AWS account and AWS Region that stacks are
   // deployed to. All stacks in your CDK app are explicitly or implicitly
