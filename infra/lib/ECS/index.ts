@@ -62,16 +62,16 @@ export class ECS extends Construct {
     this.taskDefinition = new Ec2TaskDefinition(this, "Task-Definition");
 
     // Ensure environment variable for DocDB secret ARN is set
-    const docDbSecretArn = process.env.DOCDB_SECRET_ARN;
-    if (!docDbSecretArn) {
-      throw new Error("DOCDB_SECRET_ARN environment variable is not set.");
-    }
+    // const docDbSecretArn = process.env.DOCDB_SECRET_ARN;
+    // if (!docDbSecretArn) {
+    //   throw new Error("DOCDB_SECRET_ARN environment variable is not set.");
+    // }
 
     // Retrieve DocDB credentials from Secrets Manager
     const docDbCredentials = smg.Secret.fromSecretCompleteArn(
       this,
       "DocDBCredentials",
-      docDbSecretArn,
+      props.docDb.secret.secretArn,
     );
 
     // Define the container using a Docker image from a local path
@@ -89,6 +89,12 @@ export class ECS extends Construct {
         DOCDB_USER: ecs.Secret.fromSecretsManager(docDbCredentials, "username"),
         DOCDB_PASS: ecs.Secret.fromSecretsManager(docDbCredentials, "password"),
       },
+    });
+
+    // Add port mapping for the Payload container
+    this.container.addPortMappings({
+      containerPort: 3001, // This matches the port exposed by the Dockerfile
+      protocol: ecs.Protocol.TCP, // Specify TCP protocol
     });
 
     // Create the ECS service with a task definition and attach it to the cluster
@@ -116,7 +122,7 @@ export class ECS extends Construct {
       targets: [
         this.service.loadBalancerTarget({
           containerName: "Payload",
-          containerPort: 80,
+          containerPort: 3001,
         }),
       ],
       healthCheck: {

@@ -6,5 +6,9 @@
     "us-east-1d",
     "us-east-1e",
     "us-east-1f"
-  ]
+  ],
+  "hosted-zone:account=654654302351:domainName=jpnws.link:region=us-east-1": {
+    "Id": "/hostedzone/Z101147426BEW13QMK4DO",
+    "Name": "jpnws.link."
+  }
 }

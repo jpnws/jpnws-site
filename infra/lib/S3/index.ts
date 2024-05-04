@@ -67,7 +67,7 @@ export class S3 extends Construct {
       "Web-Bucket-Deployment",
       {
         sources: [
-          Source.asset(resolve(__dirname, "..", "..", "..", "web", "build")),
+          Source.asset(resolve(__dirname, "..", "..", "..", "web", "dist")),
         ],
         destinationBucket: this.webBucket,
       },

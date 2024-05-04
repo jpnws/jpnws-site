@@ -55,7 +55,7 @@ export class DocumentDB extends Construct {
     // Create the DocumentDB cluster
     this.cluster = new docdb.DatabaseCluster(this, "Cluster", {
       masterUser: {
-        username: this.secret.secretValueFromJson("username").toString(),
+        username: this.secret.secretValueFromJson("username").unsafeUnwrap(),
         password: this.secret.secretValueFromJson("password"),
       },
       instanceType,
