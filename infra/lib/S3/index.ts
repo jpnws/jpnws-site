@@ -28,7 +28,14 @@ import {
   domain_name as domainName,
   frontend_subdomain as frontEndSubDomain,
 } from "../../../config.json";
-import { InfraS3Props } from "./types";
+
+import { Route53 } from "../Route53";
+import { ACM } from "../ACM";
+
+interface InfraS3Props {
+  acm: ACM;
+  route53: Route53;
+}
 
 /**
  * This class encapsulates the deployment of a static website hosted on AWS

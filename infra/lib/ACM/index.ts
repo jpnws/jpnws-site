@@ -2,7 +2,6 @@
 // management, and constructs from AWS CDK. Handle SSL/TLS certificates in AWS
 import {
   Certificate,
-  CertificateProps,
   CertificateValidation,
 } from "aws-cdk-lib/aws-certificatemanager";
 
@@ -17,7 +16,7 @@ import { domain_name as domainName } from "../../../config.json";
 
 // Extend the base properties of a certificate with custom properties, including
 // the hosted zone for DNS management
-interface Props extends CertificateProps {
+interface InfraACMProps {
   // Include the Route53 hosted zone used for domain management and DNS settings
   hostedZone: IHostedZone;
 }
@@ -27,7 +26,7 @@ export class ACM extends Construct {
   // Publicly accessible certificate instance
   public readonly certificate: Certificate;
 
-  constructor(scope: Construct, id: string, props: Props) {
+  constructor(scope: Construct, id: string, props: InfraACMProps) {
     // Initialize the base Construct class
     super(scope, id);
 

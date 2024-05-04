@@ -1,45 +1,109 @@
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
+import { Construct } from "constructs";
 import {
   Vpc,
   InstanceType,
   InstanceClass,
   InstanceSize,
+  SubnetType,
 } from "aws-cdk-lib/aws-ec2";
-
-// `aws-cdk-lib` is the AWS Construct Library. It has the essential building
-// blocks - constructs - to define cloud resources. The `Stack` class is a
-// construct that defines a new stack. Stacks are a collection of one or more
-// constructs, which define the AWS resources and properties. It is a unique
-// construct. Compared to other constructs, it doesn't configure AWS resources
-// on its own. Instead, it is used to provide context for the other constructs.
-// All constructs that represent AWS resources must be defined, directly or
-// indirectly, within the scope of a `Stack` construct. `Stack` constructs are
-// defined within the scope of an `App` construct.
-import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
-
-import { Construct } from "constructs";
-
-import { DocumentDb } from "./DocumentDb";
+import { DocumentDB } from "./DocumentDB";
+import { ECS } from "./ECS";
+import { ACM } from "./ACM";
+import { Route53 } from "./Route53";
+import { S3 } from "./S3";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export class InfraStack extends Stack {
+  public readonly acm: ACM;
+  public readonly ecs: ECS;
+  public readonly docDb: DocumentDB;
+  public readonly route53: Route53;
+  public readonly s3: S3;
+  public readonly vpc: Vpc;
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const vpc = new Vpc(this, "Vpc", {
-      maxAzs: 2,
-      natGateways: 1,
+    // Initialize the Route53 component
+    this.route53 = new Route53(this, "Route53");
+
+    // Set up ACM with the hosted zone
+    this.acm = new ACM(this, "ACM", {
+      hostedZone: this.route53.hostedZone,
     });
 
-    const documentDb = new DocumentDb(this, "DocumentDb", {
+    // Create a VPC with public, private (egress), and isolated subnets
+    this.vpc = new Vpc(this, "MyVPC", {
+      maxAzs: 2, // Adjust as per your requirements
+      subnetConfiguration: [
+        {
+          cidrMask: 24,
+          name: "ingress",
+          subnetType: SubnetType.PUBLIC,
+        },
+        {
+          cidrMask: 24,
+          name: "compute",
+          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        {
+          cidrMask: 28,
+          name: "rds",
+          subnetType: SubnetType.PRIVATE_ISOLATED,
+        },
+      ],
+    });
+
+    // Create an S3 component for hosting
+    this.s3 = new S3(this, "S3", {
+      acm: this.acm,
+      route53: this.route53,
+    });
+
+    // Create a security group for DocumentDB and then instantiate DocumentDB
+    const docDbSecurityGroup = new ec2.SecurityGroup(this, "DocDBSecGroup", {
+      vpc: this.vpc,
+      description: "Security group for DocumentDB",
+      allowAllOutbound: true,
+    });
+
+    this.docDb = new DocumentDB(this, "DocumentDb", {
+      vpc: this.vpc,
+      payloadSecurityGroup: docDbSecurityGroup,
       instanceType: InstanceType.of(InstanceClass.R5, InstanceSize.LARGE),
-      vpc,
-      masterUser: {
-        username: "docdbadmin",
-        excludeCharacters: '"@/:',
-      },
+      instances: 1,
     });
 
+    // Create the ECS instance and pass in ACM, Route53, and DocumentDB
+    this.ecs = new ECS(this, "PayloadECS", {
+      vpc: this.vpc,
+      acm: this.acm,
+      route53: this.route53,
+      docDb: this.docDb,
+    });
+
+    // Allow ECS to access DocumentDB on the MongoDB default port
+    this.docDb.cluster.connections.allowFrom(
+      this.ecs.cluster,
+      ec2.Port.tcp(27017),
+    );
+
+    // Grant ECS task role access to read secrets from Secrets Manager
+    this.ecs.taskDefinition.taskRole.addToPrincipalPolicy(
+      new PolicyStatement({
+        actions: ["secretsmanager:GetSecretValue"],
+        resources: [this.docDb.secret.secretArn],
+      }),
+    );
+
+    // Establish dependency to ensure DocumentDB is created before ECS
+    this.ecs.node.addDependency(this.docDb);
+
+    // Output the DocumentDB endpoint for easy reference
     new CfnOutput(this, "DocDbEndpoint", {
-      value: documentDb.cluster.clusterEndpoint.hostname,
+      value: this.docDb.cluster.clusterEndpoint.hostname,
     });
   }
 }
