@@ -1,36 +1,22 @@
-// Core constructs
-import { Construct } from "constructs";
-
-// General AWS CDK library imports
 import { CfnOutput, RemovalPolicy } from "aws-cdk-lib";
-
-// AWS S3 and related deployments
+import { Distribution, ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront";
+import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
+import { ARecord, RecordTarget } from "aws-cdk-lib/aws-route53";
+import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 import {
   BlockPublicAccess,
   Bucket,
   BucketAccessControl,
 } from "aws-cdk-lib/aws-s3";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
-
-// AWS CloudFront and origins
-import { Distribution, ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront";
-import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
-
-// AWS Route53 and targets
-import { ARecord, RecordTarget } from "aws-cdk-lib/aws-route53";
-import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
-
-// Node.js utilities
+import { Construct } from "constructs";
 import { resolve } from "path";
-
-// Local configuration and types
 import {
   domain_name as domainName,
   frontend_subdomain as frontEndSubDomain,
 } from "../../../config.json";
-
-import { Route53 } from "../Route53";
 import { ACM } from "../ACM";
+import { Route53 } from "../Route53";
 
 interface InfraS3Props {
   acm: ACM;

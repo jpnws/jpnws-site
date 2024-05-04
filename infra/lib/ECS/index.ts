@@ -1,4 +1,6 @@
 import * as cdk from "aws-cdk-lib";
+import { InstanceType, Vpc } from "aws-cdk-lib/aws-ec2";
+import * as ecs from "aws-cdk-lib/aws-ecs";
 import {
   Cluster,
   ContainerDefinition,
@@ -14,15 +16,13 @@ import {
   Protocol,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
-import { Construct } from "constructs";
-import { InstanceType, Vpc } from "aws-cdk-lib/aws-ec2";
-import { resolve } from "path";
 import { ARecord, RecordTarget } from "aws-cdk-lib/aws-route53";
 import { LoadBalancerTarget } from "aws-cdk-lib/aws-route53-targets";
-import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as smg from "aws-cdk-lib/aws-secretsmanager";
-import { DocumentDB } from "../DocumentDB";
+import { Construct } from "constructs";
+import { resolve } from "path";
 import { ACM } from "../ACM";
+import { DocumentDB } from "../DocumentDB";
 import { Route53 } from "../Route53";
 
 interface InfraECSProps {
@@ -55,7 +55,7 @@ export class ECS extends Construct {
 
     // Adding an Auto Scaling group with an instance type suitable for the load
     this.cluster.addCapacity("Default-Auto-Scaling-Group", {
-      instanceType: new InstanceType("t3.medium"), // Changed from t2.micro for better performance
+      instanceType: new InstanceType("t3.medium"),
     });
 
     // Define the ECS task definition with container configurations
