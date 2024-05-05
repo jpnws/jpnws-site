@@ -1,6 +1,5 @@
 {
   "domain_name": "jpnws.link",
-  "backend_api_subdomain": "blogsite-api",
-  "backend_admin_subdomain": "blogsite-admin",
-  "frontend_subdomain": "frontend-site"
+  "backend_subdomain": "blogsite-backend",
+  "frontend_subdomain": "blogsite-frontend"
 }

@@ -21,6 +21,10 @@ import { LoadBalancerTarget } from "aws-cdk-lib/aws-route53-targets";
 import * as smg from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 import { resolve } from "path";
+import {
+  backend_subdomain as backendSubdomain,
+  domain_name as domainName,
+} from "../../../config.json";
 import { ACM } from "../ACM";
 import { DocumentDB } from "../DocumentDB";
 import { Route53 } from "../Route53";
@@ -139,7 +143,7 @@ export class ECS extends Construct {
     new ARecord(this, "Backend-Payload-API-Alias-Record", {
       zone: props.route53.hostedZone,
       target: RecordTarget.fromAlias(new LoadBalancerTarget(this.loadBalancer)),
-      recordName: `api.${props.route53.hostedZone.zoneName}`,
+      recordName: `${backendSubdomain}.${domainName}`,
     });
 
     // Output the DNS name of the load balancer for easy access

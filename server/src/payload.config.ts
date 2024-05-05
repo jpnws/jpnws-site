@@ -1,25 +1,32 @@
-import path from "path";
-
-import { payloadCloud } from "@payloadcms/plugin-cloud";
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { viteBundler } from "@payloadcms/bundler-vite";
-import { buildConfig } from "payload/config";
-import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
+import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { payloadCloud } from "@payloadcms/plugin-cloud";
+import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
+import { s3Adapter } from "@payloadcms/plugin-cloud-storage/s3";
 import seo from "@payloadcms/plugin-seo";
-
-import Users from "./collections/User/Users";
-import Projects from "./collections/Projects";
+import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
+import path from "path";
+import { buildConfig } from "payload/config";
+import { Archive } from "./blocks/Archive";
 import { CodeBlock } from "./blocks/Code";
+import { ContentMedia } from "./blocks/ContentMedia";
+import { MediaBlock } from "./blocks/Media";
+import Articles from "./collections/Articles";
+import Badges from "./collections/Badges";
 import Categories from "./collections/Categories";
 import { Media } from "./collections/Media";
-import { MediaBlock } from "./blocks/Media";
 import { Pages } from "./collections/Pages";
-import { Header } from "./globals/Header";
+import Projects from "./collections/Projects";
+import Users from "./collections/User/Users";
 import { Footer } from "./globals/Footer";
-import Articles from "./collections/Articles";
-import { ContentMedia } from "./blocks/ContentMedia";
-import Badges from "./collections/Badges";
-import { Archive } from "./blocks/Archive";
+import { Header } from "./globals/Header";
+
+const adapter = s3Adapter({
+  config: {
+    region: process.env.S3_REGION,
+  },
+  bucket: process.env.S3_BUCKET,
+});
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -50,6 +57,14 @@ export default buildConfig({
       uploadsCollection: "media",
     }),
     payloadCloud(),
+    cloudStorage({
+      enabled: process.env.NODE_ENV === "production",
+      collections: {
+        media: {
+          adapter,
+        },
+      },
+    }),
   ],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
