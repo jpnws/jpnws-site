@@ -50,7 +50,7 @@ export class InfraStack extends Stack {
         },
         {
           cidrMask: 28,
-          name: "rds",
+          name: "docdb",
           subnetType: SubnetType.PRIVATE_ISOLATED,
         },
       ],
