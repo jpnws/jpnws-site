@@ -88,14 +88,15 @@ export class ECS extends Construct {
       },
     });
 
-    const dbUsername = docDbCredentials
-      .secretValueFromJson("username")
-      .unsafeUnwrap();
-    const dbPassword = docDbCredentials
-      .secretValueFromJson("password")
-      .unsafeUnwrap();
+    const dbUsername = encodeURIComponent(
+      docDbCredentials.secretValueFromJson("username").unsafeUnwrap(),
+    );
+    const dbPassword = encodeURIComponent(
+      docDbCredentials.secretValueFromJson("password").unsafeUnwrap(),
+    );
     const dbHostname = props.docDb.cluster.clusterEndpoint.hostname;
-    const databaseUri = `mongodb://${dbUsername}:${dbPassword}@${dbHostname}:27017/${this.cluster.clusterName}`;
+
+    const databaseUri = `mongodb://${dbUsername}:${dbPassword}@${dbHostname}:27017/?tls=true&tlsCAFile=global-bundle.pem&retryWrites=false`;
 
     // Define the container using a Docker image from a local path
     this.container = this.taskDefinition.addContainer("Payload", {
@@ -173,6 +174,11 @@ export class ECS extends Construct {
     // Output the DNS name of the load balancer for easy access
     new cdk.CfnOutput(this, "Backend-URL", {
       value: this.loadBalancer.loadBalancerDnsName,
+    });
+
+    // Ouput the DB hostname for debugging.
+    new cdk.CfnOutput(this, "DB-Hostname", {
+      value: dbHostname,
     });
   }
 }
