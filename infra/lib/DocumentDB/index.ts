@@ -44,7 +44,7 @@ export class DocumentDB extends Construct {
 
     // Create a secret for the DocumentDB credentials
     this.secret = new secretsmanager.Secret(this, "DocDBCredentials", {
-      secretName: "docdbCredentials",
+      secretName: "DocDBCredentials",
       generateSecretString: {
         secretStringTemplate: JSON.stringify({ username: "docdbadmin" }),
         generateStringKey: "password",
@@ -63,7 +63,6 @@ export class DocumentDB extends Construct {
       vpc: props.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroup: props.docDbSecurityGroup,
-      dbClusterName: `${cdk.Stack.of(this).stackName}-docdb`,
       engineVersion: "4.0",
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Adjust based on environment
       storageEncrypted: true,
