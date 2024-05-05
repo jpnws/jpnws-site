@@ -44,6 +44,7 @@ export class ECS extends Construct {
   public readonly loadBalancer: ApplicationLoadBalancer;
   public readonly listener: ApplicationListener;
   public readonly logGroup: LogGroup;
+  public readonly payloadSecret: smg.Secret;
 
   constructor(scope: Construct, id: string, props: InfraECSProps) {
     super(scope, id);
@@ -78,10 +79,19 @@ export class ECS extends Construct {
       props.docDb.secret.secretArn,
     );
 
+    // Create a new secret for PAYLOAD_SECRET with a random value
+    this.payloadSecret = new smg.Secret(this, "PayloadSecret", {
+      generateSecretString: {
+        secretStringTemplate: JSON.stringify({}),
+        generateStringKey: "PAYLOAD_SECRET",
+        excludeCharacters: '"@/\\ ',
+      },
+    });
+
     // Define the container using a Docker image from a local path
     this.container = this.taskDefinition.addContainer("Payload", {
       image: ContainerImage.fromAsset(resolve(__dirname, "../../../server")),
-      memoryLimitMiB: 512, // Increased memory limit for better performance
+      memoryLimitMiB: 512,
       logging: LogDriver.awsLogs({
         streamPrefix: "payload",
         logGroup: this.logGroup,
@@ -92,6 +102,10 @@ export class ECS extends Construct {
       secrets: {
         DOCDB_USER: ecs.Secret.fromSecretsManager(docDbCredentials, "username"),
         DOCDB_PASS: ecs.Secret.fromSecretsManager(docDbCredentials, "password"),
+        PAYLOAD_SECRET: ecs.Secret.fromSecretsManager(
+          this.payloadSecret,
+          "PAYLOAD_SECRET",
+        ),
       },
     });
 
