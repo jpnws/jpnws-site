@@ -38,6 +38,15 @@ const editor = lexicalEditor({
 });
 
 export default buildConfig({
+  endpoints: [
+    {
+      path: "/health",
+      method: "get",
+      handler: (_req, res) => {
+        res.status(200).send("OK");
+      },
+    },
+  ],
   admin: {
     user: Users.slug,
     bundler: viteBundler(),
