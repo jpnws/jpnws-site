@@ -88,6 +88,15 @@ export class ECS extends Construct {
       },
     });
 
+    const dbUsername = docDbCredentials
+      .secretValueFromJson("username")
+      .unsafeUnwrap();
+    const dbPassword = docDbCredentials
+      .secretValueFromJson("password")
+      .unsafeUnwrap();
+    const dbHostname = props.docDb.cluster.clusterEndpoint.hostname;
+    const databaseUri = `mongodb://${dbUsername}:${dbPassword}@${dbHostname}:27017/${this.cluster.clusterName}`;
+
     // Define the container using a Docker image from a local path
     this.container = this.taskDefinition.addContainer("Payload", {
       image: ContainerImage.fromAsset(resolve(__dirname, "../../../server")),
@@ -97,7 +106,8 @@ export class ECS extends Construct {
         logGroup: this.logGroup,
       }),
       environment: {
-        DOCDB_HOST: props.docDb.cluster.clusterEndpoint.hostname,
+        DOCDB_HOST: dbHostname,
+        DATABASE_URI: databaseUri,
       },
       secrets: {
         DOCDB_USER: ecs.Secret.fromSecretsManager(docDbCredentials, "username"),
