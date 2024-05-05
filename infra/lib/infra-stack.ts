@@ -1,19 +1,19 @@
+import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
-import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
-import { Construct } from "constructs";
 import {
-  Vpc,
-  InstanceType,
   InstanceClass,
   InstanceSize,
+  InstanceType,
   SubnetType,
+  Vpc,
 } from "aws-cdk-lib/aws-ec2";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Construct } from "constructs";
+import { ACM } from "./ACM";
 import { DocumentDB } from "./DocumentDB";
 import { ECS } from "./ECS";
-import { ACM } from "./ACM";
 import { Route53 } from "./Route53";
 import { S3 } from "./S3";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export class InfraStack extends Stack {
   public readonly acm: ACM;
@@ -71,7 +71,7 @@ export class InfraStack extends Stack {
 
     this.docDb = new DocumentDB(this, "DocumentDb", {
       vpc: this.vpc,
-      payloadSecurityGroup: docDbSecurityGroup,
+      docDbSecurityGroup,
       instanceType: InstanceType.of(InstanceClass.R5, InstanceSize.LARGE),
       instances: 1,
     });

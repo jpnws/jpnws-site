@@ -7,7 +7,7 @@ import { Construct } from "constructs";
 
 interface DocumentDBProps {
   vpc: ec2.IVpc;
-  payloadSecurityGroup: ec2.ISecurityGroup;
+  docDbSecurityGroup: ec2.ISecurityGroup;
   instanceType?: ec2.InstanceType;
   instances?: number;
 }
@@ -25,22 +25,22 @@ export class DocumentDB extends Construct {
       ec2.InstanceType.of(ec2.InstanceClass.R5, ec2.InstanceSize.LARGE);
 
     // Create a security group for the DocumentDB cluster
-    const securityGroup = new ec2.SecurityGroup(
-      this,
-      "DocumentDBSecurityGroup",
-      {
-        vpc: props.vpc,
-        description: "Security group for DocumentDB",
-        allowAllOutbound: true,
-      },
-    );
+    // const securityGroup = new ec2.SecurityGroup(
+    //   this,
+    //   "DocumentDBSecurityGroup",
+    //   {
+    //     vpc: props.vpc,
+    //     description: "Security group for DocumentDB",
+    //     allowAllOutbound: true,
+    //   },
+    // );
 
     // Allow inbound traffic from the Payload security group on port 27017
-    securityGroup.addIngressRule(
-      props.payloadSecurityGroup,
-      ec2.Port.tcp(27017),
-      "Allow MongoDB traffic from PayloadCMS",
-    );
+    // securityGroup.addIngressRule(
+    //   props.payloadSecurityGroup,
+    //   ec2.Port.tcp(27017),
+    //   "Allow MongoDB traffic from PayloadCMS",
+    // );
 
     // Create a secret for the DocumentDB credentials
     this.secret = new secretsmanager.Secret(this, "DocDBCredentials", {
@@ -62,7 +62,7 @@ export class DocumentDB extends Construct {
       instances: props.instances || 1,
       vpc: props.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
-      securityGroup,
+      securityGroup: props.docDbSecurityGroup,
       dbClusterName: `${cdk.Stack.of(this).stackName}-docdb`,
       engineVersion: "4.0",
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Adjust based on environment
