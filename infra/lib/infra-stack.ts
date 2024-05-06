@@ -5,6 +5,7 @@ import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as elb from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as lgp from "aws-cdk-lib/aws-logs";
 import * as r53 from "aws-cdk-lib/aws-route53";
 import * as rtg from "aws-cdk-lib/aws-route53-targets";
 import * as smg from "aws-cdk-lib/aws-secretsmanager";
@@ -126,14 +127,6 @@ export class InfraStack extends cdk.Stack {
     // * Elastic Container Service (ECS)
     // * =====================================
 
-    // Define the security group for the ECS cluster.
-    const ecsSecurityGroup = new ec2.SecurityGroup(this, "ECSSecurityGroup", {
-      vpc: vpc,
-    });
-
-    // Create an ECS cluster.
-    const ecsCluster = new ecs.Cluster(this, "ECSCluster", { vpc });
-
     // Create ECS task definition.
     const ecsTaskDefinition = new ecs.FargateTaskDefinition(
       this,
@@ -147,6 +140,12 @@ export class InfraStack extends cdk.Stack {
         generateStringKey: "payloadSecret",
         excludeCharacters: '"@/\\ ',
       },
+    });
+
+    // Create a log group for the ECS task.
+    const logGroup = new lgp.LogGroup(this, "ECSLogGroup", {
+      retention: lgp.RetentionDays.ONE_DAY,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     // Add a container to the task definition.
@@ -174,7 +173,19 @@ export class InfraStack extends cdk.Stack {
           containerPort: 3001,
         },
       ],
+      logging: ecs.LogDriver.awsLogs({
+        streamPrefix: "ecs",
+        logGroup,
+      }),
     });
+
+    // Define the security group for the ECS cluster.
+    const ecsSecurityGroup = new ec2.SecurityGroup(this, "ECSSecurityGroup", {
+      vpc: vpc,
+    });
+
+    // Create an ECS cluster.
+    const ecsCluster = new ecs.Cluster(this, "ECSCluster", { vpc });
 
     // Create an ECS service.
     const ecsService = new ecs.FargateService(this, "ECSService", {
@@ -184,6 +195,10 @@ export class InfraStack extends cdk.Stack {
       assignPublicIp: true,
       vpcSubnets: vpc.selectSubnets({ subnetGroupName: "public" }),
     });
+
+    // * =====================================
+    // * Application Load Balancer and ECS
+    // * =====================================
 
     // Application load balancer.
     const loadBalancer = new elb.ApplicationLoadBalancer(this, "LoadBalancer", {
@@ -202,6 +217,10 @@ export class InfraStack extends cdk.Stack {
       port: 443,
       targets: [ecsService],
     });
+
+    // * =====================================
+    // * DNS
+    // * =====================================
 
     // DNS A record pointing to the load balancer
     new r53.ARecord(this, "BackendPayloadARecord", {
