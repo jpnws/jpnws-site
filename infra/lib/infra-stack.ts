@@ -45,6 +45,7 @@ export class InfraStack extends cdk.Stack {
     // * =====================================
     // * Route 53
     // * =====================================
+
     // Define the Route 53 hosted zone.
     const hostedZone = r53.HostedZone.fromLookup(this, "HostedZone", {
       domainName,
@@ -53,6 +54,7 @@ export class InfraStack extends cdk.Stack {
     // * =====================================
     // * Certificate Manager
     // * =====================================
+
     const certificate = new cmg.Certificate(this, "Certificate", {
       // Domain name to be secured by the certificate
       domainName,
