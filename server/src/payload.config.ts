@@ -1,8 +1,8 @@
 import { viteBundler } from "@payloadcms/bundler-vite";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloud } from "@payloadcms/plugin-cloud";
-import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
-import { s3Adapter } from "@payloadcms/plugin-cloud-storage/s3";
+// import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
+// import { s3Adapter } from "@payloadcms/plugin-cloud-storage/s3";
 import seo from "@payloadcms/plugin-seo";
 import {
   BlocksFeature,
@@ -25,12 +25,12 @@ import Users from "./collections/User/Users";
 import { Footer } from "./globals/Footer";
 import { Header } from "./globals/Header";
 
-const adapter = s3Adapter({
-  config: {
-    region: process.env.S3_REGION,
-  },
-  bucket: process.env.S3_BUCKET,
-});
+// const adapter = s3Adapter({
+//   config: {
+//     region: process.env.S3_REGION,
+//   },
+//   bucket: process.env.S3_BUCKET,
+// });
 
 const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -47,15 +47,6 @@ const editor = lexicalEditor({
 });
 
 export default buildConfig({
-  endpoints: [
-    {
-      path: "/health",
-      method: "get",
-      handler: (_req, res) => {
-        res.status(200).send("OK");
-      },
-    },
-  ],
   admin: {
     user: Users.slug,
     bundler: viteBundler(),
@@ -75,17 +66,18 @@ export default buildConfig({
       uploadsCollection: "media",
     }),
     payloadCloud(),
-    cloudStorage({
-      enabled: process.env.NODE_ENV === "production",
-      collections: {
-        media: {
-          adapter,
-        },
-      },
-    }),
+    // cloudStorage({
+    //   enabled: process.env.NODE_ENV === "production",
+    //   collections: {
+    //     media: {
+    //       adapter,
+    //     },
+    //   },
+    // }),
   ],
   db: mongooseAdapter({
-    url: `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/cms?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=primary&retryWrites=false`,
+    // url: `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/cms?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=primary&retryWrites=false`,
+    url: process.env.DATABASE_URI,
   }),
   cors: "*",
 });

@@ -12,7 +12,9 @@ const ArticlesPage = () => {
     <>
       <Hero />
       <main
-        className={`${styles.container} ${theme === "dark" ? styles.containerDark : styles.containerLight}`}
+        className={`${styles.container} ${
+          theme === "dark" ? styles.containerDark : styles.containerLight
+        }`}
       >
         <div className={styles.mainContainer}>
           <FeaturedArticles />
