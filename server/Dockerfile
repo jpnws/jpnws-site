@@ -31,6 +31,9 @@ COPY package-lock.json ./
 
 RUN npm install --production
 
+# Download the CA certificate
+ADD https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /home/node/app/global-bundle.pem
+
 # Copy the built assets from the builder stage
 COPY --from=builder /home/node/app/dist ./dist
 COPY --from=builder /home/node/app/build ./build

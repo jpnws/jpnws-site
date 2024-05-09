@@ -4,11 +4,7 @@ import { payloadCloud } from "@payloadcms/plugin-cloud";
 import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
 import { s3Adapter } from "@payloadcms/plugin-cloud-storage/s3";
 import seo from "@payloadcms/plugin-seo";
-import {
-  BlocksFeature,
-  LexicalBlock,
-  lexicalEditor,
-} from "@payloadcms/richtext-lexical";
+import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload/config";
 import { Archive } from "./blocks/Archive";
@@ -36,12 +32,7 @@ const editor = lexicalEditor({
   features: ({ defaultFeatures }) => [
     ...defaultFeatures,
     BlocksFeature({
-      blocks: [
-        CodeBlock as LexicalBlock,
-        MediaBlock as LexicalBlock,
-        ContentMedia as LexicalBlock,
-        Archive as LexicalBlock,
-      ],
+      blocks: [CodeBlock, MediaBlock, ContentMedia, Archive],
     }),
   ],
 });
@@ -85,7 +76,7 @@ export default buildConfig({
     }),
   ],
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI,
+    url: `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/cms?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`,
   }),
   cors: "*",
 });

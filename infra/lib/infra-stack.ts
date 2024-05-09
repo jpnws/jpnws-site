@@ -4,7 +4,6 @@ import * as ddb from "aws-cdk-lib/aws-docdb";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as elb from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as lgp from "aws-cdk-lib/aws-logs";
 import * as r53 from "aws-cdk-lib/aws-route53";
 import * as rtg from "aws-cdk-lib/aws-route53-targets";
@@ -69,7 +68,7 @@ export class InfraStack extends cdk.Stack {
     // * =====================================
 
     // Define the security group for the DocumentDB cluster.
-    const ddbSecurityGroup = new ec2.SecurityGroup(
+    const docDbSecurityGroup = new ec2.SecurityGroup(
       this,
       "DocumentDBSecurityGroup",
       {
@@ -77,40 +76,21 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
-    // You can use the `aws-cdk-lib/aws-secretsmanager` to instantiate the
-    // Secrets Manager construct. You can use `generateSecretString` property to
-    // set the condition, such as length, excluding characters and punctuation,
-    // acording to the app and security requirements, for the password that will
-    // be generated. You also set the username that will be used to access the
-    // DocumentDB cluster.
-    const docDbCredentials = new smg.Secret(this, "DocumentDBCredentials", {
-      generateSecretString: {
-        secretStringTemplate: JSON.stringify({
-          username: "awsdemo",
-        }),
-        generateStringKey: "password",
-        passwordLength: 16,
-        excludePunctuation: true,
-        excludeCharacters: "/¥'%:;{}",
-      },
-    });
+    // Retrieve the DocumentDB credentials from Secrets Manager. The credentials
+    // must have been created in the AWS Management Console manually, where the
+    // name of the secret should be "universal/db/credentials".
+    const docDbCredentials = smg.Secret.fromSecretNameV2(
+      this,
+      "DocDBCredentials",
+      "universal/db/credentials",
+    );
 
-    // You can use `aws-cdk-lib/aws-docdb` module to instantiate the DocumentDB
-    // construct. Specify the ARN of Secrets Manager as `docDbPasswordSecret`,
-    // and define the VPC and subnet where you want to deploy the cluster,
-    // instance type, and number of instances in the properties. You must define
-    // the private subnet on this construct so that DocumentDB isn't accessible
-    // via public endpoint. Here, we create a new DocumentDB cluster which we
-    // attach to the VPC and provide it with the password that we created
-    // previously.
     const docDbCluster = new ddb.DatabaseCluster(this, "DocDB", {
       masterUser: {
         username: docDbCredentials
-          .secretValueFromJson("username")
+          .secretValueFromJson("dbMainUsername")
           .unsafeUnwrap(),
-        password: cdk.SecretValue.secretsManager(docDbCredentials.secretArn, {
-          jsonField: "password",
-        }),
+        password: docDbCredentials.secretValueFromJson("dbMainPassword"),
       },
       vpc: vpc,
       vpcSubnets: vpc.selectSubnets({ subnetGroupName: "private" }),
@@ -122,7 +102,7 @@ export class InfraStack extends cdk.Stack {
       // Define the security group for DocumentDB. You must define the security
       // group to allow incoming traffic from the containerized application's
       // security group.
-      securityGroup: ddbSecurityGroup,
+      securityGroup: docDbSecurityGroup,
     });
 
     // * =====================================
@@ -152,27 +132,33 @@ export class InfraStack extends cdk.Stack {
 
     // Add a container to the task definition.
     ecsTaskDefinition.addContainer("PayloadContainer", {
-      image: ecs.ContainerImage.fromAsset(resolve(__dirname, "../../server")),
+      image: ecs.ContainerImage.fromAsset(
+        resolve(__dirname, "..", "..", "server"),
+      ),
       memoryLimitMiB: 512,
       cpu: 256,
+      environment: {
+        DB_HOST: docDbCluster.clusterEndpoint.hostname,
+      },
       secrets: {
-        DOCDB_USERNAME: ecs.Secret.fromSecretsManager(
-          docDbCredentials,
-          "username",
-        ),
-        DOCDB_PASSWORD: ecs.Secret.fromSecretsManager(
-          docDbCredentials,
-          "password",
-        ),
         PAYLOAD_SECRET: ecs.Secret.fromSecretsManager(
           payloadSecret,
           "payloadSecret",
+        ),
+        DB_USERNAME: ecs.Secret.fromSecretsManager(
+          docDbCredentials,
+          "dbMainUsername",
+        ),
+        DB_PASSWORD: ecs.Secret.fromSecretsManager(
+          docDbCredentials,
+          "dbMainPassword",
         ),
       },
       portMappings: [
         {
           // Expose the container port.
-          containerPort: 3001,
+          containerPort: 3000,
+          protocol: ecs.Protocol.TCP,
         },
       ],
       logging: ecs.LogDriver.awsLogs({
@@ -208,17 +194,44 @@ export class InfraStack extends cdk.Stack {
       internetFacing: true,
     });
 
-    // Add a listener to the load balancer and targets to listen.
+    // Add a listener to the load balancer.
     const loadBalancerListener = loadBalancer.addListener("Listener", {
       port: 443,
+      protocol: elb.ApplicationProtocol.HTTPS,
       certificates: [certificate],
     });
 
     // Add the ECS service as a target to the load balancer listener.
     loadBalancerListener.addTargets("ECS", {
-      port: 443,
+      port: 3000, // The port the container is listening on.
+      protocol: elb.ApplicationProtocol.HTTP, // The protocol the container is listening on.
       targets: [ecsService],
+      healthCheck: {
+        interval: cdk.Duration.seconds(30),
+        path: "/health",
+        timeout: cdk.Duration.seconds(5),
+        healthyThresholdCount: 2,
+        unhealthyThresholdCount: 3,
+        protocol: elb.Protocol.HTTP, // The protocol the container is listening on.
+      },
     });
+
+    // * =====================================
+    // * ECS and DocumentDB interaction setup.
+    // * =====================================
+
+    // Allow incoming traffic from the ECS security group to the DocumentDB
+    // security group.
+    docDbSecurityGroup.addIngressRule(
+      ecsSecurityGroup,
+      ec2.Port.tcp(27017),
+      "Allow DocumentDB traffic from ECS",
+    );
+
+    // Ensure that the ECS service depends on the DocumentDB cluster. This means
+    // that the ECS service will only be created after the DocumentDB cluster is
+    // created.
+    ecsService.node.addDependency(docDbCluster);
 
     // * =====================================
     // * DNS
@@ -237,30 +250,5 @@ export class InfraStack extends cdk.Stack {
     new cdk.CfnOutput(this, "BackendPayloadURL", {
       value: loadBalancer.loadBalancerDnsName,
     });
-
-    // * =====================================
-    // * ECS and DocumentDB interaction setup.
-    // * =====================================
-
-    // Allow incoming traffic from the ECS security group to the DocumentDB
-    // security group.
-    ddbSecurityGroup.addIngressRule(
-      ecsSecurityGroup,
-      ec2.Port.tcp(27017),
-      "Allow MongoDB traffic from ECS",
-    );
-
-    // Grant the ECS task permission to access the DocumentDB credentials.
-    ecsTaskDefinition.taskRole.addToPrincipalPolicy(
-      new iam.PolicyStatement({
-        actions: ["secretsmanager:GetSecretValue"],
-        resources: [docDbCredentials.secretArn],
-      }),
-    );
-
-    // Ensure that the ECS service depends on the DocumentDB cluster. This means
-    // that the ECS service will only be created after the DocumentDB cluster is
-    // created.
-    ecsService.node.addDependency(docDbCluster);
   }
 }
