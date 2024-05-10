@@ -1,5 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import * as cmg from "aws-cdk-lib/aws-certificatemanager";
+import * as cfr from "aws-cdk-lib/aws-cloudfront";
+import * as s3o from "aws-cdk-lib/aws-cloudfront-origins";
 import * as ddb from "aws-cdk-lib/aws-docdb";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
@@ -7,12 +9,15 @@ import * as elb from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import * as lgp from "aws-cdk-lib/aws-logs";
 import * as r53 from "aws-cdk-lib/aws-route53";
 import * as rtg from "aws-cdk-lib/aws-route53-targets";
+import * as s3l from "aws-cdk-lib/aws-s3";
+import * as s3d from "aws-cdk-lib/aws-s3-deployment";
 import * as smg from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 import { resolve } from "path";
 import {
   backend_subdomain as backendSubdomain,
   domain_name as domainName,
+  frontend_subdomain as frontendSubdomain,
 } from "../../config.json";
 
 export class InfraStack extends cdk.Stack {
@@ -234,7 +239,7 @@ export class InfraStack extends cdk.Stack {
     ecsService.node.addDependency(docDbCluster);
 
     // * =====================================
-    // * DNS
+    // * Backend DNS
     // * =====================================
 
     // DNS A record pointing to the load balancer
@@ -249,6 +254,69 @@ export class InfraStack extends cdk.Stack {
     // Output the DNS name of the load balancer.
     new cdk.CfnOutput(this, "BackendPayloadURL", {
       value: loadBalancer.loadBalancerDnsName,
+    });
+
+    // * =====================================
+    // * S3
+    // * =====================================
+
+    // Initialize and configure the S3 bucket for web hosting with public read
+    // access and an auto-deletion policy for easier cleanup in non-production
+    // environments.
+    const webBucket = new s3l.Bucket(this, "WebBucket", {
+      websiteIndexDocument: "index.html",
+      websiteErrorDocument: "index.html",
+      publicReadAccess: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      blockPublicAccess: s3l.BlockPublicAccess.BLOCK_ACLS,
+      accessControl: s3l.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+      autoDeleteObjects: true,
+    });
+
+    // Deploy the static content to the S3 bucket from a local directory. This
+    // is typically run during a CI/CD pipeline to ensure the latest content is
+    // served.
+    new s3d.BucketDeployment(this, "WebBucketDeployment", {
+      sources: [
+        s3d.Source.asset(resolve(__dirname, "..", "..", "web", "dist")),
+      ],
+      destinationBucket: webBucket,
+    });
+
+    // Setup the CloudFront distribution to serve the S3 bucket's content
+    // securely over HTTPS, including a custom domain and SSL certificate
+    // configuration.
+    const frontendDistribution = new cfr.Distribution(
+      this,
+      "FrontendDistribution",
+      {
+        certificate: certificate,
+        domainNames: [`${frontendSubdomain}.${domainName}`],
+        defaultRootObject: "index.html",
+        defaultBehavior: {
+          origin: new s3o.S3Origin(webBucket),
+          viewerProtocolPolicy: cfr.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        },
+      },
+    );
+
+    // * =====================================
+    // * Frontend DNS
+    // * =====================================
+
+    // Configure a DNS A Record to point to the CloudFront distribution,
+    // enabling the use of a friendly URL to access the website.
+    new r53.ARecord(this, "FrontendAliasRecord", {
+      zone: hostedZone,
+      target: r53.RecordTarget.fromAlias(
+        new rtg.CloudFrontTarget(frontendDistribution),
+      ),
+      recordName: `${frontendSubdomain}.${domainName}`,
+    });
+
+    // Output the URL of the deployed site to allow easy access post-deployment.
+    new cdk.CfnOutput(this, "FrontendURL", {
+      value: webBucket.bucketWebsiteUrl,
     });
   }
 }
