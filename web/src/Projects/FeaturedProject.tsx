@@ -1,5 +1,6 @@
 import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import styles from "./FeaturedProject.module.css";
+import { backendUrl } from "../utils";
 
 const FeaturedProject = ({ project }: { project: any }) => {
   return (
@@ -7,7 +8,7 @@ const FeaturedProject = ({ project }: { project: any }) => {
       <div className={styles.imageContainer}>
         {project.hero.media && (
           <img
-            src={`${import.meta.env.VITE_API_URL}${project.hero.media.url}`}
+            src={`${backendUrl}${project.hero.media.url}`}
             alt={project.hero.media.alt}
             className={styles.image}
           />

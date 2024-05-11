@@ -1,13 +1,14 @@
 import FeaturedProject from "./FeaturedProject";
 import styles from "./FeaturedProjects.module.css";
 import { useEffect, useState } from "react";
+import { backendUrl } from "../utils";
 
 const FeaturedProjects = () => {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/projects?where[featured][equals]=true`,
+        `${backendUrl}/api/projects?where[featured][equals]=true`,
       );
       const { docs } = await response.json();
       docs.sort((a: any, b: any) => a.featuredPriority - b.featuredPriority);

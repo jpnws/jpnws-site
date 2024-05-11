@@ -5,6 +5,7 @@ import Hero from "./Hero";
 import RichText from "../components/RichText";
 import OnThisPage from "./OnThisPage";
 import { ThemeContext } from "../ThemeContext";
+import { backendUrl } from "../utils";
 
 interface IBadge {
   id: string;
@@ -33,7 +34,7 @@ const ProjectInfoPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/projects?where[slug][equals]=${params.slug}`,
+        `${backendUrl}/api/projects?where[slug][equals]=${params.slug}`,
       );
       const { docs } = await response.json();
       setProjectInfo(docs[0]);
@@ -46,7 +47,11 @@ const ProjectInfoPage = () => {
     <>
       {projectInfo && <Hero project={projectInfo} />}
       <main
-        className={`${styles.outerContainer} ${theme === "dark" ? styles.outerContainerDark : styles.outerContainerLight}`}
+        className={`${styles.outerContainer} ${
+          theme === "dark"
+            ? styles.outerContainerDark
+            : styles.outerContainerLight
+        }`}
       >
         <div className={styles.mainContainer}>
           <div className={styles.mainContent}>

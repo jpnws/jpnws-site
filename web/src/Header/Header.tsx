@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import { useEffect, useState } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { Link } from "react-router-dom";
+import { backendUrl } from "../utils";
 
 const Header = ({
   onThemeSwitcherClick,
@@ -24,7 +25,7 @@ const Header = ({
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/globals/header?locale=undefined&draft=false&depth=1`,
+        `${backendUrl}/api/globals/header?locale=undefined&draft=false&depth=1`,
       );
       const data = await response.json();
       setNavItems(data.navItems);

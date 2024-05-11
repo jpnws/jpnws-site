@@ -1,13 +1,14 @@
 import OtherProject from "./OtherProject";
 import styles from "./OtherProjects.module.css";
 import { useEffect, useState } from "react";
+import { backendUrl } from "../utils";
 
 const OtherProjects = () => {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/projects?where[featured][equals]=false`,
+        `${backendUrl}/api/projects?where[featured][equals]=false`,
       );
       const { docs } = await response.json();
       setProjects(docs);

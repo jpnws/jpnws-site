@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import RichText from "../components/RichText";
 import styles from "./Hero.module.css";
 import { ThemeContext } from "../ThemeContext";
+import { backendUrl } from "../utils";
 
 interface IMedia {
   url: string;
@@ -16,9 +17,7 @@ const Hero = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/pages/6607541c04cf9801f9cb399e?locale=undefined&draft=true&depth=1`,
+        `${backendUrl}/api/pages/6607541c04cf9801f9cb399e?locale=undefined&draft=true&depth=1`,
       );
       const { hero } = await response.json();
       setContent(hero.content);
@@ -40,7 +39,7 @@ const Hero = () => {
         {media && (
           <img
             className={styles.profilePhoto}
-            src={`${import.meta.env.VITE_API_URL}${media.url}`}
+            src={`${backendUrl}${media.url}`}
             alt={media.alt}
             height="200"
             width="200"

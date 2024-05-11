@@ -3,6 +3,7 @@ import Badge from "../components/Badge/Badge";
 import ExternalLinkIcon from "../components/ExternalLinkIcon/ExternalLinkIcon";
 import styles from "./OtherProject.module.css";
 import { ThemeContext } from "../ThemeContext";
+import { backendUrl } from "../utils";
 
 const OtherProject = ({ project }: { project: any }) => {
   const { theme } = useContext(ThemeContext);
@@ -14,7 +15,9 @@ const OtherProject = ({ project }: { project: any }) => {
       <a
         key={item.id}
         href={item.link.url}
-        className={`${styles.link} ${theme === "dark" ? styles.linkDark : styles.linkLight}`}
+        className={`${styles.link} ${
+          theme === "dark" ? styles.linkDark : styles.linkLight
+        }`}
         target="_blank"
         rel="noreferrer"
       >
@@ -28,7 +31,7 @@ const OtherProject = ({ project }: { project: any }) => {
       <div className={styles.imageContainer}>
         {project.hero.media && (
           <img
-            src={`${import.meta.env.VITE_API_URL}${project.hero.media.url}`}
+            src={`${backendUrl}${project.hero.media.url}`}
             alt={project.hero.media.alt}
             className={styles.image}
           />

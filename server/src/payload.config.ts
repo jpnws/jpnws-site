@@ -76,8 +76,10 @@ export default buildConfig({
     // }),
   ],
   db: mongooseAdapter({
-    url: `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/cms?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=primary&retryWrites=false`,
-    // url: process.env.DATABASE_URI,
+    url:
+      process.env.NODE_ENV === "production"
+        ? `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/cms?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=primary&retryWrites=false`
+        : process.env.DATABASE_URI,
   }),
   cors: "*",
 });

@@ -5,6 +5,7 @@ import Hero from "./Hero";
 import RichText from "../components/RichText";
 import OnThisPage from "./OnThisPage";
 import { ThemeContext } from "../ThemeContext";
+import { backendUrl } from "../utils";
 
 interface ICategory {
   id: string;
@@ -33,7 +34,7 @@ const ArticlePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/articles?where[slug][equals]=${params.slug}`,
+        `${backendUrl}/api/articles?where[slug][equals]=${params.slug}`,
       );
       const { docs } = await response.json();
       setArticle(docs[0]);
@@ -46,7 +47,11 @@ const ArticlePage = () => {
     <>
       {article && <Hero article={article} />}
       <main
-        className={`${styles.outerContainer} ${theme === "dark" ? styles.outerContainerDark : styles.outerContainerLight}`}
+        className={`${styles.outerContainer} ${
+          theme === "dark"
+            ? styles.outerContainerDark
+            : styles.outerContainerLight
+        }`}
       >
         <div className={styles.mainContainer}>
           <div className={styles.mainContent}>

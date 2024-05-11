@@ -10,6 +10,7 @@ import type {
   SerializedLexicalNode,
   SerializedTextNode,
 } from "lexical";
+import { backendUrl } from "../../../utils";
 
 import escapeHTML from "escape-html";
 import { Fragment, useEffect, useState } from "react";
@@ -80,7 +81,7 @@ function isSerializedTextNode(node: any): node is SerializedTextNode {
   return node.type === "text";
 }
 
-export function serializeLexical({ nodes }: Props): JSX.Element {
+export function SerializeLexical({ nodes }: Props): JSX.Element {
   const [highlighter, setHighlighter] =
     useState<HighlighterGeneric<BundledLanguage, BundledTheme>>();
 
@@ -189,9 +190,9 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                   }
                 }
               }
-              return serializeLexical({ nodes: node.children });
+              return SerializeLexical({ nodes: node.children });
             } else {
-              return serializeLexical({ nodes: node.children });
+              return SerializeLexical({ nodes: node.children });
             }
           }
         };
@@ -214,7 +215,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             if (isSerializedUploadNode(_node)) {
               return (
                 <video
-                  src={`${import.meta.env.VITE_API_URL}${_node.value.url}`}
+                  src={`${backendUrl}${_node.value.url}`}
                   key={index}
                   loop
                   autoPlay
@@ -247,9 +248,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               if (_node.fields.blockType === "media") {
                 return (
                   <img
-                    src={`${import.meta.env.VITE_API_URL}${
-                      _node.fields.media.url
-                    }`}
+                    src={`${backendUrl}${_node.fields.media.url}`}
                     alt={_node.fields.media.alt}
                     key={index}
                   />
