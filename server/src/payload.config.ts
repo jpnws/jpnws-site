@@ -11,6 +11,10 @@ import {
 } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload/config";
+// import {
+//   domain_name as domainName,
+//   frontend_subdomain as frontendSubdomain,
+// } from "../../config.json";
 import { Archive } from "./blocks/Archive";
 import { CodeBlock } from "./blocks/Code";
 import { ContentMedia } from "./blocks/ContentMedia";
@@ -81,5 +85,5 @@ export default buildConfig({
         ? `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/cms?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=primary&retryWrites=false`
         : process.env.DATABASE_URI,
   }),
-  cors: "*",
+  cors: ["https://blogsite-frontend.jpnws.link", "http://localhost:5173"],
 });
