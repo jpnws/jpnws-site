@@ -257,7 +257,21 @@ export class InfraStack extends cdk.Stack {
     });
 
     // * =====================================
-    // * S3
+    // * Backend S3
+    // * =====================================
+
+    // Initialize and configure the S3 bucket for backend storage with only ECS
+    // to be able to access it and an auto-deletion policy for easier cleanup in
+    // non-production environments.
+    const backendBucket = new s3l.Bucket(this, "PayloadBucket", {
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      blockPublicAccess: s3l.BlockPublicAccess.BLOCK_ACLS,
+      accessControl: s3l.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+      autoDeleteObjects: true,
+    });
+
+    // * =====================================
+    // * Frontend S3
     // * =====================================
 
     // Initialize and configure the S3 bucket for web hosting with public read
