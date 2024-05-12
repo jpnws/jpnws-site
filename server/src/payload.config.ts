@@ -11,10 +11,6 @@ import {
 } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload/config";
-// import {
-//   domain_name as domainName,
-//   frontend_subdomain as frontendSubdomain,
-// } from "../../config.json";
 import { Archive } from "./blocks/Archive";
 import { CodeBlock } from "./blocks/Code";
 import { ContentMedia } from "./blocks/ContentMedia";
