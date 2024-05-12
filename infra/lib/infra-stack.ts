@@ -270,6 +270,8 @@ export class InfraStack extends cdk.Stack {
       autoDeleteObjects: true,
     });
 
+    backendBucket.grantReadWrite(ecsTaskDefinition.taskRole);
+
     // * =====================================
     // * Frontend S3
     // * =====================================
