@@ -3,6 +3,18 @@ import styles from "./Hero.module.css";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import { ThemeContext } from "../ThemeContext";
 import { backendUrl } from "../utils";
+import qs from "qs";
+
+const queryStr = qs.stringify(
+  {
+    where: {
+      slug: {
+        equals: "articles",
+      },
+    },
+  },
+  { addQueryPrefix: true },
+);
 
 const Hero = () => {
   const { theme } = useContext(ThemeContext);
@@ -10,10 +22,10 @@ const Hero = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `${backendUrl}/api/pages/660753e604cf9801f9cb395d?locale=undefined&draft=true&depth=1`,
-      );
-      const { title } = await response.json();
+      const query = `${backendUrl}/api/pages${queryStr}`;
+      const response = await fetch(query);
+      const { docs } = await response.json();
+      const { title } = docs[0];
       setTitle(title);
     };
 

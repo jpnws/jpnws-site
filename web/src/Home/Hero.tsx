@@ -3,11 +3,23 @@ import RichText from "../components/RichText";
 import styles from "./Hero.module.css";
 import { ThemeContext } from "../ThemeContext";
 import { backendUrl } from "../utils";
+import qs from "qs";
 
 interface IMedia {
   url: string;
   alt: string;
 }
+
+const queryStr = qs.stringify(
+  {
+    where: {
+      slug: {
+        equals: "home",
+      },
+    },
+  },
+  { addQueryPrefix: true },
+);
 
 const Hero = () => {
   const { theme } = useContext(ThemeContext);
@@ -16,10 +28,10 @@ const Hero = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `${backendUrl}/api/pages/6607541c04cf9801f9cb399e?locale=undefined&draft=true&depth=1`,
-      );
-      const { hero } = await response.json();
+      const query = `${backendUrl}/api/pages${queryStr}`;
+      const response = await fetch(query);
+      const { docs } = await response.json();
+      const { hero } = docs[0];
       setContent(hero.content);
       setMedia(hero.media);
     };
@@ -45,7 +57,7 @@ const Hero = () => {
             width="200"
           />
         )}
-        <RichText className={styles.richText} content={content} />
+        {content && <RichText className={styles.richText} content={content} />}
       </div>
     </div>
   );
