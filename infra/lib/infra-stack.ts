@@ -158,6 +158,11 @@ export class InfraStack extends cdk.Stack {
       cpu: 256,
       environment: {
         DB_HOST: docDbCluster.clusterEndpoint.hostname,
+        S3_REGION: backendBucket.bucketRegionalDomainName.split(".")[1],
+        S3_BUCKET: backendBucket.bucketName,
+        // DOMAIN_NAME: domainName,
+        // FRONTEND_SUBDOMAIN: frontendSubdomain,
+        // BACKEND_SUBDOMAIN: backendSubdomain,
       },
       secrets: {
         PAYLOAD_SECRET: ecs.Secret.fromSecretsManager(
