@@ -1,4 +1,4 @@
-import { viteBundler } from "@payloadcms/bundler-vite";
+import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloud } from "@payloadcms/plugin-cloud";
 import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
@@ -49,7 +49,7 @@ const editor = lexicalEditor({
 export default buildConfig({
   admin: {
     user: Users.slug,
-    bundler: viteBundler(),
+    bundler: webpackBundler(),
   },
   globals: [Header, Footer],
   editor,
