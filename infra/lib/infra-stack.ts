@@ -135,6 +135,20 @@ export class InfraStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
+    // * Backend S3
+    // Initialize and configure the S3 bucket for backend storage with only ECS
+    // to be able to access it and an auto-deletion policy for easier cleanup in
+    // non-production environments.
+    const backendBucket = new s3l.Bucket(this, "PayloadBucket", {
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      blockPublicAccess: s3l.BlockPublicAccess.BLOCK_ACLS,
+      accessControl: s3l.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+      autoDeleteObjects: true,
+    });
+
+    // Grant read and write access to the ECS task.
+    backendBucket.grantReadWrite(ecsTaskDefinition.taskRole);
+
     // Add a container to the task definition.
     ecsTaskDefinition.addContainer("PayloadContainer", {
       image: ecs.ContainerImage.fromAsset(
@@ -255,22 +269,6 @@ export class InfraStack extends cdk.Stack {
     new cdk.CfnOutput(this, "BackendPayloadURL", {
       value: loadBalancer.loadBalancerDnsName,
     });
-
-    // * =====================================
-    // * Backend S3
-    // * =====================================
-
-    // Initialize and configure the S3 bucket for backend storage with only ECS
-    // to be able to access it and an auto-deletion policy for easier cleanup in
-    // non-production environments.
-    const backendBucket = new s3l.Bucket(this, "PayloadBucket", {
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      blockPublicAccess: s3l.BlockPublicAccess.BLOCK_ACLS,
-      accessControl: s3l.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
-      autoDeleteObjects: true,
-    });
-
-    backendBucket.grantReadWrite(ecsTaskDefinition.taskRole);
 
     // * =====================================
     // * Frontend S3
