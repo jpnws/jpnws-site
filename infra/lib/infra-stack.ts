@@ -136,6 +136,7 @@ export class InfraStack extends cdk.Stack {
     });
 
     // * Backend S3
+
     // Initialize and configure the S3 bucket for backend storage with only ECS
     // to be able to access it and an auto-deletion policy for easier cleanup in
     // non-production environments.
@@ -160,8 +161,7 @@ export class InfraStack extends cdk.Stack {
         DB_HOST: docDbCluster.clusterEndpoint.hostname,
         S3_REGION: props?.env?.region as string,
         S3_BUCKET: backendBucket.bucketName,
-        // DOMAIN_NAME: domainName,
-        // FRONTEND_SUBDOMAIN: frontendSubdomain,
+        // DOMAIN_NAME: domainName, FRONTEND_SUBDOMAIN: frontendSubdomain,
         // BACKEND_SUBDOMAIN: backendSubdomain,
       },
       secrets: {
@@ -227,8 +227,10 @@ export class InfraStack extends cdk.Stack {
 
     // Add the ECS service as a target to the load balancer listener.
     loadBalancerListener.addTargets("ECS", {
-      port: 3000, // The port the container is listening on.
-      protocol: elb.ApplicationProtocol.HTTP, // The protocol the container is listening on.
+      // The port the container is listening on.
+      port: 3000,
+      // The protocol the container is listening on.
+      protocol: elb.ApplicationProtocol.HTTP,
       targets: [ecsService],
       healthCheck: {
         interval: cdk.Duration.seconds(30),
@@ -236,7 +238,8 @@ export class InfraStack extends cdk.Stack {
         timeout: cdk.Duration.seconds(5),
         healthyThresholdCount: 2,
         unhealthyThresholdCount: 3,
-        protocol: elb.Protocol.HTTP, // The protocol the container is listening on.
+        // The protocol the container is listening on.
+        protocol: elb.Protocol.HTTP,
       },
     });
 
