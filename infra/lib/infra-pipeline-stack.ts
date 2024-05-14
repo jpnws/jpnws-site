@@ -3,6 +3,7 @@ import * as acbd from "aws-cdk-lib/aws-codebuild";
 import * as cpln from "aws-cdk-lib/aws-codepipeline";
 import * as cpac from "aws-cdk-lib/aws-codepipeline-actions";
 import * as aiam from "aws-cdk-lib/aws-iam";
+import * as secm from "aws-cdk-lib/aws-secretsmanager";
 
 import { Construct } from "constructs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
@@ -126,15 +127,23 @@ export class InfraPipelineStack extends cdk.Stack {
 
     const sourceArtifact = new cpln.Artifact();
 
+    const githubSecret = secm.Secret.fromSecretNameV2(
+      this,
+      "GitHubSecret",
+      "github/token/jpnws-site",
+    );
+
     pipeline.addStage({
       stageName: "Source",
       actions: [
         new cpac.GitHubSourceAction({
           actionName: "Source",
           owner: "jpnws",
-          repo: "deploy-pipeline1",
+          repo: "jpnws-site",
           branch: "main",
-          oauthToken: cdk.SecretValue.secretsManager("github-token"),
+          oauthToken: githubSecret.secretValueFromJson(
+            "jpnws-site-github-token1",
+          ),
           output: sourceArtifact,
           trigger: cpac.GitHubTrigger.WEBHOOK,
         }),
