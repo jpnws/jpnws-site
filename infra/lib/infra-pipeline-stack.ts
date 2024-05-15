@@ -132,7 +132,7 @@ export class InfraPipelineStack extends cdk.Stack {
               nodejs: 20,
             },
           },
-          deploy: {
+          build: {
             commands: [
               "cd $CODEBUILD_SRC_DIR/infra && npx cdk deploy InfraStack --require-approval never",
             ],
