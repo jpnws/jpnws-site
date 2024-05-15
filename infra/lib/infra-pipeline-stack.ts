@@ -113,6 +113,10 @@ export class InfraPipelineStack extends cdk.Stack {
             commands: [""],
           },
         },
+        artifacts: {
+          "base-directory": "../",
+          files: ["web/**/*", "server/**/*", "infra/**/*"],
+        },
       }),
     });
 
@@ -138,6 +142,9 @@ export class InfraPipelineStack extends cdk.Stack {
             ],
           },
         },
+        artifacts: {
+          files: "**/*",
+        },
       }),
     });
 
@@ -148,7 +155,7 @@ export class InfraPipelineStack extends cdk.Stack {
     const pipeline = new cpln.Pipeline(this, "Pipeline", {});
 
     // Create the source artifact.
-    const sourceArtifact = new cpln.Artifact();
+    const sourceArtifact = new cpln.Artifact("SourceArtifact");
 
     // Get the GitHub secret for authentication.
     const githubSecret = secm.Secret.fromSecretNameV2(
@@ -176,7 +183,7 @@ export class InfraPipelineStack extends cdk.Stack {
     });
 
     // Create the build artifact.
-    const buildArtifact = new cpln.Artifact("BuildOutput");
+    const buildArtifact = new cpln.Artifact("BuildArtifact");
 
     // Add the build stage to the pipeline.
     pipeline.addStage({
