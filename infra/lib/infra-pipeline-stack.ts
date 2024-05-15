@@ -91,7 +91,7 @@ export class InfraPipelineStack extends cdk.Stack {
           pre_build: {
             "on-failure": "ABORT",
             commands: [
-              "cd ../web",
+              "cd web",
               "npm install",
               "cd ../server",
               "npm install",
