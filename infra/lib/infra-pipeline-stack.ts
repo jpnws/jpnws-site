@@ -133,7 +133,7 @@ export class InfraPipelineStack extends cdk.Stack {
         version: "0.2",
         phases: {
           install: {
-            commands: ["echo Restoring artifacts..."],
+            commands: ["cd infra", "npm install"],
           },
           build: {
             commands: [
