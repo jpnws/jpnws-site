@@ -87,9 +87,6 @@ export class InfraPipelineStack extends cdk.Stack {
             "runtime-versions": {
               nodejs: 20,
             },
-          },
-          pre_build: {
-            "on-failure": "ABORT",
             commands: [
               "cd web",
               "npm install",
@@ -102,15 +99,11 @@ export class InfraPipelineStack extends cdk.Stack {
           build: {
             "on-failure": "ABORT",
             commands: [
-              "cd ../web",
+              "cd web",
               "npm run build",
               "cd ../server",
               "npm run build",
             ],
-          },
-          post_build: {
-            "on-failure": "ABORT",
-            commands: [""],
           },
         },
         artifacts: {
