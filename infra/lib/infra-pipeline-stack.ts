@@ -103,12 +103,7 @@ export class InfraPipelineStack extends cdk.Stack {
         },
         artifacts: {
           "base-directory": ".",
-          files: [
-            "web/dist/**/*",
-            "server/dist/**/*",
-            "infra/**/*",
-            "config.json",
-          ],
+          files: ["**/*"],
         },
         cache: {
           paths: [
@@ -136,12 +131,11 @@ export class InfraPipelineStack extends cdk.Stack {
             "runtime-versions": {
               nodejs: 20,
             },
-            commands: [
-              "cd $CODEBUILD_SRC_DIR/infra && rm -rf node_modules && npm install",
-            ],
           },
-          build: {
-            commands: ["npx cdk deploy InfraStack --require-approval never"],
+          deploy: {
+            commands: [
+              "cd $CODEBUILD_SRC_DIR/infra && npx cdk deploy InfraStack --require-approval never",
+            ],
           },
         },
         artifacts: {
