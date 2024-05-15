@@ -197,6 +197,7 @@ export class InfraPipelineStack extends cdk.Stack {
       actions: [
         new cpac.ManualApprovalAction({
           actionName: "Approve",
+          runOrder: 1,
         }),
       ],
     });
@@ -209,6 +210,7 @@ export class InfraPipelineStack extends cdk.Stack {
           actionName: "Deploy",
           project: deployProject,
           input: buildArtifact,
+          runOrder: 1,
         }),
       ],
     });
