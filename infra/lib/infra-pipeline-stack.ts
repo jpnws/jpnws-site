@@ -103,7 +103,12 @@ export class InfraPipelineStack extends cdk.Stack {
         },
         artifacts: {
           "base-directory": ".",
-          files: ["web/dist/**/*", "server/dist/**/*", "infra/**/*"],
+          files: [
+            "web/dist/**/*",
+            "server/dist/**/*",
+            "infra/**/*",
+            "config.json",
+          ],
         },
         cache: {
           paths: [
