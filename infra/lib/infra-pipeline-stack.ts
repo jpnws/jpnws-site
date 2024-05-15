@@ -149,7 +149,7 @@ export class InfraPipelineStack extends cdk.Stack {
               "echo 'Contents of infra/node_modules/.bin:'",
               "ls -la node_modules/.bin",
               "echo 'Running cdk deploy:'",
-              "npm run cdk deploy InfraStack --require-approval never",
+              "cdk deploy InfraStack --require-approval never",
             ],
           },
         },
