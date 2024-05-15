@@ -88,22 +88,29 @@ export class InfraPipelineStack extends cdk.Stack {
               nodejs: 20,
             },
             commands: [
-              "cd web && npm install",
-              "cd ../server && npm install",
-              "cd ../infra && npm install",
+              "cd $CODEBUILD_SRC_DIR/web && npm install",
+              "cd $CODEBUILD_SRC_DIR/server && npm install",
+              "cd $CODEBUILD_SRC_DIR/infra && npm install",
             ],
           },
           build: {
             "on-failure": "ABORT",
             commands: [
-              "cd web && npm run build",
-              "cd ../server && npm run build",
+              "cd $CODEBUILD_SRC_DIR/web && npm run build",
+              "cd $CODEBUILD_SRC_DIR/server && npm run build",
             ],
           },
         },
         artifacts: {
           "base-directory": ".",
           files: ["web/dist/**/*", "server/dist/**/*", "infra/**/*"],
+        },
+        cache: {
+          paths: [
+            "web/node_modules/**/*",
+            "server/node_modules/**/*",
+            "infra/node_modules/**/*",
+          ],
         },
       }),
     });
@@ -124,7 +131,9 @@ export class InfraPipelineStack extends cdk.Stack {
             "runtime-versions": {
               nodejs: 20,
             },
-            commands: ["cd infra && rm -rf node_modules && npm install"],
+            commands: [
+              "cd $CODEBUILD_SRC_DIR/infra && rm -rf node_modules && npm install",
+            ],
           },
           build: {
             commands: ["npx cdk deploy InfraStack --require-approval never"],
