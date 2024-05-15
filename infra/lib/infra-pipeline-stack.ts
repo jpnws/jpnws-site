@@ -91,7 +91,7 @@ export class InfraPipelineStack extends cdk.Stack {
           pre_build: {
             "on-failure": "ABORT",
             commands: [
-              "cd web",
+              "cd ../web",
               "npm install",
               "cd ../server",
               "npm install",
@@ -133,13 +133,16 @@ export class InfraPipelineStack extends cdk.Stack {
         version: "0.2",
         phases: {
           install: {
-            commands: ["cd infra", "npm install"],
+            "runtime-versions": {
+              nodejs: 20,
+            },
+            commands: ["cd infra", "rm -rf node_modules"],
+          },
+          pre_build: {
+            commands: ["npm install"],
           },
           build: {
-            commands: [
-              "cd infra",
-              "npx cdk deploy InfraStack --require-approval never",
-            ],
+            commands: ["npx cdk deploy InfraStack --require-approval never"],
           },
         },
         artifacts: {
