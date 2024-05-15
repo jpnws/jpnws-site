@@ -10,6 +10,7 @@ import "source-map-support/register";
 // on its own. Instead, it is used to provide context for the other constructs.
 import { App } from "aws-cdk-lib";
 
+import { InfraPipelineStack } from "../lib/infra-pipeline-stack";
 import { InfraStack } from "../lib/infra-stack";
 
 // The AWS CDK app is a collection of one or more CDK stacks. Stacks are a
@@ -27,6 +28,13 @@ new InfraStack(app, "InfraStack", {
   // deployed to. All stacks in your CDK app are explicitly or implicitly
   // associated with an environment.
   // https://docs.aws.amazon.com/cdk/latest/guide/environments.html
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
+});
+
+new InfraPipelineStack(app, "InfraPipelineStack", {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,

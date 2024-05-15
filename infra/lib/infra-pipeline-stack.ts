@@ -31,6 +31,7 @@ export class InfraPipelineStack extends cdk.Stack {
             service: "iam",
             resource: "role",
             resourceName: "cdk-readOnlyRole",
+            region: "",
           },
           this,
         ),
@@ -39,6 +40,7 @@ export class InfraPipelineStack extends cdk.Stack {
             service: "iam",
             resource: "role",
             resourceName: "cdk-hnb659fds-lookup-role-*",
+            region: "",
           },
           this,
         ),
@@ -47,6 +49,7 @@ export class InfraPipelineStack extends cdk.Stack {
             service: "iam",
             resource: "role",
             resourceName: "cdk-hnb659fds-deploy-role-*",
+            region: "",
           },
           this,
         ),
@@ -55,6 +58,7 @@ export class InfraPipelineStack extends cdk.Stack {
             service: "iam",
             resource: "role",
             resourceName: "cdk-hnb659fds-file-publishing-*",
+            region: "",
           },
           this,
         ),
@@ -63,6 +67,7 @@ export class InfraPipelineStack extends cdk.Stack {
             service: "iam",
             resource: "role",
             resourceName: "cdk-hnb659fds-image-publishing-role-*",
+            region: "",
           },
           this,
         ),
@@ -127,7 +132,10 @@ export class InfraPipelineStack extends cdk.Stack {
             commands: ["echo Restoring artifacts..."],
           },
           build: {
-            commands: ["cd infra", "npm cdk deploy --require-approval never"],
+            commands: [
+              "cd infra",
+              "npx cdk deploy InfraStack --require-approval never",
+            ],
           },
         },
       }),
@@ -203,6 +211,21 @@ export class InfraPipelineStack extends cdk.Stack {
           input: buildArtifact,
         }),
       ],
+    });
+
+    new cdk.CfnOutput(this, "PipelineArn", {
+      value: pipeline.pipelineArn,
+      description: "The ARN of the CodePipeline",
+    });
+
+    new cdk.CfnOutput(this, "BuildProjectName", {
+      value: buildProject.projectName,
+      description: "The name of the CodeBuild project for building",
+    });
+
+    new cdk.CfnOutput(this, "DeployProjectName", {
+      value: deployProject.projectName,
+      description: "The name of the CodeBuild project for deploying",
     });
   }
 }
