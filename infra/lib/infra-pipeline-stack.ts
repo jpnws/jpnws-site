@@ -133,7 +133,10 @@ export class InfraPipelineStack extends cdk.Stack {
             },
           },
           pre_build: {
-            commands: ["cd $CODEBUILD_SRC_DIR/infra && npm install"],
+            commands: [
+              "npm install -g aws-cdk",
+              "cd $CODEBUILD_SRC_DIR/infra && npm install",
+            ],
           },
           build: {
             commands: [
