@@ -6,26 +6,15 @@ import * as aiam from "aws-cdk-lib/aws-iam";
 import * as secm from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 
-/**
- * Represents the infrastructure pipeline stack.
- */
 export class InfraPipelineStack extends cdk.Stack {
-  /**
-   * Constructs a new instance of the InfraPipelineStack.
-   * @param scope The parent construct.
-   * @param id The stack ID.
-   * @param props The stack properties.
-   */
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // Define the IAM policy statement for CodeBuild build and deployment.
     const codeBuildDeployPolicy = new aiam.PolicyStatement({
       sid: "CodeBuildPolicy",
       effect: aiam.Effect.ALLOW,
       actions: ["sts:AssumeRole", "iam:PassRole"],
       resources: [
-        // Specify the IAM roles.
         cdk.Arn.format(
           {
             service: "iam",
@@ -74,7 +63,6 @@ export class InfraPipelineStack extends cdk.Stack {
       ],
     });
 
-    // Create the CodeBuild project for building the application.
     const buildProject = new acbd.PipelineProject(this, "BuildProject", {
       environment: {
         privileged: true,
@@ -99,6 +87,7 @@ export class InfraPipelineStack extends cdk.Stack {
               "npm install",
               "cd $CODEBUILD_SRC_DIR/infra",
               "npm install",
+              "npm install -g typescript",
             ],
           },
           build: {
@@ -115,20 +104,13 @@ export class InfraPipelineStack extends cdk.Stack {
         },
         artifacts: {
           "base-directory": ".",
-          files: [
-            "**/*",
-            "web/node_modules/**/*",
-            "server/node_modules/**/*",
-            "infra/node_modules/**/*",
-          ],
+          files: ["**/*"],
         },
       }),
     });
 
-    // Add the CodeBuild deployment policy to the build project's role.
     buildProject.addToRolePolicy(codeBuildDeployPolicy);
 
-    // Create the CodeBuild project for deploying the InfraStack.
     const deployProject = new acbd.PipelineProject(this, "DeployProject", {
       environment: {
         privileged: true,
@@ -153,15 +135,22 @@ export class InfraPipelineStack extends cdk.Stack {
               "npm install",
               "cd $CODEBUILD_SRC_DIR/infra",
               "npm install",
+              "npm install -g typescript",
             ],
           },
-          build: {
-            "on-failure": "ABORT",
+          pre_build: {
             commands: [
               "cd $CODEBUILD_SRC_DIR/web",
               "npm run build",
               "cd $CODEBUILD_SRC_DIR/server",
               "npm run build",
+              "cd $CODEBUILD_SRC_DIR/infra",
+              "npm run build",
+            ],
+          },
+          build: {
+            "on-failure": "ABORT",
+            commands: [
               "cd $CODEBUILD_SRC_DIR/infra",
               "npx cdk deploy InfraStack",
             ],
@@ -170,23 +159,18 @@ export class InfraPipelineStack extends cdk.Stack {
       }),
     });
 
-    // Add the CodeBuild deployment policy to the deploy project's role.
     deployProject.addToRolePolicy(codeBuildDeployPolicy);
 
-    // Create the pipeline.
     const pipeline = new cpln.Pipeline(this, "Pipeline", {});
 
-    // Create the source artifact.
     const sourceArtifact = new cpln.Artifact("SourceArtifact");
 
-    // Get the GitHub secret for authentication.
     const githubSecret = secm.Secret.fromSecretNameV2(
       this,
       "GitHubSecret",
       "github/token/jpnws-site",
     );
 
-    // Add the source stage to the pipeline.
     pipeline.addStage({
       stageName: "Source",
       actions: [
@@ -204,10 +188,8 @@ export class InfraPipelineStack extends cdk.Stack {
       ],
     });
 
-    // Create the build artifact.
     const buildArtifact = new cpln.Artifact("BuildArtifact");
 
-    // Add the build stage to the pipeline.
     pipeline.addStage({
       stageName: "Build",
       actions: [
@@ -220,7 +202,6 @@ export class InfraPipelineStack extends cdk.Stack {
       ],
     });
 
-    // Add the deploy stage to the pipeline.
     pipeline.addStage({
       stageName: "Deploy",
       actions: [
