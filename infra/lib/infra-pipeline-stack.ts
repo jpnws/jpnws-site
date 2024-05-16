@@ -88,79 +88,31 @@ export class InfraPipelineStack extends cdk.Stack {
               nodejs: 20,
             },
             commands: [
-              "cd $CODEBUILD_SRC_DIR/web && npm install",
-              "cd $CODEBUILD_SRC_DIR/server && npm install",
-              "cd $CODEBUILD_SRC_DIR/infra && npm install",
+              "cd $CODEBUILD_SRC_DIR/web",
+              "npm install",
+              "cd $CODEBUILD_SRC_DIR/server",
+              "npm install",
+              "cd $CODEBUILD_SRC_DIR/infra",
+              "npm install",
             ],
           },
           build: {
             "on-failure": "ABORT",
             commands: [
-              "cd $CODEBUILD_SRC_DIR/web && npm run build",
-              "cd $CODEBUILD_SRC_DIR/server && npm run build",
+              "cd $CODEBUILD_SRC_DIR/web",
+              "npm run build",
+              "cd $CODEBUILD_SRC_DIR/server",
+              "npm run build",
+              "cd $CODEBUILD_SRC_DIR/infra",
+              "npm run cdk deploy InfraStack --require-approval never",
             ],
           },
-        },
-        artifacts: {
-          "base-directory": ".",
-          files: ["**/*", "!**/cdk.out", "!**/cdk.context.json"],
-        },
-        cache: {
-          paths: [
-            "web/node_modules/**/*",
-            "server/node_modules/**/*",
-            "infra/node_modules/**/*",
-          ],
         },
       }),
     });
 
     // Add the CodeBuild deployment policy to the build project's role.
     buildProject.addToRolePolicy(codeBuildDeployPolicy);
-
-    // Create the CodeBuild project for deploying the application.
-    const deployProject = new acbd.PipelineProject(this, "DeployProject", {
-      environment: {
-        privileged: true,
-        buildImage: acbd.LinuxBuildImage.STANDARD_5_0,
-      },
-      buildSpec: acbd.BuildSpec.fromObject({
-        version: "0.2",
-        phases: {
-          install: {
-            "runtime-versions": {
-              nodejs: 20,
-            },
-          },
-          pre_build: {
-            commands: [
-              "ls -la $CODEBUILD_SRC_DIR",
-              "ls -la $CODEBUILD_SRC_DIR/infra",
-              "ls -la $CODEBUILD_SRC_DIR/server",
-              "ls -la $CODEBUILD_SRC_DIR/web",
-              "ls -la $CODEBUILD_SRC_DIR/infra/node_modules/.bin",
-            ],
-          },
-          build: {
-            commands: [
-              "cd $CODEBUILD_SRC_DIR/infra",
-              "echo 'Current Directory:'",
-              "pwd",
-              "echo 'Contents of infra/node_modules/.bin:'",
-              "ls -la node_modules/.bin",
-              "echo 'Running cdk deploy:'",
-              "cdk deploy InfraStack --require-approval never",
-            ],
-          },
-        },
-        artifacts: {
-          files: ["**/*"],
-        },
-      }),
-    });
-
-    // Add the CodeBuild deployment policy to the deploy project's role.
-    deployProject.addToRolePolicy(codeBuildDeployPolicy);
 
     // Create the pipeline.
     const pipeline = new cpln.Pipeline(this, "Pipeline", {});
@@ -209,30 +161,6 @@ export class InfraPipelineStack extends cdk.Stack {
       ],
     });
 
-    // Add the approval stage to the pipeline.
-    pipeline.addStage({
-      stageName: "Approve",
-      actions: [
-        new cpac.ManualApprovalAction({
-          actionName: "Approve",
-          runOrder: 1,
-        }),
-      ],
-    });
-
-    // Add the deploy stage to the pipeline.
-    pipeline.addStage({
-      stageName: "Deploy",
-      actions: [
-        new cpac.CodeBuildAction({
-          actionName: "Deploy",
-          project: deployProject,
-          input: buildArtifact,
-          runOrder: 1,
-        }),
-      ],
-    });
-
     new cdk.CfnOutput(this, "PipelineArn", {
       value: pipeline.pipelineArn,
       description: "The ARN of the CodePipeline",
@@ -241,11 +169,6 @@ export class InfraPipelineStack extends cdk.Stack {
     new cdk.CfnOutput(this, "BuildProjectName", {
       value: buildProject.projectName,
       description: "The name of the CodeBuild project for building",
-    });
-
-    new cdk.CfnOutput(this, "DeployProjectName", {
-      value: deployProject.projectName,
-      description: "The name of the CodeBuild project for deploying",
     });
   }
 }
