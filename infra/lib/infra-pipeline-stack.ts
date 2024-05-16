@@ -114,6 +114,7 @@ export class InfraPipelineStack extends cdk.Stack {
           },
         },
         artifacts: {
+          "base-directory": ".",
           files: "**/*",
         },
       }),
