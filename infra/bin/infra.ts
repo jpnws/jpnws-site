@@ -23,20 +23,24 @@ const app = new App();
 // resources. Each CDK stack represents an AWS CloudFormation stack in your CDK
 // app. At deployment, constructs within a stack are provisioned as a single
 // unit, called AWS CloudFormation stack.
-new InfraStack(app, "InfraStack", {
-  // Environment is the target AWS account and AWS Region that stacks are
-  // deployed to. All stacks in your CDK app are explicitly or implicitly
-  // associated with an environment.
-  // https://docs.aws.amazon.com/cdk/latest/guide/environments.html
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
-});
+if (process.env.INFRA_STACK) {
+  new InfraStack(app, "InfraStack", {
+    // Environment is the target AWS account and AWS Region that stacks are
+    // deployed to. All stacks in your CDK app are explicitly or implicitly
+    // associated with an environment.
+    // https://docs.aws.amazon.com/cdk/latest/guide/environments.html
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION,
+    },
+  });
+}
 
-new InfraPipelineStack(app, "InfraPipelineStack", {
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
-});
+if (process.env.INFRA_PIPELINE_STACK) {
+  new InfraPipelineStack(app, "InfraPipelineStack", {
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION,
+    },
+  });
+}
