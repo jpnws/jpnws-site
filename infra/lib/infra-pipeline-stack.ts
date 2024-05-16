@@ -101,10 +101,6 @@ export class InfraPipelineStack extends cdk.Stack {
             ],
           },
         },
-        artifacts: {
-          "base-directory": ".",
-          files: ["**/*"],
-        },
       }),
     });
 
@@ -128,7 +124,6 @@ export class InfraPipelineStack extends cdk.Stack {
               nodejs: 20,
             },
             commands: [
-              "ls -R $CODEBUILD_SRC_DIR",
               "cd $CODEBUILD_SRC_DIR/web",
               "npm install",
               "cd $CODEBUILD_SRC_DIR/server",
@@ -181,8 +176,6 @@ export class InfraPipelineStack extends cdk.Stack {
       ],
     });
 
-    const buildArtifact = new cpln.Artifact("BuildArtifact");
-
     pipeline.addStage({
       stageName: "Build",
       actions: [
@@ -190,7 +183,6 @@ export class InfraPipelineStack extends cdk.Stack {
           actionName: "Build",
           project: buildProject,
           input: sourceArtifact,
-          outputs: [buildArtifact],
         }),
       ],
     });
@@ -201,7 +193,7 @@ export class InfraPipelineStack extends cdk.Stack {
         new cpac.CodeBuildAction({
           actionName: "Deploy",
           project: deployProject,
-          input: buildArtifact,
+          input: sourceArtifact,
         }),
       ],
     });
