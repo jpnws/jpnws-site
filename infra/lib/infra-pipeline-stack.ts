@@ -115,7 +115,12 @@ export class InfraPipelineStack extends cdk.Stack {
         },
         artifacts: {
           "base-directory": ".",
-          files: "**/*",
+          files: [
+            "**/*",
+            "web/node_modules/**/*",
+            "server/node_modules/**/*",
+            "infra/node_modules/**/*",
+          ],
         },
       }),
     });
@@ -161,9 +166,6 @@ export class InfraPipelineStack extends cdk.Stack {
               "npx cdk deploy InfraStack",
             ],
           },
-        },
-        artifacts: {
-          files: "**/*",
         },
       }),
     });
