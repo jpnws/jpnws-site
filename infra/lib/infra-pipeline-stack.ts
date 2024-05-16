@@ -79,6 +79,11 @@ export class InfraPipelineStack extends cdk.Stack {
       environment: {
         privileged: true,
         buildImage: acbd.LinuxBuildImage.STANDARD_5_0,
+        environmentVariables: {
+          INFRA_STACK: {
+            value: true,
+          },
+        },
       },
       buildSpec: acbd.BuildSpec.fromObject({
         version: "0.2",
@@ -104,7 +109,7 @@ export class InfraPipelineStack extends cdk.Stack {
               "cd $CODEBUILD_SRC_DIR/server",
               "npm run build",
               "cd $CODEBUILD_SRC_DIR/infra",
-              "npx cdk synth",
+              "npx cdk synth InfraStack",
             ],
           },
         },
