@@ -104,7 +104,7 @@ export class InfraPipelineStack extends cdk.Stack {
               "cd $CODEBUILD_SRC_DIR/server",
               "npm run build",
               "cd $CODEBUILD_SRC_DIR/infra",
-              "npm run cdk deploy InfraStack --require-approval never",
+              "npx cdk deploy InfraStack",
             ],
           },
         },
