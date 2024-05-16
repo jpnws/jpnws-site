@@ -140,14 +140,29 @@ export class InfraPipelineStack extends cdk.Stack {
             "runtime-versions": {
               nodejs: 20,
             },
-            commands: ["cd $CODEBUILD_SRC_DIR/infra", "npm install"],
+            commands: [
+              "cd $CODEBUILD_SRC_DIR/web",
+              "npm install",
+              "cd $CODEBUILD_SRC_DIR/server",
+              "npm install",
+              "cd $CODEBUILD_SRC_DIR/infra",
+              "npm install",
+            ],
           },
           build: {
+            "on-failure": "ABORT",
             commands: [
+              "cd $CODEBUILD_SRC_DIR/web",
+              "npm run build",
+              "cd $CODEBUILD_SRC_DIR/server",
+              "npm run build",
               "cd $CODEBUILD_SRC_DIR/infra",
               "npx cdk deploy InfraStack",
             ],
           },
+        },
+        artifacts: {
+          files: "**/*",
         },
       }),
     });
