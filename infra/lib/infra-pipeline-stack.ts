@@ -117,7 +117,13 @@ export class InfraPipelineStack extends cdk.Stack {
     // Create the CodeBuild project for deploying the InfraStack.
     const deployProject = new acbd.PipelineProject(this, "DeployProject", {
       environment: {
+        privileged: true,
         buildImage: acbd.LinuxBuildImage.STANDARD_5_0,
+        environmentVariables: {
+          INFRA_STACK: {
+            value: true,
+          },
+        },
       },
       buildSpec: acbd.BuildSpec.fromObject({
         version: "0.2",
