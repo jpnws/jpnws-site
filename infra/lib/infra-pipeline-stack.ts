@@ -112,6 +112,9 @@ export class InfraPipelineStack extends cdk.Stack {
               "npx cdk synth InfraStack",
             ],
           },
+          artifacts: {
+            files: "**/*",
+          },
         },
       }),
     });
