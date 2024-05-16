@@ -104,7 +104,7 @@ export class InfraPipelineStack extends cdk.Stack {
               "cd $CODEBUILD_SRC_DIR/server",
               "npm run build",
               "cd $CODEBUILD_SRC_DIR/infra",
-              "npx cdk deploy InfraStack",
+              "npx cdk synth",
             ],
           },
         },
@@ -113,6 +113,33 @@ export class InfraPipelineStack extends cdk.Stack {
 
     // Add the CodeBuild deployment policy to the build project's role.
     buildProject.addToRolePolicy(codeBuildDeployPolicy);
+
+    // Create the CodeBuild project for deploying the InfraStack.
+    const deployProject = new acbd.PipelineProject(this, "DeployProject", {
+      environment: {
+        buildImage: acbd.LinuxBuildImage.STANDARD_5_0,
+      },
+      buildSpec: acbd.BuildSpec.fromObject({
+        version: "0.2",
+        phases: {
+          install: {
+            "runtime-versions": {
+              nodejs: 20,
+            },
+            commands: ["cd $CODEBUILD_SRC_DIR/infra", "npm install"],
+          },
+          build: {
+            commands: [
+              "cd $CODEBUILD_SRC_DIR/infra",
+              "npx cdk deploy InfraStack",
+            ],
+          },
+        },
+      }),
+    });
+
+    // Add the CodeBuild deployment policy to the deploy project's role.
+    deployProject.addToRolePolicy(codeBuildDeployPolicy);
 
     // Create the pipeline.
     const pipeline = new cpln.Pipeline(this, "Pipeline", {});
@@ -161,6 +188,18 @@ export class InfraPipelineStack extends cdk.Stack {
       ],
     });
 
+    // Add the deploy stage to the pipeline.
+    pipeline.addStage({
+      stageName: "Deploy",
+      actions: [
+        new cpac.CodeBuildAction({
+          actionName: "Deploy",
+          project: deployProject,
+          input: buildArtifact,
+        }),
+      ],
+    });
+
     new cdk.CfnOutput(this, "PipelineArn", {
       value: pipeline.pipelineArn,
       description: "The ARN of the CodePipeline",
@@ -169,6 +208,11 @@ export class InfraPipelineStack extends cdk.Stack {
     new cdk.CfnOutput(this, "BuildProjectName", {
       value: buildProject.projectName,
       description: "The name of the CodeBuild project for building",
+    });
+
+    new cdk.CfnOutput(this, "DeployProjectName", {
+      value: deployProject.projectName,
+      description: "The name of the CodeBuild project for deploying",
     });
   }
 }
