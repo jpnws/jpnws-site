@@ -87,7 +87,6 @@ export class InfraPipelineStack extends cdk.Stack {
               "npm install",
               "cd $CODEBUILD_SRC_DIR/infra",
               "npm install",
-              "npm install -g typescript",
             ],
           },
           build: {
@@ -129,28 +128,22 @@ export class InfraPipelineStack extends cdk.Stack {
               nodejs: 20,
             },
             commands: [
+              "ls -R $CODEBUILD_SRC_DIR",
               "cd $CODEBUILD_SRC_DIR/web",
               "npm install",
               "cd $CODEBUILD_SRC_DIR/server",
               "npm install",
               "cd $CODEBUILD_SRC_DIR/infra",
               "npm install",
-              "npm install -g typescript",
-            ],
-          },
-          pre_build: {
-            commands: [
-              "cd $CODEBUILD_SRC_DIR/web",
-              "npm run build",
-              "cd $CODEBUILD_SRC_DIR/server",
-              "npm run build",
-              "cd $CODEBUILD_SRC_DIR/infra",
-              "npm run build",
             ],
           },
           build: {
             "on-failure": "ABORT",
             commands: [
+              "cd $CODEBUILD_SRC_DIR/web",
+              "npm run build",
+              "cd $CODEBUILD_SRC_DIR/server",
+              "npm run build",
               "cd $CODEBUILD_SRC_DIR/infra",
               "npx cdk deploy InfraStack",
             ],
